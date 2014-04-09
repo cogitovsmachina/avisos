@@ -62,8 +62,8 @@ public class MongoInterface {
         } else {
             //mongodb://conagua:C0n4gu4@192.168.204.147/conagua
             //MONGOHQ_URL=mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821
-            mongoClientURI = new MongoClientURI("mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821");
-            //mongoClientURI = new MongoClientURI("mongodb://conagua:C0n4gu4@192.168.204.147/conagua");
+            //mongoClientURI = new MongoClientURI("mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821");
+            mongoClientURI = new MongoClientURI("mongodb://conagua:C0n4gu4@192.168.204.147/conagua");
         }
         mongoClient = new MongoClient(mongoClientURI);
         mongoDB = mongoClient.getDB(mongoClientURI.getDatabase());

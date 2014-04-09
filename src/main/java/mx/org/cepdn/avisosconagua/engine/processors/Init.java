@@ -55,6 +55,7 @@ public class Init implements Processor {
         if (null != data) {
             for (String key : data.keySet()) {
                 datos.put(key, data.getString(key));
+                System.out.println("colocando: "+key+" : "+datos.get(key));
             }
         }
         request.setAttribute("data", datos);
@@ -117,10 +118,11 @@ public class Init implements Processor {
     
     private void procesaAreas(HashMap<String, String> nuevo, BasicDBObject anterior) {
         for (String key:nuevo.keySet()){
+            System.out.println("area-key:"+key);
             if (key.startsWith("area")){
                 String states = "states" + key.substring(4);
                 String municipalities = "municipalities" + key.substring(4);
-                if (null!=nuevo.get(states)){
+                if (null==nuevo.get(states)||null==nuevo.get(municipalities)){
                     if (((String)nuevo.get(key)).equals(anterior.get(key))){
                         if (null!=anterior.get(states)){
                             nuevo.put(states, (String)anterior.get(states));
