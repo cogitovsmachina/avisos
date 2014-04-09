@@ -27,6 +27,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.gridfs.GridFS;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Set;
@@ -92,5 +93,9 @@ public class MongoInterface {
         BasicDBObject interno = new BasicDBObject(parametros);
         actual.append(formId, interno);
         mongoDB.getCollection(CAPTURA_COL).update(getAdvice(currentId), actual);
+    }
+
+    public GridFS getImagesFS() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
