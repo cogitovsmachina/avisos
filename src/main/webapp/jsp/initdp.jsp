@@ -164,6 +164,7 @@ while(keys.hasNext()) {
         <script src="/js/libs/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="/js/libs/ckeditor/ckeditor.js" type="text/javascript"></script>
         <script src="/js/libs/ckeditor/adapters/jquery.js" type="text/javascript"></script>
+        <script src="/js/libs/underscore/underscore-min.js" type="text/javascript"></script>
         <script src="/js/map.js" type="text/javascript"></script>
         <script src="/js/application.js"></script>
         <script type="text/javascript">
