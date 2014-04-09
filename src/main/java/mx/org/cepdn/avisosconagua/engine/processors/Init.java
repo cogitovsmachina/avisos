@@ -99,6 +99,8 @@ public class Init implements Processor {
                 }
             }
         }
+        BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);
+        procesaAreas(parametros, anterior);
         MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
     }
 
@@ -112,4 +114,24 @@ public class Init implements Processor {
         return filename;
     }
     
+    
+    private void procesaAreas(HashMap<String, String> nuevo, BasicDBObject anterior) {
+        for (String key:nuevo.keySet()){
+            if (key.startsWith("area")){
+                String states = "states" + key.substring(4);
+                String municipalities = "municipalities" + key.substring(4);
+                if (null!=nuevo.get(states)){
+                    if (((String)nuevo.get(key)).equals(anterior.get(key))){
+                        if (null!=anterior.get(states)){
+                            nuevo.put(states, (String)anterior.get(states));
+                        }
+                        if (null!=anterior.get(municipalities)){
+                            nuevo.put(municipalities, (String)anterior.get(municipalities));
+                        }
+                    }
+                }
+                    
+            }
+        }
+    }
 }

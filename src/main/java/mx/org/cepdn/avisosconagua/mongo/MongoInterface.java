@@ -43,6 +43,7 @@ public class MongoInterface {
     private static MongoInterface instance = null;
     private static final String CAPTURA_COL = "AdviceDataForms";
     private static final String INTERNAL_FORM_ID = "internalId";
+    private static final String IMAGES_COL = "AdviceDataImages";
     
     public static synchronized MongoInterface getInstance() {
         if (null == instance) {
@@ -96,6 +97,6 @@ public class MongoInterface {
     }
 
     public GridFS getImagesFS() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new GridFS(mongoDB, IMAGES_COL);
     }
 }

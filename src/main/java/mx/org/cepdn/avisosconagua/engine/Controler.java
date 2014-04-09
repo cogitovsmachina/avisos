@@ -24,16 +24,12 @@ package mx.org.cepdn.avisosconagua.engine;
 
 import com.mongodb.BasicDBObject;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -95,14 +91,8 @@ public class Controler extends HttpServlet {
             throws ServletException, IOException {
         String currentId = (String) request.getSession(true).getAttribute(ADVICE_ID);
         String[] parts = request.getRequestURI().split("/");
-        System.out.println("request: " + parts.length + ":" + parts[2] + ":" + parts[3] + ":" + control.containsKey(parts[2]));
-        for (String key : control.keySet()) {
-            System.out.println("key:" + key);
-        }
-
         if (parts.length > 3 && control.containsKey(parts[2])) {
             List<String> flujo = control.get(parts[2]);
-            System.out.println("request: P?" + flujo.contains(parts[3]) + ":" + flujo.get(0) + ":" + currentId);
             BasicDBObject datos = null;
             if (flujo.contains(parts[3])) {
                 if (null == currentId && parts[3].equals(flujo.get(0))) {
@@ -176,7 +166,6 @@ public class Controler extends HttpServlet {
         Enumeration<String> en = request.getAttributeNames();
         while (en.hasMoreElements()) {
             String act = en.nextElement();
-            System.out.println("remove: " + act);
             request.removeAttribute(act);
         }
     }
