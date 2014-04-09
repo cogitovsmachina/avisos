@@ -97,6 +97,14 @@ function submitURL(url, method, success, fail) {
     }
 }
 
+//Add change event at level document for the file selector
+$(document).on('change', '.btn-file :file', function() {
+    var input = $(this),
+    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
 //Init app
 $(document).ready(function () {
     //Enable bootstrap tooltips
@@ -107,15 +115,12 @@ $(document).ready(function () {
     //Destroy bootstrap modal content each time the modal closes, reset map data
     $('#appModal').on('hidden.bs.modal', function () {
         $(this).removeData('bs.modal');
-        if(google && map) {
-            resetMap();
-        }
     });
     
-    //Trigger map resize when the boostrap modal is shown
-    $('#appModal').on('shown.bs.modal', function () {
-        if(google && map) {
-            google.maps.event.trigger(map, 'resize');
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        var input = $(this).parents('.input-group').find(':text');
+        if (input.length) {
+            input.val(label);
         }
     });
     
