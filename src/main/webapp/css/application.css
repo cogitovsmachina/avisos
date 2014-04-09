@@ -1,0 +1,172 @@
+body {
+	padding-top: 50px;
+}
+
+.main-content {
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	min-height: 1200px;
+	height:100%;
+        padding-bottom: 25px;
+	-webkit-box-shadow: 0px -5px 6px 3px rgba(50, 50, 50, 0.23);
+	-moz-box-shadow:    0px -5px 6px 3px rgba(50, 50, 50, 0.23);
+	box-shadow:         0px -5px 6px 3px rgba(50, 50, 50, 0.23);
+}
+
+div.inner-container {
+    border: 1px solid silver;
+    margin:20px;
+    /*margin-left:15%;
+    margin-right:15%;*/
+    padding:40px;
+    /*margin-top:25px;*/
+    border-radius: 10px;
+}
+
+div.inner-container.content-preview {
+    border: 1px solid lightgray;
+    padding:10px;
+}
+
+div.progress-indicator-container {
+	margin-top: 40px;
+}
+
+ol.progress-indicator {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+ol.progress-indicator li {
+	display: inline-block;
+	text-align: center;
+	line-height: 3.5em;
+	width:16%;
+    white-space: nowrap;
+}
+
+ol.progress-indicator li.done {
+	color: black;
+	border-top: 4px solid #3276b1;
+/*	margin-left:10px;*/
+}
+
+ol.progress-indicator li.pending {
+	color: silver;
+	border-top: 4px solid #ccc;
+/*	margin-left: 10px;*/
+}
+
+ol.progress-indicator li.current {
+	border-top: 4px solid #3276b1;
+/*	margin-left: 10px;*/
+}
+
+ol.progress-indicator li:after {
+	content: "\00a0\00a0";
+}
+
+ol.progress-indicator li:before {
+	position: relative;
+	float: left;
+	left:49%;
+	line-height:1.3em;
+	bottom: 0.7em;
+}
+
+ol.progress-indicator li.done:before {
+	font-family: FontAwesome;
+	content: "\f00c";
+	color: white;
+	font-size:1.2em;
+	background-color: #3276b1;
+	border: 1px solid #3276b1;
+	width: 1.3em;
+	height: 1.3em;
+	border-radius:50%;
+}
+
+ol.progress-indicator li.current:before {
+	font-family: FontAwesome;
+	content: "\f141";
+	color: white;
+	font-size:1.5em;
+	background-color: #3276b1;
+	border: 1px solid #3276b1;
+	width: 1.7em;
+	height: 1.7em;
+	bottom:1em;
+	border-radius:50%;
+	line-height:1.7em;
+}
+
+ol.progress-indicator li.pending:before {
+	font-family: FontAwesome;
+	content: " ";
+	color: white;
+	font-size:1.2em;
+	background-color: lightgray;
+	border: 1px solid silver;
+	width: 1.3em;
+	height: 1.3em;
+	border-radius:50%;
+}
+
+div.event-container {
+	margin-top:10px;
+}
+
+div.event-container .event-item {
+	margin-bottom:5px;
+	background-color:#f8f8f8;
+}
+
+div.event-container h5 {
+	font-weight:bold;
+}
+
+.has-success .form-control {
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
+
+.has-success .form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+#map-canvas {
+    min-height:400px;
+    /*min-width:800px;*/
+    height: 100%;
+    width:100%;
+    margin: 0px;
+    padding: 0px
+}
+
+.mapdata-container {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/************************Styles for alert level buttons*************************************/
+.alert-yellow {
+    color: gold;
+}
+
+.alert-orange {
+    color: orange;
+}
+
+.alert-red {
+    color: red;
+}
+
+.alert-cherry {
+    color: crimson;
+}
