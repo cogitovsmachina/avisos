@@ -139,12 +139,12 @@ function insertTerritoriesIntoDOM(territories, key, domElementId, label) {
     });
     
     $('#' + domElementId).append($input); 
-    if (label) {
+    /*if (label) {
         var $h6 = $(document.createElement('h6')).html("<strong>"+label+"</strong>");
         $('#' + domElementId).append($h6);
-    }
+    }*/
 
-    var divElement = $(document.createElement('div')).addClass("mapdata-container");
+    /*var divElement = $(document.createElement('div')).addClass("mapdata-container");
     var _territories = territories.split(",");
     $.each(_territories, function(index, value) {
      var $span = $(document.createElement('span')).addClass("label label-default").html(value);
@@ -153,7 +153,7 @@ function insertTerritoriesIntoDOM(territories, key, domElementId, label) {
     });
 
     //divElement.append("<p>Este es el div</p>");
-    $('#' + domElementId).append(divElement);
+    $('#' + domElementId).append(divElement);*/
 }
 
 /**
