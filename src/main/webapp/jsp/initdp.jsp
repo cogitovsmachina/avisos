@@ -51,7 +51,7 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
                             <label class="control-label">Imagen de satélite *</label>
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                    <span class="btn btn-success btn-file">
+                                    <span class="btn btn-primary btn-file">
                                         Examinar<input type="file" name="issueSateliteImg" class="form-control" data-required="true" data-description="common"/>
                                     </span>
                                 </span>
