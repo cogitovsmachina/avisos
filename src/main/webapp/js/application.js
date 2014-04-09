@@ -31,10 +31,10 @@ function enableFormsValidation() {
                 alert('Algunos de los datos no son correctos');
             },
             eachInvalidField : function() {
-                $(this).closest('div').addClass('has-error');
+                $(this).closest('.form-group').addClass('has-error');
             },
             eachValidField: function() {
-                $(this).closest('div').removeClass('has-error');
+                $(this).closest('.form-group').removeClass('has-error');
             },
             description : {
                 common: {
