@@ -66,7 +66,7 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Situación actual *</label>
-                            <textarea name="eventDescription" value="<%=getValidValue(data, "eventDescription")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventDescription" class="ckeditor" data-required="true" data-description="common"><%=getValidValue(data, "eventDescription")%></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -146,7 +146,7 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Pronóstico de lluvia *</label>
-                            <textarea name="eventRainForecast" value="<%=getValidValue(data, "eventRainForecast")%>" rows="7" class="form-control" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventRainForecast" rows="7" class="form-control" data-required="true" data-description="common"><%=getValidValue(data, "eventRainForecast")%></textarea>
                         </div>
                     </div>
                     <div class="row text-right">
