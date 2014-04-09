@@ -80,6 +80,7 @@ public class Init implements Processor {
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     filename = processUploadedFile(item, currentId);
+                    parametros.put(item.getFieldName(), filename);
                 } else {
                     System.out.println("item:" + item.getFieldName() + "=" + item.getString());
                     parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1")));
