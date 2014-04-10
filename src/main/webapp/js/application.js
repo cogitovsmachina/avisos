@@ -125,8 +125,17 @@ $(document).ready(function () {
     });
     
     //Enable datetimepickers
-    if ($('.datetimePicker').length) {
-        $('.datetimePicker').datetimepicker({
+    if ($('.datePicker').length) {
+        $('.datePicker').datetimepicker({
+            pickTime:false,
+            useCurrent:true,
+            useSeconds:false
+        });
+    }
+    
+    if ($('.timePicker').length) {
+        $('.timePicker').datetimepicker({
+            pickDate:false,
             useCurrent:true,
             useSeconds:false
         });

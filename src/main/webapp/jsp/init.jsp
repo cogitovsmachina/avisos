@@ -1,24 +1,16 @@
+<%@page import="mx.org.cepdn.avisosconagua.util.Utils"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%!
-private String getValidValue(HashMap<String, String> map, String key) {
-    String ret = map.get(key);
-    if (ret == null) {
-        ret = "";
-    }
-    return ret;
-}
-%>
 <%
 String regex = "((\\+|\\-)?\\d+.?\\d*),\\s*((\\+|\\-)?\\d+.?\\d*)\\s\\d+.?\\d*";
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
 ArrayList<String> areas = new ArrayList<String>();
 
-String calcMethod = getValidValue(data, "eventCCalc");
-String risk = getValidValue(data, "eventRisk");
+String calcMethod = Utils.getValidFieldFromHash(data, "eventCCalc");
+String risk = Utils.getValidFieldFromHash(data, "eventRisk");
 calcMethod = calcMethod.equals("")?"forecast":calcMethod;
 risk = risk.equals("")?"green":risk;
 
@@ -73,7 +65,7 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Situación actual *</label>
-                            <textarea name="eventDescription" value="<%=getValidValue(data, "eventDescription")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventDescription" value="<%=Utils.getValidFieldFromHash(data, "eventDescription")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -82,7 +74,7 @@ while(keys.hasNext()) {
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn btn-primary btn-file">
-                                        Examinar<input type="file" name="issueSateliteImg" value="<%=getValidValue(data, "issueSateliteImg")%>" class="form-control" data-required="true" data-description="common"/>
+                                        Examinar<input type="file" name="issueSateliteImg" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImg")%>" class="form-control" data-required="true" data-description="common"/>
                                     </span>
                                 </span>
                                 <input type="text" class="form-control" disabled/>
@@ -90,15 +82,15 @@ while(keys.hasNext()) {
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Hora local tiempo del centro (Hora GMT) *</label>
-                            <input name="issueLocalTime" type="text" value="<%=getValidValue(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
+                            <input name="issueLocalTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Ubicación del centro del ciclón tropical</label>
                             <div class="form-inline">
-                                <input name="eventCLat" type="text" value="<%=getValidValue(data, "eventCLat")%>" placeholder="Latitud norte" class="form-control"/>
-                                <input name="eventCLon" type="text" value="<%=getValidValue(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
+                                <input name="eventCLat" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLat")%>" placeholder="Latitud norte" class="form-control"/>
+                                <input name="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
@@ -154,49 +146,49 @@ while(keys.hasNext()) {
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Distancia al lugar más cercano *</label>
-                            <input name="eventDistance" type="text" value="<%=getValidValue(data, "eventDistance")%>" class="form-control" data-required="true" data-description="common" data-describedby="_eventDistance"/>
+                            <input name="eventDistance" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventDistance")%>" class="form-control" data-required="true" data-description="common" data-describedby="_eventDistance"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Desplazamiento actual</label>
-                            <input name="eventCurrentPath" type="text" value="<%=getValidValue(data, "eventCurrentPath")%>" class="form-control"/>
+                            <input name="eventCurrentPath" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCurrentPath")%>" class="form-control"/>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Vientos máximos &lpar;Km/h&rpar; *</label>
                             <div class="form-inline">
-                                <input name="eventWindSpeedSust" type="text" value="<%=getValidValue(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
-                                <input name="eventWndSpeedMax" type="text" value="<%=getValidValue(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWndSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Presión mínima central &lpar;hPa&rpar;</label>
-                            <input name="eventMinCP" type="text" value="<%=getValidValue(data, "eventMinCP")%>" class="form-control"/>
+                            <input name="eventMinCP" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventMinCP")%>" class="form-control"/>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Diámetro del ojo &lpar;Km&rpar;</label>
-                            <input name="eventCDiameter" type="text" value="<%=getValidValue(data, "eventCDiameter")%>" class="form-control"/>
+                            <input name="eventCDiameter" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCDiameter")%>" class="form-control"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Radio de vientos de 63Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind63kmNE" type="text" value="<%=getValidValue(data, "eventWind63kmSE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind63kmSE" type="text" value="<%=getValidValue(data, "eventWind63kmNE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input name="eventWind63kmSO" type="text" value="<%=getValidValue(data, "eventWind63kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input name="eventWind63kmNO" type="text" value="<%=getValidValue(data, "eventWind63kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input name="eventWind63kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input name="eventWind63kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input name="eventWind63kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input name="eventWind63kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Radio de vientos de 95Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind95kmNE" type="text" value="<%=getValidValue(data, "eventWind95kmSE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind95kmSE" type="text" value="<%=getValidValue(data, "eventWind95kmNE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input name="eventWind95kmSO" type="text" value="<%=getValidValue(data, "eventWind95kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input name="eventWind95kmNO" type="text" value="<%=getValidValue(data, "eventWind95kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input name="eventWind95kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input name="eventWind95kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input name="eventWind95kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input name="eventWind95kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                     </div>
@@ -204,38 +196,38 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Radio de vientos de 120Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind120kmNE" type="text" value="<%=getValidValue(data, "eventWind120kmSE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind120kmSE" type="text" value="<%=getValidValue(data, "eventWind120kmNE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input name="eventWind120kmSO" type="text" value="<%=getValidValue(data, "eventWind120kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input name="eventWind120kmNO" type="text" value="<%=getValidValue(data, "eventWind120kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input name="eventWind120kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input name="eventWind120kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input name="eventWind120kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input name="eventWind120kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Oleaje 4m</label>
                             <div class="form-inline">
-                                <input name="seas4mNE" value="<%=getValidValue(data, "seas4mNE")%>" type="text" placeholder="NE" class="form-control input-sector"/>
-                                <input name="seas4mSE" value="<%=getValidValue(data, "seas4mSE")%>" type="text" placeholder="SE" class="form-control input-sector"/>
-                                <input name="seas4mSO" value="<%=getValidValue(data, "seas4mSO")%>" type="text" placeholder="SO" class="form-control input-sector"/>
-                                <input name="seas4mNO" value="<%=getValidValue(data, "seas4mNO")%>" type="text" placeholder="NO" class="form-control input-sector"/>
+                                <input name="seas4mNE" value="<%=Utils.getValidFieldFromHash(data, "seas4mNE")%>" type="text" placeholder="NE" class="form-control input-sector"/>
+                                <input name="seas4mSE" value="<%=Utils.getValidFieldFromHash(data, "seas4mSE")%>" type="text" placeholder="SE" class="form-control input-sector"/>
+                                <input name="seas4mSO" value="<%=Utils.getValidFieldFromHash(data, "seas4mSO")%>" type="text" placeholder="SO" class="form-control input-sector"/>
+                                <input name="seas4mNO" value="<%=Utils.getValidFieldFromHash(data, "seas4mNO")%>" type="text" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Diámetro promedio de fuerte convección*</label>
-                            <input name="eventDiameterConvection" value="<%=getValidValue(data, "eventDiameterConvection")%>" type="text" class="form-control"/>
+                            <input name="eventDiameterConvection" value="<%=Utils.getValidFieldFromHash(data, "eventDiameterConvection")%>" type="text" class="form-control"/>
                         </div>
                     </div>
                         <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Comentarios adicionales *</label>
-                            <textarea name="eventComments" value="<%=getValidValue(data, "eventComments")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventComments" value="<%=Utils.getValidFieldFromHash(data, "eventComments")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Recomendaciones *</label>
-                            <textarea name="eventInstructions" value="<%=getValidValue(data, "eventInstructions")%>" class="ckeditor" data-required="true" data-description="common">
+                            <textarea name="eventInstructions" value="<%=Utils.getValidFieldFromHash(data, "eventInstructions")%>" class="ckeditor" data-required="true" data-description="common">
                                 A LA POBLACIÓN EN GENERAL EN LOS ESTADOS MENCIONADOS Y A LA NAVEGACIÓN MARÍTIMA EN LAS INMEDIACIONES DEL SISTEMA, MANTENER PRECAUCIONES Y ATENDER RECOMENDACIONES EMITIDAS POR LAS AUTORIDADES DEL SISTEMA NACIONAL DE PROTECCIÓN CIVIL
                             </textarea>
                         </div>
