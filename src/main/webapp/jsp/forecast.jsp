@@ -50,10 +50,14 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn btn-primary btn-file">
-                                        Examinar<input type="file" name="issueSateliteLocationImg" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteLocationImg")%>" class="form-control" data-required="true" data-description="common"/>
+                                        Examinar<input type="file" name="issueSateliteLocationImg" class="form-control"/>
                                     </span>
                                 </span>
-                                <input type="text" class="form-control" disabled/>
+                                <%
+                                String fileName = Utils.getValidFieldFromHash(data, "issueSateliteLocationImg");
+                                fileName = fileName.substring(fileName.indexOf("_")+1, fileName.length());
+                                %>
+                                <input type="text" class="form-control" value="<%=fileName%>" disabled data-required="true" data-description="common" />
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
@@ -72,7 +76,7 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
                                 <tr>
                                     <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
                                     <th class="text-center">Latitud norte</th>
-                                    <th class="text-center">Longitud oeste</th>
+                                        <th class="text-center">Longitud oeste</th>
                                     <th class="text-center">Vientos (Km/h)<br>SOST./RACHAS</th>
                                     <th class="text-center">Categoría</th>
                                     <th class="text-center">Ubicación (Km)</th>

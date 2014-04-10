@@ -51,6 +51,10 @@ public class CapInfo implements Processor {
         }
         request.setAttribute("data", datos);
         String url = "/jsp/bulletinInfo.jsp";
+        if (parts[2].endsWith("dp")) {
+            url = "/jsp/bulletinInfoDp.jsp";
+        }
+        
         RequestDispatcher rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
     }

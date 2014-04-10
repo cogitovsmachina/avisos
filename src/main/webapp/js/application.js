@@ -47,15 +47,6 @@ function enableFormsValidation() {
                 }
             }
         });
-        
-        $.validateExtend({
-            nonblankSelect: {
-                conditional : function(value) {
-                    console.log(value);
-                    return true;
-                }
-            }
-        });
     }
 }
 

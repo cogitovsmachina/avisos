@@ -93,8 +93,8 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
                     </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">
-                            <label class="control-label">Pie del boletín*</label>
-                            <textarea name="issueFooter" rows="7" class="form-control" data-required="true" data-description="common"><%=issueFooter%></textarea>
+                            <label class="control-label">Pie del boletín</label>
+                            <textarea name="issueFooter" rows="7" class="form-control"><%=issueFooter%></textarea>
                         </div>
                     </div>
                     <div class="row text-right">

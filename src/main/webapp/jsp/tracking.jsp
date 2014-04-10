@@ -43,7 +43,7 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
                 </ol>
             </div>
             <div class="row inner-container">
-                <form role="form" action="" method="post" enctype="multipart/form-data">
+                <form role="form" action="" method="post">
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">En seguimiento a</label>

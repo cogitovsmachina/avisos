@@ -74,10 +74,14 @@ while(keys.hasNext()) {
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn btn-primary btn-file">
-                                        Examinar<input type="file" name="issueSateliteImg" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImg")%>" class="form-control" data-required="true" data-description="common"/>
+                                        Examinar<input type="file" name="issueSateliteImg"/>
                                     </span>
                                 </span>
-                                <input type="text" class="form-control" disabled/>
+                                <%
+                                String fileName = Utils.getValidFieldFromHash(data, "issueSateliteImg");
+                                fileName = fileName.substring(fileName.indexOf("_")+1, fileName.length());
+                                %>
+                                <input type="text" class="form-control" value="<%=fileName%>" disabled data-required="true" data-description="common" />
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
