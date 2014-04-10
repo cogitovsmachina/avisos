@@ -83,7 +83,7 @@ public class Init implements Processor {
                     filename = processUploadedFile(item, currentId);
                     parametros.put(item.getFieldName(), filename);
                 } else {
-                    System.out.println("item:" + item.getFieldName() + "=" + item.getString());
+                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
                     parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1")));
                 }
             }
@@ -117,23 +117,26 @@ public class Init implements Processor {
     
     
     private void procesaAreas(HashMap<String, String> nuevo, BasicDBObject anterior) {
+        HashMap<String, String> cambios = new HashMap<>();
         for (String key:nuevo.keySet()){
-            System.out.println("area-key:"+key);
             if (key.startsWith("area")){
                 String states = "states" + key.substring(4);
                 String municipalities = "municipalities" + key.substring(4);
                 if (null==nuevo.get(states)||null==nuevo.get(municipalities)){
                     if (((String)nuevo.get(key)).equals(anterior.get(key))){
                         if (null!=anterior.get(states)){
-                            nuevo.put(states, (String)anterior.get(states));
+                            cambios.put(states, (String)anterior.get(states));
                         }
                         if (null!=anterior.get(municipalities)){
-                            nuevo.put(municipalities, (String)anterior.get(municipalities));
+                            cambios.put(municipalities, (String)anterior.get(municipalities));
                         }
                     }
                 }
                     
             }
+        }
+        if (!cambios.isEmpty()){
+            nuevo.putAll(cambios);
         }
     }
 }

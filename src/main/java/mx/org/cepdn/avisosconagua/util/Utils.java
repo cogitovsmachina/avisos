@@ -20,7 +20,6 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-
 package mx.org.cepdn.avisosconagua.util;
 
 import java.text.ParseException;
@@ -34,21 +33,51 @@ import java.util.Locale;
  * @author hasdai
  */
 public class Utils {
+
     public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     public static final SimpleDateFormat diaformater = new SimpleDateFormat("dd 'de' MMMMM 'del' yyyy", Locale.forLanguageTag("mx"));
     public static final SimpleDateFormat horaformater = new SimpleDateFormat("HH:mm", Locale.forLanguageTag("mx"));
     public static final SimpleDateFormat isoformater = new SimpleDateFormat("YYYY-MM-dd'T'hh:mm:ss'-06:00'");
-    public static Date getDateFromString(String date) throws ParseException{
+
+    public static Date getDateFromString(String date) throws ParseException {
         return sdf.parse(date);
     }
-    
+
+    public static String getDiaText(String date) {
+        String fecha = "";
+        try {
+            fecha = diaformater.format(getDateFromString(date));
+        } catch (ParseException pe) {
+        }
+        return fecha;
+    }
+
+    public static String getTituloBoletin(String type){
+        String titulo = "";
+        switch (type) {
+            case "pacdp":
+                titulo = "Boletín de zonas de baja presión en el Océano Pacífico con potencial ciclónico";
+                break;
+            case "pacht":
+                titulo = "Aviso de Ciclón Tropical del Océano Pacífico";
+                break;
+            case "atldp":
+                titulo = "Boletín de zonas de baja presión en el Océano Atlántico con potencial ciclónico";
+                break;
+            case "atlht":
+                titulo = "Aviso de Ciclón Tropical del Océano Atlántico";
+                break;
+        }
+        return titulo;
+    }
     /**
      * Gets a String value from a map or an empty String.
+     *
      * @param map Map to get value from
      * @param key Key
      * @return String value for the given key or an empty String.
      */
-    public static String getValidFieldFromHash(HashMap<String,String> map, String key) {
+    public static String getValidFieldFromHash(HashMap<String, String> map, String key) {
         String ret = map.get(key);
         if (ret == null) {
             ret = "";
