@@ -15,7 +15,7 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
         <title>CAP Architect v1</title>
         <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="/css/font-awesome/font-awesome.min.css">
-        <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
         <link rel="stylesheet" href="/css/application.css">
         <!--[if lt IE 9]>
           <script src="/js/html5shiv.js"></script>
@@ -48,9 +48,9 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
             <div class="row inner-container">
                 <form role="form" action="" method="post" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-lg-12 form-group">
+                        <div class="col-lg-6 form-group">
                             <label class="control-label">Número de boletín*</label>
-                            <input type="text" name="issueNumber" value="<%=Utils.getValidFieldFromHash(data, "issueNumber")%>" data-required="true" data-description="common">
+                            <input type="text" name="issueNumber" value="<%=Utils.getValidFieldFromHash(data, "issueNumber")%>" class="form-control" data-required="true" data-description="common">
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Fecha y hora de emisión*</label>
@@ -110,6 +110,8 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
         <script src="/js/libs/jquery/jquery.min.js" type="text/javascript"></script>
         <script src="/js/libs/jquery/jquery-validate.min.js" type="text/javascript"></script>
         <script src="/js/libs/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/libs/moment/moment.min.js" type="text/javascript"></script>
+        <script src="/js/libs/jquery/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         <script src="/js/application.js"></script>
     </body>
 </html>
