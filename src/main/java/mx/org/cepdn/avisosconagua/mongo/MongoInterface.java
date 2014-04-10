@@ -44,6 +44,7 @@ public class MongoInterface {
     private static final String CAPTURA_COL = "AdviceDataForms";
     private static final String INTERNAL_FORM_ID = "internalId";
     private static final String IMAGES_COL = "AdviceDataImages";
+    private static final String ADVICE_TYPE = "adviceType";
     
     public static synchronized MongoInterface getInstance() {
         if (null == instance) {
@@ -75,9 +76,10 @@ public class MongoInterface {
         return names.toArray(new String[0]);
     }
 
-    public BasicDBObject createNewAdvice(String currentId) {
+    public BasicDBObject createNewAdvice(String currentId, String tipo) {
         System.out.println("new advice:"+currentId);
-        BasicDBObject newdata = new BasicDBObject(INTERNAL_FORM_ID, currentId);
+        BasicDBObject newdata = new BasicDBObject(INTERNAL_FORM_ID, currentId)
+                .append(ADVICE_TYPE, tipo);
         mongoDB.getCollection(CAPTURA_COL).insert(newdata);
         return newdata;
     }

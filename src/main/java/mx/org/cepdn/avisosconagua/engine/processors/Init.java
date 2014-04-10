@@ -83,7 +83,7 @@ public class Init implements Processor {
                     filename = processUploadedFile(item, currentId);
                     parametros.put(item.getFieldName(), filename);
                 } else {
-                    System.out.println("item:" + item.getFieldName() + "=" + item.getString());
+                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
                     parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1")));
                 }
             }
@@ -118,7 +118,6 @@ public class Init implements Processor {
     
     private void procesaAreas(HashMap<String, String> nuevo, BasicDBObject anterior) {
         for (String key:nuevo.keySet()){
-            System.out.println("area-key:"+key);
             if (key.startsWith("area")){
                 String states = "states" + key.substring(4);
                 String municipalities = "municipalities" + key.substring(4);

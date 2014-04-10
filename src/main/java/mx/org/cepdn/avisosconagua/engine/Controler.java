@@ -98,7 +98,7 @@ public class Controler extends HttpServlet {
                 if (null == currentId && parts[3].equals(flujo.get(0))) {
                     currentId = UUID.randomUUID().toString();
                     request.getSession(true).setAttribute(ADVICE_ID, currentId);
-                    datos = MongoInterface.getInstance().createNewAdvice(currentId);
+                    datos = MongoInterface.getInstance().createNewAdvice(currentId, parts[2]);
                 }
                 if (null == datos) {
                     datos = MongoInterface.getInstance().getAdvice(currentId);
