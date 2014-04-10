@@ -31,7 +31,7 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
             </div>
         </nav>
         <div class="container main-content">
-            <h3>Emitir nuevo boletín</h3>
+            <h3 class="text-center">Emitir nuevo boletín</h3>
             <div class="row progress-indicator-container text-center">
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
