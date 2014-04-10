@@ -34,12 +34,10 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
             </div>
         </nav>
         <div class="container main-content">
-            <h3>Emitir nuevo boletín</h3>
+            <h3 class="text-center">Emitir nuevo boletín</h3>
             <div class="row progress-indicator-container text-center">
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
-                    --><li class="done">Predicción de avance</li><!--
-                    --><li class="done">Seguimiento</li><!--
                     --><li class="current">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
                     --><li class="pending">Publicación</li>
