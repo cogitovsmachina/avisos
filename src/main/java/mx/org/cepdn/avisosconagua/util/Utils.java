@@ -26,6 +26,7 @@ package mx.org.cepdn.avisosconagua.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -39,5 +40,19 @@ public class Utils {
     public static final SimpleDateFormat isoformater = new SimpleDateFormat("YYYY-MM-dd'T'hh:mm:ss'-06:00'");
     public static Date getDateFromString(String date) throws ParseException{
         return sdf.parse(date);
+    }
+    
+    /**
+     * Gets a String value from a map or an empty String.
+     * @param map Map to get value from
+     * @param key Key
+     * @return String value for the given key or an empty String.
+     */
+    public static String getValidFieldFromHash(HashMap<String,String> map, String key) {
+        String ret = map.get(key);
+        if (ret == null) {
+            ret = "";
+        }
+        return ret;
     }
 }
