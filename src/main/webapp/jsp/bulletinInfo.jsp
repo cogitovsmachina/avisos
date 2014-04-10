@@ -46,7 +46,7 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
                 </ol>
             </div>
             <div class="row inner-container">
-                <form role="form" action="" method="post" enctype="multipart/form-data">
+                <form role="form" action="" method="post">
                     <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Número de boletín*</label>
