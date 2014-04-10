@@ -25,10 +25,15 @@ package mx.org.cepdn.avisosconagua.engine.processors;
 
 import com.mongodb.BasicDBObject;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.org.cepdn.avisosconagua.engine.Processor;
+import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
 
 /**
  *
@@ -37,13 +42,32 @@ import mx.org.cepdn.avisosconagua.engine.Processor;
 public class Seguimiento implements Processor {
 
     @Override
-    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
+        HashMap<String, String> datos = new HashMap<>();
+        if (null != data) {
+            for (String key : data.keySet()) {
+                datos.put(key, data.getString(key));
+                //System.out.println("colocando: "+key+" : "+datos.get(key));
+            }
+        }
+        request.setAttribute("data", datos);
+        String url = "/jsp/tracking.jsp";
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
     @Override
     public void processForm(HttpServletRequest request, String[] parts, String currentId) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        HashMap<String, String> parametros = new HashMap<>();
+        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+            try {
+                parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1")));
+            } catch (UnsupportedEncodingException ue) {
+                //No debe llegar a este punto
+                assert false;
+            }
+        }
+        MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
     }
     
 }
