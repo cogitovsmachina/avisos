@@ -18,7 +18,6 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
           <script src="/js/html5shiv.js"></script>
           <script src="/js/respond.min.js"></script>
         <![endif]-->
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,6 +66,23 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
+                                    <th class="text-center">Latitud norte</th>
+                                    <th class="text-center">Longitud oeste</th>
+                                    <th class="text-center">Vientos (Km/h)<br>SOST./RACHAS</th>
+                                    <th class="text-center">Categoría</th>
+                                    <th class="text-center">Ubicación (Km)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="row text-right">
                         <div class="col-lg-12">
                             <button class="btn btn-default"><span class="fa fa-times fa-fw"></span>Cancelar</button>
@@ -80,20 +96,6 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
         <script src="/js/libs/jquery/jquery.min.js" type="text/javascript"></script>
         <script src="/js/libs/jquery/jquery-validate.min.js" type="text/javascript"></script>
         <script src="/js/libs/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-        <script src="/js/libs/ckeditor/ckeditor.js" type="text/javascript"></script>
-        <script src="/js/libs/ckeditor/adapters/jquery.js" type="text/javascript"></script>
-        <script src="/js/libs/underscore/underscore-min.js" type="text/javascript"></script>
-        <script src="/js/map.js" type="text/javascript"></script>
         <script src="/js/application.js"></script>
-        <script type="text/javascript">
-            CKEDITOR.on('instanceReady', function() {
-                $.each( CKEDITOR.instances, function(instance) {
-                CKEDITOR.instances[instance].on("change", function(e) {
-                    for ( instance in CKEDITOR.instances )
-                        CKEDITOR.instances[instance].updateElement();
-                    });
-                });
-            });
-        </script>
     </body>
 </html>
