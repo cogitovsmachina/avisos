@@ -78,7 +78,7 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
                         </div>
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Síntesis (cintillo)*</label>
-                            <input name="eventHeadline" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
+                            <input name="eventHeadline" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventHeadline")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
                     </div>
                     <div class="row">
