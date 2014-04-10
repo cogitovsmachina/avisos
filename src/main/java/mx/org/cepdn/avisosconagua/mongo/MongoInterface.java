@@ -25,10 +25,15 @@ package mx.org.cepdn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.gridfs.GridFS;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -42,9 +47,16 @@ public class MongoInterface {
     private final DB mongoDB;
     private static MongoInterface instance = null;
     private static final String CAPTURA_COL = "AdviceDataForms";
-    private static final String INTERNAL_FORM_ID = "internalId";
+    public static final String INTERNAL_FORM_ID = "internalId";
     private static final String IMAGES_COL = "AdviceDataImages";
-    private static final String ADVICE_TYPE = "adviceType";
+    private static final String IMAGES_FILES_COL = "AdviceDataImages.files";
+    public static final String ADVICE_TYPE = "adviceType";
+    public static final String UPDATE_TS = "updatedAt";
+    private static final String PUBLISHED_COL = "GeneratedAdvices";
+    private static final String GENERATED_COL = "GeneratedFiles";
+    private static final String GENERATED_FILES_COL = "GeneratedFiles.files";
+    private static final String GENERATED_TITLE = "generatedTitle";
+    
     
     public static synchronized MongoInterface getInstance() {
         if (null == instance) {
@@ -79,7 +91,7 @@ public class MongoInterface {
     public BasicDBObject createNewAdvice(String currentId, String tipo) {
         System.out.println("new advice:"+currentId);
         BasicDBObject newdata = new BasicDBObject(INTERNAL_FORM_ID, currentId)
-                .append(ADVICE_TYPE, tipo);
+                .append(ADVICE_TYPE, tipo).append(UPDATE_TS, new Date());
         mongoDB.getCollection(CAPTURA_COL).insert(newdata);
         return newdata;
     }
@@ -95,10 +107,30 @@ public class MongoInterface {
         BasicDBObject actual = getAdvice(currentId);
         BasicDBObject interno = new BasicDBObject(parametros);
         actual.append(formId, interno);
+        actual.append(UPDATE_TS, new Date());
         mongoDB.getCollection(CAPTURA_COL).update(getAdvice(currentId), actual);
     }
 
     public GridFS getImagesFS() {
         return new GridFS(mongoDB, IMAGES_COL);
+    }
+    
+    public HashMap<String, String> getAdvicesList(String adviceType){
+        HashMap<String, String> ret = null;
+        return ret;
+    }
+    
+    public ArrayList<String> getAdviceList() {
+        DBCollection col = mongoDB.getCollection(GENERATED_COL);
+        ArrayList<String> ret = null;
+        DBCursor cursor = col.find().sort(new BasicDBObject(UPDATE_TS, -1)).limit(20);
+        if (null != cursor) {
+            ret = new ArrayList<>();
+            for (DBObject object : cursor) {
+                String advice = object.get(INTERNAL_FORM_ID) + " " + object.get(GENERATED_TITLE);
+                ret.add(advice);
+            }
+        }
+        return ret;
     }
 }

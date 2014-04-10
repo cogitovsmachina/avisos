@@ -95,7 +95,7 @@ public class Controler extends HttpServlet {
             List<String> flujo = control.get(parts[2]);
             BasicDBObject datos = null;
             if (flujo.contains(parts[3])) {
-                if (null == currentId && parts[3].equals(flujo.get(0))) {
+                if ((null == currentId && parts[3].equals(flujo.get(0)))||(parts.length>4 && "new".equals(parts[4]))) {
                     currentId = UUID.randomUUID().toString();
                     request.getSession(true).setAttribute(ADVICE_ID, currentId);
                     datos = MongoInterface.getInstance().createNewAdvice(currentId, parts[2]);

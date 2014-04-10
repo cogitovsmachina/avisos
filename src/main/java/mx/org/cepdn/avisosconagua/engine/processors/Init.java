@@ -117,6 +117,7 @@ public class Init implements Processor {
     
     
     private void procesaAreas(HashMap<String, String> nuevo, BasicDBObject anterior) {
+        HashMap<String, String> cambios = new HashMap<>();
         for (String key:nuevo.keySet()){
             if (key.startsWith("area")){
                 String states = "states" + key.substring(4);
@@ -124,15 +125,18 @@ public class Init implements Processor {
                 if (null==nuevo.get(states)||null==nuevo.get(municipalities)){
                     if (((String)nuevo.get(key)).equals(anterior.get(key))){
                         if (null!=anterior.get(states)){
-                            nuevo.put(states, (String)anterior.get(states));
+                            cambios.put(states, (String)anterior.get(states));
                         }
                         if (null!=anterior.get(municipalities)){
-                            nuevo.put(municipalities, (String)anterior.get(municipalities));
+                            cambios.put(municipalities, (String)anterior.get(municipalities));
                         }
                     }
                 }
                     
             }
+        }
+        if (!cambios.isEmpty()){
+            nuevo.putAll(cambios);
         }
     }
 }
