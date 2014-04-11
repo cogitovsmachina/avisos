@@ -31,7 +31,7 @@
                         <div class="col-xs-5"></div>
                         <div class="col-xs-2 form-group">
                                 <label class="control-label">Tipo de boletín a generar:</label>
-                                <select name="boltype" class="form-control" onchange="if(this.value){ window.location.href='/ctrl/'+this.value+'/init';}">
+                                <select name="boltype" class="form-control" onchange="if(this.value){ window.location.href='/ctrl/'+this.value+'/init/new';}">
                                     <option value="">Elija:</option>
                                     <option value="pacdp">Depresión tropical en el Pacífico</option>
                                     <option value="pacht">Ciclón en el Pacífico</option>
