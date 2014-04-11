@@ -40,11 +40,12 @@ import mx.org.cepdn.avisosconagua.util.Utils;
  * @author serch
  */
 public class Generate implements Processor {
+    private static final String ADVICE_ID = "internalId";
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String adviceID = (String)request.getSession(true).getAttribute("adviceID");
+        String adviceID = (String)request.getSession(true).getAttribute(ADVICE_ID);
         CAPFileGenerator capFile = new CAPFileGenerator(adviceID);
         capFile.generate();
         if (capFile.isOK()){

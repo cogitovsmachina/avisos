@@ -44,7 +44,7 @@ public class Preview implements Processor {
         String currentId = (String) request.getSession(true).getAttribute(ADVICE_ID);
         HtmlGenerator gen = new HtmlGenerator(currentId);
         //response.getWriter().print(gen.generate());
-        request.setAttribute("generatedHTML", gen.generate());
+        request.setAttribute("generatedHTML", gen.generate(false));
         request.setAttribute("isdp", gen.isDP());
         request.setAttribute("bulletinType", parts[2]);
         request.getRequestDispatcher("/jsp/preview.jsp").forward(request, response);

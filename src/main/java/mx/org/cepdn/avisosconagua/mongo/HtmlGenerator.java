@@ -49,7 +49,7 @@ public class HtmlGenerator {
         BasicDBObject pronostico = (BasicDBObject)aviso.get("pronostico");
         BasicDBObject seguimiento = (BasicDBObject)aviso.get("seguimiento");
         BasicDBObject capInfo = (BasicDBObject)aviso.get("capInfo");
-        String imagefolder = publish?"/getImage/":currentId;
+        String imagefolder = publish?currentId+"/":"/getImage/";
         
         String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
