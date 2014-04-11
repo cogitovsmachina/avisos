@@ -5,6 +5,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
+String type = (String)request.getAttribute("bulletinType");
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +32,7 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
             </div>
         </nav>
         <div class="container main-content">
-            <h3>Emitir nuevo boletín</h3>
+            <h3 class="text-center"><%=Utils.getTituloBoletin(type)%></h3>
             <div class="row progress-indicator-container text-center">
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
@@ -76,7 +77,7 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
                                 <tr>
                                     <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
                                     <th class="text-center">Latitud norte</th>
-                                        <th class="text-center">Longitud oeste</th>
+                                    <th class="text-center">Longitud oeste</th>
                                     <th class="text-center">Vientos (Km/h)<br>SOST./RACHAS</th>
                                     <th class="text-center">Categoría</th>
                                     <th class="text-center">Ubicación (Km)</th>
