@@ -59,6 +59,7 @@ public class Init implements Processor {
             }
         }
         request.setAttribute("data", datos);
+        request.setAttribute("bulletinType", parts[2]);
         String url = "/jsp/init.jsp";
         if (parts[2].endsWith("dp")) {
             url = "/jsp/initdp.jsp";
