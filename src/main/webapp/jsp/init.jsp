@@ -86,7 +86,7 @@ while(keys.hasNext()) {
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
-                            <label class="control-label">Pie de la imagen *</label>
+                            <label class="control-label">Pie de la imagen*</label>
                             <input type="text" name="issueSateliteImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImgFooter")%>" />
                         </div>
                     </div>
@@ -126,7 +126,7 @@ while(keys.hasNext()) {
                     </div>
                     <div class="row">
                         <div class="col-lg-6 form-group">
-                            <label class="control-label">Nivel de alertamiento *</label><br>
+                            <label class="control-label">Nivel de alertamiento*</label><br>
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-default <%=risk.equalsIgnoreCase("green")?"active":""%>">
                                     <input type="radio" name="eventRisk" value="green" <%=risk.equalsIgnoreCase("green")?"checked":""%>>Verde
