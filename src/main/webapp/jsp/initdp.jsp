@@ -76,7 +76,7 @@ while(keys.hasNext()) {
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
-                            <label class="control-label">Pie de la imagen *</label>
+                            <label class="control-label">Pie de la imagen*</label>
                             <input type="text" name="issueSateliteImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImgFooter")%>" />
                         </div>
                     </div>
@@ -103,13 +103,13 @@ while(keys.hasNext()) {
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
-                            <label class="control-label">Distancia al lugar más cercano *</label>
+                            <label class="control-label">Distancia al lugar más cercano*</label>
                             <input name="eventDistance" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventDistance")%>" class="form-control" data-required="true" data-description="common" data-describedby="_eventDistance"/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">
-                            <label class="control-label" for="area">Zona de alerta *</label>
+                            <label class="control-label" for="area">Zona de alerta*</label>
                             <div id="map-canvas"></div>
                             <div id="map-data">
                                 <%
@@ -131,7 +131,7 @@ while(keys.hasNext()) {
                             <input name="eventCurrentPath" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCurrentPath")%>" class="form-control"/>
                         </div>
                         <div class="col-lg-6 form-group">
-                            <label class="control-label">Vientos máximos &lpar;Km/h&rpar; *</label>
+                            <label class="control-label">Vientos máximos &lpar;Km/h&rpar;*</label>
                             <div class="form-inline">
                                 <input name="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
                                 <input name="eventWndSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWndSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
@@ -144,7 +144,7 @@ while(keys.hasNext()) {
                             <input name="eventMinCP" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventMinCP")%>" class="form-control"/>
                         </div>
                         <div class="col-lg-6 form-group">
-                            <label class="control-label">Potencial de desarrollo &lpar;%&rpar; *</label>
+                            <label class="control-label">Potencial de desarrollo &lpar;%&rpar;*</label>
                             <div class="form-inline">
                                 <input name="eventForecast48h" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventForecast48h")%>" placeholder="48 horas" class="form-control" data-required="true" data-description="common"/>
                                 <input name="eventForecast5d" type="text"  value="<%=Utils.getValidFieldFromHash(data, "eventForecast5d")%>" placeholder="5 días" class="form-control" data-required="true" data-description="common"/>
@@ -153,7 +153,7 @@ while(keys.hasNext()) {
                     </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">
-                            <label class="control-label">Pronóstico de lluvia *</label>
+                            <label class="control-label">Pronóstico de lluvia*</label>
                             <textarea name="eventRainForecast" rows="7" class="form-control" data-required="true" data-description="common"><%=Utils.getValidFieldFromHash(data, "eventRainForecast")%></textarea>
                         </div>
                     </div>
