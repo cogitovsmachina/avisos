@@ -25,10 +25,15 @@ package mx.org.cepdn.avisosconagua.engine.processors;
 
 import com.mongodb.BasicDBObject;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.org.cepdn.avisosconagua.engine.Processor;
+import mx.org.cepdn.avisosconagua.mongo.CAPFileGenerator;
+import mx.org.cepdn.avisosconagua.mongo.HtmlZipGenerator;
+import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
+import mx.org.cepdn.avisosconagua.util.Utils;
 
 /**
  *
@@ -38,7 +43,24 @@ public class Generate implements Processor {
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        response.setContentType("text/html;charset=UTF-8");
+        String adviceID = (String)request.getSession(true).getAttribute("adviceID");
+        CAPFileGenerator capFile = new CAPFileGenerator(adviceID);
+        capFile.generate();
+        if (capFile.isOK()){
+            request.setAttribute("capURL", capFile.getLink());
+        }
+        HtmlZipGenerator htmlFile = new HtmlZipGenerator(adviceID);
+        htmlFile.generate();
+        if (htmlFile.isOK()){
+            request.setAttribute("htmlUrl",htmlFile.getLink());
+        }
+        request.setAttribute("titulo", Utils.getTituloBoletin(parts[2]));
+        MongoInterface.getInstance().setGenerated(adviceID);
+        request.setAttribute("isdp", parts[2].endsWith("dp"));
+        request.setAttribute("bulletinType", parts[2]);
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/Finish.jsp");
+        rd.forward(request, response);
     }
 
     @Override

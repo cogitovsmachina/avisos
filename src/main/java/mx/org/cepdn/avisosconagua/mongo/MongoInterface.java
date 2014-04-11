@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
+import mx.org.cepdn.avisosconagua.util.Utils;
 
 /**
  *
@@ -142,5 +143,24 @@ public class MongoInterface {
             }
         }
         return ret;
+    }
+
+    ArrayList<String> listFilesFromAdvice(String adviceID) {
+        ArrayList<String> ret = new ArrayList<>();
+        DBCollection col = mongoDB.getCollection(IMAGES_FILES_COL);
+        DBCursor cursor = col.find(new BasicDBObject("filename", new BasicDBObject("$regex", adviceID)));
+        if (null != cursor) {
+            ret = new ArrayList<>();
+            for (DBObject obj : cursor) {
+                ret.add((String) obj.get("filename"));
+
+            }
+        }
+        return ret;
+    }
+
+    public void setGenerated(String adviceID) {
+        DBCollection col = mongoDB.getCollection(GENERATED_COL);
+        col.insert(new BasicDBObject(INTERNAL_FORM_ID, adviceID).append("generationTime", Utils.sdf.format(new Date())));
     }
 }
