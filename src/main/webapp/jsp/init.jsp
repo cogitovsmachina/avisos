@@ -12,6 +12,8 @@ ArrayList<String> areas = new ArrayList<String>();
 
 String calcMethod = Utils.getValidFieldFromHash(data, "eventCCalc");
 String risk = Utils.getValidFieldFromHash(data, "eventRisk");
+String instructions = "A LA POBLACIÓN EN GENERAL EN LOS ESTADOS MENCIONADOS Y A LA NAVEGACIÓN MARÍTIMA EN LAS INMEDIACIONES DEL SISTEMA, MANTENER PRECAUCIONES Y ATENDER RECOMENDACIONES EMITIDAS POR LAS AUTORIDADES DEL SISTEMA NACIONAL DE PROTECCIÓN CIVIL";
+
 calcMethod = calcMethod.equals("")?"forecast":calcMethod;
 risk = risk.equals("")?"green":risk;
 
@@ -42,10 +44,7 @@ while(keys.hasNext()) {
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">CONAGUA</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <p class="navbar-text navbar-right"><span class="fa fa-user fa-fw"></span>Jaime Albarr&aacute;n Ascencio&nbsp;<span class="caret"></span></p>
+                    <a class="navbar-brand" href="/"><img class="logo img-responsive" src="/css/img/CONAGUALOGO.png"/></a>
                 </div>
             </div>
         </nav>
@@ -86,6 +85,12 @@ while(keys.hasNext()) {
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
+                            <label class="control-label">Pie de la imagen *</label>
+                            <input type="text" name="issueSateliteImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImgFooter")%>" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 form-group">
                             <label class="control-label">Distancia de las costas nacionales*</label>
                             <select name="eventCoastDistance" class="form-control" data-required="true" data-description="common">
                                 <option value="lessthan500km">Menos de 500Km</option>
@@ -93,12 +98,12 @@ while(keys.hasNext()) {
                                 <option value="land">En tierra</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Hora local tiempo del centro (Hora GMT)*</label>
                             <input name="issueLocalTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Ubicación del centro del ciclón tropical</label>
                             <div class="form-inline">
@@ -106,8 +111,6 @@ while(keys.hasNext()) {
                                 <input name="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Método de cálculo del centro</label><br>
                             <div class="btn-group" data-toggle="buttons">
@@ -119,6 +122,8 @@ while(keys.hasNext()) {
                                 </label>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Nivel de alertamiento *</label><br>
                             <div class="btn-group" data-toggle="buttons">
@@ -156,6 +161,12 @@ while(keys.hasNext()) {
                                 %>
                             </div>
                             <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 form-group">
+                            <label class="control-label">Descripción de la zona de alerta</label>
+                            <textarea name="areaDescription" rows="7" class="form-control"><%=Utils.getValidFieldFromHash(data, "areaDescription")%></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -234,15 +245,13 @@ while(keys.hasNext()) {
                         <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Comentarios adicionales*</label>
-                            <textarea name="eventComments" value="<%=Utils.getValidFieldFromHash(data, "eventComments")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventComments" rows="7" value="<%=Utils.getValidFieldFromHash(data, "eventComments")%>" class="form-control" data-required="true" data-description="common"></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Recomendaciones*</label>
-                            <textarea name="eventInstructions" value="<%=Utils.getValidFieldFromHash(data, "eventInstructions")%>" class="ckeditor" data-required="true" data-description="common">
-                                A LA POBLACIÓN EN GENERAL EN LOS ESTADOS MENCIONADOS Y A LA NAVEGACIÓN MARÍTIMA EN LAS INMEDIACIONES DEL SISTEMA, MANTENER PRECAUCIONES Y ATENDER RECOMENDACIONES EMITIDAS POR LAS AUTORIDADES DEL SISTEMA NACIONAL DE PROTECCIÓN CIVIL
-                            </textarea>
+                            <textarea name="eventInstructions" rows="7" value="<%=Utils.getValidFieldFromHash(data, "eventInstructions")%>" class="form-control" data-required="true" data-description="common"><%=instructions%></textarea>
                         </div>
                     </div>
                     <div class="row text-right">
