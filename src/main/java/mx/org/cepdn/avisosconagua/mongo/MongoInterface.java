@@ -115,6 +115,16 @@ public class MongoInterface {
         return new GridFS(mongoDB, IMAGES_COL);
     }
     
+    public GridFS getGeneratedFS() {
+        return new GridFS(mongoDB, GENERATED_COL);
+    }
+    
+    public GridFS getGridFS(String type) {
+        String collection = GENERATED_COL;
+        if ("getImage".equals(type)) collection = IMAGES_COL;
+        return new GridFS(mongoDB, collection);
+    }
+    
     public HashMap<String, String> getAdvicesList(String adviceType){
         HashMap<String, String> ret = null;
         return ret;

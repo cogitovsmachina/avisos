@@ -32,11 +32,11 @@
                     </button>
                     <ul class="dropdown-menu text-left" role="menu">
                         <li role="presentation" class="dropdown-header">Baja presión</li>
-                        <li><a href="/ctrl/pacdp/init">Baja presión en el pacífico</a></li>
-                        <li><a href="/ctrl/atldp/init">Baja presión en el atlántico</a></li>
+                        <li><a href="/ctrl/pacdp/init/new">Baja presión en el pacífico</a></li>
+                        <li><a href="/ctrl/atldp/init/new">Baja presión en el atlántico</a></li>
                         <li role="presentation" class="dropdown-header">Ciclones tropicales</li>
-                        <li><a href="/ctrl/pacht/init">Ciclón en el pacífico</a></li>
-                        <li><a href="/ctrl/atlht/init">Ciclón en el atlántico</a></li>
+                        <li><a href="/ctrl/pacht/init/new">Ciclón en el pacífico</a></li>
+                        <li><a href="/ctrl/atlht/init/new">Ciclón en el atlántico</a></li>
                     </ul>
                 </div>
             </div>
