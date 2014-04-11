@@ -95,6 +95,12 @@ public class Controler extends HttpServlet {
             List<String> flujo = control.get(parts[2]);
             BasicDBObject datos = null;
             if (flujo.contains(parts[3])) {
+                if (parts.length>4 && !"new".equals(parts[4])){
+                    datos = MongoInterface.getInstance().getAdvice(parts[4]);
+                    if (null!=datos){currentId = parts[4];
+                        request.getSession(true).setAttribute(ADVICE_ID, currentId);
+                    }
+                }
                 if ((null == currentId && parts[3].equals(flujo.get(0)))||(parts.length>4 && "new".equals(parts[4]))) {
                     currentId = UUID.randomUUID().toString();
                     request.getSession(true).setAttribute(ADVICE_ID, currentId);
