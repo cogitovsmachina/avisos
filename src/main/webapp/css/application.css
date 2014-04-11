@@ -201,3 +201,12 @@ div.event-container h5 {
     width:200px;
     display:inline-table;
 }
+
+/*************************Bootstrap overrides***************************/
+.navbar-brand {
+    padding:0;
+}
+
+.logo {
+    height: 50px;
+}
