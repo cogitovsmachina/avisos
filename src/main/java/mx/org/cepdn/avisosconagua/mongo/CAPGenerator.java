@@ -127,7 +127,7 @@ public class CAPGenerator {
                 .setUrgency(urg)
                 .setSeverity(sev)
                 .setCertainty(cer)
-                .setResponseType(0, Info.ResponseType.EXECUTE)
+                .addResponseType(Info.ResponseType.EXECUTE)
                 .setSenderName("Comisión Nacional del Agua - Servicio Meteorológico Nacional")
                 .setHeadline(capInfo.getString("eventHeadline"))
                 .setDescription(init.getString("eventDescription"))
