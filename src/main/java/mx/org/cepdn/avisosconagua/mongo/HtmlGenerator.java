@@ -35,7 +35,7 @@ public class HtmlGenerator {
     private static final String backimg = "fondo.gif";
     private boolean isDP;
 
-    public HtmlGenerator(String currentId) {
+    public HtmlGenerator(final String currentId) {
         this.currentId = currentId;
     }
     
@@ -43,12 +43,13 @@ public class HtmlGenerator {
         return isDP;
     }
 //init,pronostico,seguimiento,capInfo,preview,generate
-    public String generate() {
+    public String generate(final boolean publish) {
         BasicDBObject aviso = MongoInterface.getInstance().getAdvice(currentId);
         BasicDBObject init = (BasicDBObject)aviso.get("init");
         BasicDBObject pronostico = (BasicDBObject)aviso.get("pronostico");
         BasicDBObject seguimiento = (BasicDBObject)aviso.get("seguimiento");
         BasicDBObject capInfo = (BasicDBObject)aviso.get("capInfo");
+        String imagefolder = publish?"/getImage/":currentId;
         
         String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
@@ -56,7 +57,7 @@ public class HtmlGenerator {
             return header + getEncabezado(backimg, titulo, 
                     Utils.getDiaText(capInfo.getString("issueDate")), 
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(capInfo.getString("eventHeadline"), "/getImage/"+init.getString("issueSateliteImg"), 
+                    + getTitulo(capInfo.getString("eventHeadline"), imagefolder+init.getString("issueSateliteImg"), 
                             init.getString("issueImgDesc"), //TODO corregir campo
                             cleanPs(init.getString("eventDescription")))
                     +get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
