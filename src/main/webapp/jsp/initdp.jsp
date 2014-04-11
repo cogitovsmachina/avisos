@@ -36,10 +36,7 @@ while(keys.hasNext()) {
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">CONAGUA</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <p class="navbar-text navbar-right"><span class="fa fa-user fa-fw"></span>Jaime Albarr&aacute;n Ascencio&nbsp;<span class="caret"></span></p>
+                    <a class="navbar-brand" href="/"><img class="logo img-responsive" src="/css/img/CONAGUALOGO.png"/></a>
                 </div>
             </div>
         </nav>
@@ -78,6 +75,12 @@ while(keys.hasNext()) {
                             </div>
                         </div>
                         <div class="col-lg-6 form-group">
+                            <label class="control-label">Pie de la imagen *</label>
+                            <input type="text" name="issueSateliteImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImgFooter")%>" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 form-group">
                             <label class="control-label">Distancia de las costas nacionales*</label>
                             <select name="eventCoastDistance" class="form-control" data-required="true" data-description="common">
                                 <option value="lessthan500km">Menos de 500Km</option>
@@ -85,12 +88,12 @@ while(keys.hasNext()) {
                                 <option value="land">En tierra</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Hora local tiempo del centro (Hora GMT)*</label>
                             <input name="issueLocalTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Ubicación del centro de la baja presión</label>
                             <div class="form-inline">
@@ -98,8 +101,6 @@ while(keys.hasNext()) {
                                 <input name="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 form-group">
                             <label class="control-label">Distancia al lugar más cercano *</label>
                             <input name="eventDistance" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventDistance")%>" class="form-control" data-required="true" data-description="common" data-describedby="_eventDistance"/>
