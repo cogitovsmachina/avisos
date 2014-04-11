@@ -38,4 +38,6 @@ CKEDITOR.editorConfig = function( config ) {
 
         // Enable filebrowser plugin
 	config.extraPlugins = 'popup,filebrowser';
+        
+        config.removePlugins = 'image';
 };
