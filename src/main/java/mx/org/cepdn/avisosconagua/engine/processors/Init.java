@@ -120,7 +120,7 @@ public class Init implements Processor {
     private void procesaAreas(HashMap<String, String> nuevo, BasicDBObject anterior) {
         HashMap<String, String> cambios = new HashMap<>();
         for (String key:nuevo.keySet()){
-            if (key.startsWith("area")){
+            if (key.startsWith("area-")){
                 String states = "states" + key.substring(4);
                 String municipalities = "municipalities" + key.substring(4);
                 if (null==nuevo.get(states)||null==nuevo.get(municipalities)){
