@@ -77,7 +77,7 @@ String type = (String)request.getAttribute("bulletinType");
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 table-responsive">
-                            <table class="table table-striped">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
