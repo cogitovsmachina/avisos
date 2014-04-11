@@ -65,7 +65,8 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-12 form-group">
                             <label class="control-label">Situación actual*</label>
-                            <textarea name="eventDescription" value="<%=Utils.getValidFieldFromHash(data, "eventDescription")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventDescriptionHTML" id="eventDescriptionHTML" value="<%=Utils.getValidFieldFromHash(data, "eventDescription")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
+                            <input type="hidden" id="eventDescription" name="eventDescription"/>
                         </div>
                     </div>
                     <div class="row">
@@ -274,10 +275,13 @@ while(keys.hasNext()) {
         <script src="/js/application.js"></script>
         <script type="text/javascript">
             CKEDITOR.on('instanceReady', function() {
-                $.each( CKEDITOR.instances, function(instance) {
-                CKEDITOR.instances[instance].on("change", function(e) {
-                    for ( instance in CKEDITOR.instances )
-                        CKEDITOR.instances[instance].updateElement();
+                CKEDITOR.instances["eventDescriptionHTML"].on("blur", function(){
+                    $("#eventDescription").attr("value",$(CKEDITOR.instances["eventDescriptionHTML"].getData()).text());
+                });
+                
+                $.each(CKEDITOR.instances, function(instanceName) {
+                    CKEDITOR.instances[instanceName].on("change", function(e) {
+                        CKEDITOR.instances[instanceName].updateElement();
                     });
                 });
             });
