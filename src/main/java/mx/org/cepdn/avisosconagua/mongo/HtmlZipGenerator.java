@@ -60,25 +60,38 @@ public class HtmlZipGenerator {
             ZipOutputStream zout = new ZipOutputStream(baos);
             zout.setLevel(9);
             zout.putNextEntry(new ZipEntry(name));
-            zout.write(html.generate().getBytes());
+            zout.write(html.generate(true).getBytes());
             zout.putNextEntry(new ZipEntry(localFolder));
-            ArrayList<String> lista = MongoInterface.getInstance().listFilesFromAdvice(adviceID);
-            for (String filename : lista) {
+            if (html.getPrincipalFile()!=null){
                 GridFS gridfs = MongoInterface.getInstance().getImagesFS();
-                GridFSDBFile imageForOutput = gridfs.findOne(filename);
-                String fnpart[] = filename.split(":");
-                zout.putNextEntry(new ZipEntry(localFolder + fnpart[1]));
+                GridFSDBFile imageForOutput = gridfs.findOne(html.getPrincipalFile());
+                zout.putNextEntry(new ZipEntry(localFolder + html.getPrincipalFile()));
                 imageForOutput.writeTo(zout);
             }
+            if (html.getPronosticoFile()!=null){
+                GridFS gridfs = MongoInterface.getInstance().getImagesFS();
+                GridFSDBFile imageForOutput = gridfs.findOne(html.getPronosticoFile());
+                zout.putNextEntry(new ZipEntry(localFolder + html.getPronosticoFile()));
+                imageForOutput.writeTo(zout);
+            }
+//            ArrayList<String> lista = MongoInterface.getInstance().listFilesFromAdvice(adviceID);
+//            for (String filename : lista) {
+//                GridFS gridfs = MongoInterface.getInstance().getImagesFS();
+//                GridFSDBFile imageForOutput = gridfs.findOne(filename);
+//                String fnpart[] = filename.split(":");
+//                zout.putNextEntry(new ZipEntry(localFolder + fnpart[1]));
+//                imageForOutput.writeTo(zout);
+//            }
             zout.close();
             GridFS fs = MongoInterface.getInstance().getGeneratedFS();
+            fs.remove(nameZip);
         GridFSInputFile infile =  fs.createFile(baos.toByteArray());
         infile.setContentType("application/zip");
         infile.setFilename(nameZip);
         infile.save();
         isOK = true;
         } catch (IOException ioe) {
-
+            ioe.printStackTrace();
         }
     }
     

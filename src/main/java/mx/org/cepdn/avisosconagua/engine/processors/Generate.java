@@ -60,7 +60,7 @@ public class Generate implements Processor {
         MongoInterface.getInstance().setGenerated(adviceID);
         request.setAttribute("isdp", parts[2].endsWith("dp"));
         request.setAttribute("bulletinType", parts[2]);
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/Finish.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/finish.jsp");
         rd.forward(request, response);
     }
 

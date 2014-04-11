@@ -62,12 +62,11 @@ public class CAPGenerator {
     public String generate() {
         return getXML();
     }
-    
+
     public Alert generateAlert() {
         return getValidAlertBuilder().build();
     }
 
-    
     private String getXML() {
         CapXmlBuilder builder = new CapXmlBuilder();
         return builder.toXml(getValidAlertBuilder());
@@ -131,7 +130,6 @@ public class CAPGenerator {
                 .setSenderName("Comisión Nacional del Agua - Servicio Meteorológico Nacional")
                 .setHeadline(capInfo.getString("eventHeadline"))
                 .setDescription(init.getString("eventDescription"))
-                .setInstruction(init.getString("eventInstructions"))
                 .setWeb("http://smn.cna.gob.mx/")
                 //                .addParameter(ValuePair.newBuilder()
                 //                        .setValueName("HSAS").setValue("ORANGE").build())
@@ -146,6 +144,9 @@ public class CAPGenerator {
                         .setValueName("Elaboró").setValue(capInfo.getString("issueMetheorologist")).build())
                 .addParameter(ValuePair.newBuilder()
                         .setValueName("Revisó").setValue(capInfo.getString("issueShiftBoss")).build());
+        if (null != init.getString("eventInstructions")) {
+            builder.setInstruction(init.getString("eventInstructions"));
+        }
 //        for (String area : event.keySet()) {
 //            if (area.startsWith("area")) {
         //System.out.println("estados: " + "states" + area.substring(4));

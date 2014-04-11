@@ -46,6 +46,7 @@ public class CAPFileGenerator {
     
     public void generate() {
         GridFS fs = MongoInterface.getInstance().getGeneratedFS();
+        fs.remove(name);
         GridFSInputFile infile = fs.createFile(generator.generate().getBytes());
         infile.setContentType("text/xml");
         infile.setFilename(name);

@@ -126,12 +126,7 @@ public class MongoInterface {
         return new GridFS(mongoDB, collection);
     }
     
-    public HashMap<String, String> getAdvicesList(String adviceType){
-        HashMap<String, String> ret = null;
-        return ret;
-    }
-    
-    public ArrayList<String> getAdviceList() {
+    public ArrayList<String> getPublisedAdvicesList() {
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
         ArrayList<String> ret = null;
         DBCursor cursor = col.find().sort(new BasicDBObject(UPDATE_TS, -1)).limit(20);

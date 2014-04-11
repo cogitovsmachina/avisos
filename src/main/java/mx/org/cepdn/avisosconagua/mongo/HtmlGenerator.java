@@ -34,6 +34,8 @@ public class HtmlGenerator {
     private final String currentId;
     private static final String backimg = "fondo.gif";
     private boolean isDP;
+    private String principalFile = null;
+    private String pronosticoFile = null;
 
     public HtmlGenerator(final String currentId) {
         this.currentId = currentId;
@@ -42,6 +44,17 @@ public class HtmlGenerator {
     public boolean isDP(){
         return isDP;
     }
+
+    public String getPrincipalFile() {
+        return principalFile;
+    }
+
+    public String getPronosticoFile() {
+        return pronosticoFile;
+    }
+    
+    
+    
 //init,pronostico,seguimiento,capInfo,preview,generate
     public String generate(final boolean publish) {
         BasicDBObject aviso = MongoInterface.getInstance().getAdvice(currentId);
@@ -50,6 +63,8 @@ public class HtmlGenerator {
         BasicDBObject seguimiento = (BasicDBObject)aviso.get("seguimiento");
         BasicDBObject capInfo = (BasicDBObject)aviso.get("capInfo");
         String imagefolder = publish?currentId+"/":"/getImage/";
+        principalFile = init.getString("issueSateliteImg");
+        pronosticoFile = pronostico.getString("issueSateliteLocationImg");
         
         String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");

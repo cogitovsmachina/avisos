@@ -108,8 +108,9 @@ public class Init implements Processor {
 
     private String processUploadedFile(FileItem item, String currentId) throws IOException {
         GridFS gridfs = MongoInterface.getInstance().getImagesFS();
-        GridFSInputFile gfsFile = gridfs.createFile(item.getInputStream());
         String filename = currentId + ":" + item.getFieldName() + "_" + item.getName();
+        gridfs.remove(filename);
+        GridFSInputFile gfsFile = gridfs.createFile(item.getInputStream());
         gfsFile.setFilename(filename);
         gfsFile.setContentType(item.getContentType());
         gfsFile.save();
