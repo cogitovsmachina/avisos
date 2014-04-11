@@ -7,6 +7,7 @@
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
 String issueFooter = Utils.getValidFieldFromHash(data, "issueFooter");
 issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HRS TIEMPO DEL CENTRO O ANTES SI OCURREN CAMBIOS SIGNIFICATIVOS":issueFooter;
+String type = (String)request.getAttribute("bulletinType");
 %>
 <!DOCTYPE html>
 <html>
@@ -34,7 +35,7 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
             </div>
         </nav>
         <div class="container main-content">
-            <h3 class="text-center">Emitir nuevo boletín</h3>
+            <h3 class="text-center"><%=Utils.getTituloBoletin(type)%></h3>
             <div class="row progress-indicator-container text-center">
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
