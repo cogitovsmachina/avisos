@@ -59,6 +59,7 @@ public class Pronostico implements Processor {
             }
         }
         request.setAttribute("data", datos);
+        request.setAttribute("bulletinType", parts[2]);
         String url = "/jsp/forecast.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
