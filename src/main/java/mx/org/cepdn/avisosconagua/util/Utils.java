@@ -70,16 +70,16 @@ public class Utils {
         String titulo = "";
         switch (type) {
             case "pacdp":
-                titulo = "Boletín de zonas de baja presión en el Océano Pacífico con potencial ciclónico";
+                titulo = "Bolet&iacute;n de zonas de baja presi&oacute;n en el Oc&eacute;ano Pac&iacute;fico con potencial cicl&oacute;nico";
                 break;
             case "pacht":
-                titulo = "Aviso de Ciclón Tropical del Océano Pacífico";
+                titulo = "Aviso de Cicl&oacute;n Tropical del Oc&eacute;ano Pac&iacute;fico";
                 break;
             case "atldp":
-                titulo = "Boletín de zonas de baja presión en el Océano Atlántico con potencial ciclónico";
+                titulo = "Bolet&iacute;n de zonas de baja presi&oacute;n en el Oc&eacute;ano Atl&aacute;ntico con potencial cicl&oacute;nico";
                 break;
             case "atlht":
-                titulo = "Aviso de Ciclón Tropical del Océano Atlántico";
+                titulo = "Aviso de Cicl&oacute;n Tropical del Oc&oacute;ano Atl&aacute;ntico";
                 break;
         }
         return titulo;

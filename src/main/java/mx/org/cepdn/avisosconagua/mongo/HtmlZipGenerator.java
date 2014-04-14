@@ -28,7 +28,6 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -50,7 +49,7 @@ public class HtmlZipGenerator {
         this.adviceID = adviceID;
         name = adviceID + ".html";
         nameZip = adviceID + ".zip";
-        link = "/resultFiles/" + nameZip;
+        link = "/getFile/" + nameZip;
     }
     
     
@@ -60,7 +59,7 @@ public class HtmlZipGenerator {
             ZipOutputStream zout = new ZipOutputStream(baos);
             zout.setLevel(9);
             zout.putNextEntry(new ZipEntry(name));
-            zout.write(html.generate(true).getBytes());
+            zout.write(html.generate(true).getBytes("ISO8859-1"));
             zout.putNextEntry(new ZipEntry(localFolder));
             if (html.getPrincipalFile()!=null){
                 GridFS gridfs = MongoInterface.getInstance().getImagesFS();
