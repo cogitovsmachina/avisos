@@ -23,6 +23,7 @@
 package mx.org.cepdn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
+import java.util.ArrayList;
 import mx.org.cepdn.avisosconagua.util.Utils;
 
 /**
@@ -36,6 +37,8 @@ public class HtmlGenerator {
     private boolean isDP;
     private String principalFile = null;
     private String pronosticoFile = null;
+    private String previous = null;
+    private String title = null;
 
     public HtmlGenerator(final String currentId) {
         this.currentId = currentId;
@@ -52,6 +55,14 @@ public class HtmlGenerator {
     public String getPronosticoFile() {
         return pronosticoFile;
     }
+    
+    public String getPrevious() {
+        return previous;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
 
 //init,pronostico,seguimiento,capInfo,preview,generate
     public String generate(final boolean publish) {
@@ -65,27 +76,30 @@ public class HtmlGenerator {
         if (null != pronostico) {
             pronosticoFile = pronostico.getString("issueSateliteLocationImg");
         }
-
+        String interpol = init.getString("eventCCalc");
+        interpol = "interpolation".equals(interpol)?"(Por interpolaci&oacute;n)":"";
         String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
+        title = capInfo.getString("issueNumber")+" "+titulo;
         if (isDP) {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
                     + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
-                            init.getString("issueImgDesc"), //TODO corregir campo
+                            init.getString("issueSateliteImgFooter"), 
                             cleanPs(init.getString("eventDescription")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
-                    + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°")
+                    + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
                     + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
-                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"))
+                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"),"")
                     + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
-                    + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h"))
-                    + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d"))
+                    + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h")+"%")
+                    + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d")+"%")
                     + get1r2c("PRON&Oacute;STICO DE LLUVIA:", init.getString("eventRainForecast"))
                     + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         } else {
+            previous = seguimiento.getString("previousIssue");
             String wind = "";
             if ((!"".equals(init.getString("eventWind120kmNE")))
                     || (!"".equals(init.getString("eventWind120kmSE")))
@@ -115,18 +129,25 @@ public class HtmlGenerator {
                 wind += get1r5c("OLEAJE 4 m", init.getString("seas4mNE"),
                         init.getString("seas4mSE"), init.getString("seas4mSO"), init.getString("seas4mNO"));
             }
+            String sectionC ="";
+            ArrayList<Statistics> secclist = MongoInterface.getInstance().getAdviceChain(currentId);
+            for (Statistics secc : secclist){
+                sectionC += getSectionCRow(secc.getAviso(), secc.getFecha(), secc.getLatitud(), 
+                        secc.getLongitud(), secc.getDistancia(), secc.getViento(), secc.getCategoria(), secc.getAvance());
+            }
+            
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
                     + getTitulo(capInfo.getString("eventHeadline"), "/getImage/" + init.getString("issueSateliteImg"),
-                            init.getString("issueImgDesc"), //TODO corregir campo
+                            init.getString("issueSateliteImgFooter"), 
                             cleanPs(init.getString("eventDescription")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
-                    + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°")
+                    + get1r3c("UBICACI&Oacute;N DEL CENTRO DEL CICL&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
                     + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
                     + getZonaAlerta(init.getString(""))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
-                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"))
+                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"), "")
                     + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
                     + get1r2c("DIAMETRO DEL OJO [Km]", init.getString("eventCDiameter"))
                     + vientosTitle
@@ -134,8 +155,9 @@ public class HtmlGenerator {
                     + get1r2c("DIAMETRO PROMEDIO DE FUERTE CONVECCI&Oacute;N", init.getString("eventDiameterConvection"))
                     + get1r2c("COMENTARIOS ADICIONALES:", cleanPs(init.getString("eventComments")))
                     + get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
-                    + headerSecB
-                    + tituloSecC
+                    + headerSecB //TODO Sección B
+                    + tituloSecC 
+                    + sectionC
                     + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         }
     }
@@ -745,7 +767,7 @@ public class HtmlGenerator {
                 + " </tr>";
     }
 
-    private static String get1r3c(String c1, String c2, String c3) {
+    private static String get1r3c(String c1, String c2, String c3, String inter) {
         return " <tr style='mso-yfti-irow:7;height:20.85pt'>\n"
                 + "  <td width=237 colspan=7 style='width:237.1pt;border:solid windowtext 1.0pt;\n"
                 + "  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;\n"
@@ -759,8 +781,8 @@ public class HtmlGenerator {
                 + "  7.05pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;\n"
                 + "  mso-element-anchor-horizontal:column;mso-element-top:.05pt;mso-height-rule:\n"
                 + "  exactly'><span lang=ES-MX style='font-size:10.0pt;font-family:\"Arial Narrow\";\n"
-                + "  mso-ansi-language:ES-MX;mso-fareast-language:ES-MX;mso-no-proof:yes'>(Por\n"
-                + "  interpolación)<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>\n"
+                + "  mso-ansi-language:ES-MX;mso-fareast-language:ES-MX;mso-no-proof:yes'>"
+                +inter+"<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>\n"
                 + "  </td>\n"
                 + "  <td width=138 colspan=6 style='width:138.2pt;border-top:none;border-left:\n"
                 + "  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;\n"
@@ -797,7 +819,7 @@ public class HtmlGenerator {
                 + "  none;text-autospace:none'><span class=MsoIntenseEmphasis><span lang=ES-MX\n"
                 + "  style='font-size:11.0pt;mso-bidi-font-size:10.0pt;font-family:Arial;\n"
                 + "  color:windowtext;mso-ansi-language:ES-MX;font-style:normal;mso-bidi-font-style:\n"
-                + "  italic'>" + sintesis + "</span></span><span\n"
+                + "  italic'>AVISO: " + sintesis + "</span></span><span\n"
                 + "  class=MsoIntenseEmphasis><span lang=ES-MX style='font-size:9.0pt;mso-bidi-font-size:\n"
                 + "  10.0pt;font-family:Arial;color:windowtext;mso-ansi-language:ES-MX;font-style:\n"
                 + "  normal;mso-bidi-font-style:italic'><o:p></o:p></span></span></p>\n"
