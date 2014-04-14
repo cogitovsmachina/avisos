@@ -84,10 +84,13 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Umbral de distancia de las costas nacionales*</label>
+                            <%
+                            String selectedValue = Utils.getValidFieldFromHash(data, "eventCoastDistance");
+                            %>
                             <select name="eventCoastDistance" class="form-control" data-required="true" data-description="common">
-                                <option value="lessthan500km">Menos de 500Km</option>
-                                <option value="morethan500km">Más de 500Km</option>
-                                <option value="land">En tierra</option>
+                                <option value="lessthan500km" <%=selectedValue.equalsIgnoreCase("lessthan500km")?"selected":""%>>Menos de 500Km</option>
+                                <option value="morethan500km" <%=selectedValue.equalsIgnoreCase("morethan500km")?"selected":""%>>Más de 500Km</option>
+                                <option value="land" <%=selectedValue.equalsIgnoreCase("land")?"selected":""%>>En tierra</option>
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
@@ -135,7 +138,7 @@ while(keys.hasNext()) {
                             <label class="control-label">Vientos máximos &lpar;Km/h&rpar;*</label>
                             <div class="form-inline">
                                 <input name="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
-                                <input name="eventWndSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWndSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWindSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
                             </div>
                         </div>
                     </div>
