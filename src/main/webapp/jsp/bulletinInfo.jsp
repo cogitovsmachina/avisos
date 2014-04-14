@@ -48,7 +48,7 @@ String type = (String)request.getAttribute("bulletinType");
                 <form role="form" action="" method="post">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Número de boletín*</label>
+                            <label class="control-label">Número de aviso*</label>
                             <input type="text" name="issueNumber" value="<%=Utils.getValidFieldFromHash(data, "issueNumber")%>" class="form-control" data-required="true" data-description="common">
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
@@ -92,7 +92,7 @@ String type = (String)request.getAttribute("bulletinType");
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 form-group">
-                            <label class="control-label">Pie del boletín*</label>
+                            <label class="control-label">Pie del aviso*</label>
                             <textarea name="issueFooter" rows="7" class="form-control" data-required="true" data-description="common"><%=issueFooter%></textarea>
                         </div>
                     </div>
