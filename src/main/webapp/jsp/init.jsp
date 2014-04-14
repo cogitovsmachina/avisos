@@ -66,7 +66,7 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-12 col-md-12 form-group">
                             <label class="control-label">Situación actual*</label>
-                            <textarea name="eventDescriptionHTML" id="eventDescriptionHTML" value="<%=Utils.getValidFieldFromHash(data, "eventDescription")%>" class="ckeditor" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventDescriptionHTML" id="eventDescriptionHTML" class="ckeditor" data-required="true" data-description="common"><%=Utils.getValidFieldFromHash(data, "eventDescriptionHTML")%></textarea>
                             <input type="hidden" id="eventDescription" name="eventDescription"/>
                         </div>
                     </div>
@@ -94,10 +94,13 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Umbral de distancia de las costas nacionales*</label>
+                            <%
+                            String selectedValue = Utils.getValidFieldFromHash(data, "eventCoastDistance");
+                            %>
                             <select name="eventCoastDistance" class="form-control" data-required="true" data-description="common">
-                                <option value="lessthan500km">Menos de 500Km</option>
-                                <option value="morethan500km">Más de 500Km</option>
-                                <option value="land">En tierra</option>
+                                <option value="lessthan500km" <%=selectedValue.equalsIgnoreCase("lessthan500km")?"selected":""%>>Menos de 500Km</option>
+                                <option value="morethan500km" <%=selectedValue.equalsIgnoreCase("morethan500km")?"selected":""%>>Más de 500Km</option>
+                                <option value="land" <%=selectedValue.equalsIgnoreCase("land")?"selected":""%>>En tierra</option>
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
@@ -186,7 +189,7 @@ while(keys.hasNext()) {
                             <label class="control-label">Vientos máximos &lpar;Km/h&rpar;*</label>
                             <div class="form-inline">
                                 <input name="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
-                                <input name="eventWndSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWindSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
@@ -202,8 +205,8 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Radio de vientos de 63Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind63kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind63kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input name="eventWind63kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input name="eventWind63kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSE")%>" placeholder="SE" class="form-control input-sector"/>
                                 <input name="eventWind63kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSO")%>" placeholder="SO" class="form-control input-sector"/>
                                 <input name="eventWind63kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
@@ -213,8 +216,8 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Radio de vientos de 95Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind95kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind95kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input name="eventWind95kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input name="eventWind95kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSE")%>" placeholder="SE" class="form-control input-sector"/>
                                 <input name="eventWind95kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSO")%>" placeholder="SO" class="form-control input-sector"/>
                                 <input name="eventWind95kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
@@ -222,8 +225,8 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Radio de vientos de 120Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind120kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind120kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input name="eventWind120kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input name="eventWind120kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSE")%>" placeholder="SE" class="form-control input-sector"/>
                                 <input name="eventWind120kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSO")%>" placeholder="SO" class="form-control input-sector"/>
                                 <input name="eventWind120kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
@@ -244,10 +247,10 @@ while(keys.hasNext()) {
                             <input name="eventDiameterConvection" value="<%=Utils.getValidFieldFromHash(data, "eventDiameterConvection")%>" type="text" class="form-control"/>
                         </div>
                     </div>
-                        <div class="row">
+                    <div class="row">
                         <div class="col-lg-12 col-md-12 form-group">
                             <label class="control-label">Comentarios adicionales*</label>
-                            <textarea name="eventComments" rows="7" value="<%=Utils.getValidFieldFromHash(data, "eventComments")%>" class="form-control" data-required="true" data-description="common"></textarea>
+                            <textarea name="eventComments" rows="7" class="form-control" data-required="true" data-description="common"><%=Utils.getValidFieldFromHash(data, "eventComments")%></textarea>
                         </div>
                     </div>
                     <div class="row">
