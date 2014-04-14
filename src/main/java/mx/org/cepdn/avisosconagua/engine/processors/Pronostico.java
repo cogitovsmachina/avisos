@@ -47,7 +47,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @author serch
  */
 public class Pronostico implements Processor {
-    private static final int MAX_SIZE = 1 * 1024 * 1024;
+    private static final int MAX_SIZE = 3 * 1024 * 1024;
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
@@ -98,6 +98,8 @@ public class Pronostico implements Processor {
                 }
             }
         }
+        BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);
+        procesaImagen(parametros, anterior);
         MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
     }
     
@@ -109,6 +111,14 @@ public class Pronostico implements Processor {
         gfsFile.setContentType(item.getContentType());
         gfsFile.save();
         return filename;
+    }
+    
+    private void procesaImagen(HashMap<String, String> parametros, BasicDBObject anterior) {
+        if (null == parametros.get("issueSateliteLocationImg")){
+            if(null!=anterior.getString("issueSateliteLocationImg")){
+                parametros.put("issueSateliteLocationImg", anterior.getString("issueSateliteLocationImg"));
+            }
+        }
     }
     
 }
