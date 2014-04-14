@@ -157,9 +157,11 @@ public class MongoInterface {
         return ret;
     }
 
-    public void setGenerated(String adviceID, String previous) {
+    public void setGenerated(String adviceID, String previous, String title) {
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
-        col.insert(new BasicDBObject(INTERNAL_FORM_ID, adviceID).append("previousIssue", previous)
+        col.insert(new BasicDBObject(INTERNAL_FORM_ID, adviceID)
+                .append(GENERATED_TITLE, title)
+                .append("previousIssue", previous)
                 .append("generationTime", Utils.sdf.format(new Date())));
     }
     

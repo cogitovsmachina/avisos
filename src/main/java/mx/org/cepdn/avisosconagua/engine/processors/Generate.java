@@ -57,7 +57,7 @@ public class Generate implements Processor {
             request.setAttribute("htmlUrl",htmlFile.getLink());
         }
         request.setAttribute("titulo", Utils.getTituloBoletin(parts[2]));
-        MongoInterface.getInstance().setGenerated(adviceID,htmlFile.getPrevious());
+        MongoInterface.getInstance().setGenerated(adviceID,htmlFile.getPrevious(),htmlFile.getTitle());
         request.setAttribute("isdp", parts[2].endsWith("dp"));
         request.setAttribute("bulletinType", parts[2]);
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/finish.jsp");

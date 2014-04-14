@@ -56,6 +56,9 @@ public class HtmlZipGenerator {
         return html.getPrevious();
     }
     
+    public String getTitle(){
+        return html.getTitle();
+    }
     
     public void generate() {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {

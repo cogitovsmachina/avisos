@@ -38,6 +38,7 @@ public class HtmlGenerator {
     private String principalFile = null;
     private String pronosticoFile = null;
     private String previous = null;
+    private String title = null;
 
     public HtmlGenerator(final String currentId) {
         this.currentId = currentId;
@@ -58,6 +59,10 @@ public class HtmlGenerator {
     public String getPrevious() {
         return previous;
     }
+    
+    public String getTitle() {
+        return title;
+    }
 
 //init,pronostico,seguimiento,capInfo,preview,generate
     public String generate(final boolean publish) {
@@ -75,6 +80,7 @@ public class HtmlGenerator {
         interpol = "interpolation".equals(interpol)?"(Por interpolaci&oacute;n)":"";
         String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
+        title = capInfo.getString("issueNumber")+" "+titulo;
         if (isDP) {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
@@ -88,8 +94,8 @@ public class HtmlGenerator {
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
                     + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"),"")
                     + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
-                    + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h"))
-                    + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d"))
+                    + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h")+"%")
+                    + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d")+"%")
                     + get1r2c("PRON&Oacute;STICO DE LLUVIA:", init.getString("eventRainForecast"))
                     + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         } else {
