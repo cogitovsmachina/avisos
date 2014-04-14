@@ -5,6 +5,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
+HashMap<String,String> trackData = (HashMap<String,String>)request.getAttribute("trackData");
 String type = (String)request.getAttribute("bulletinType");
 %>
 <!DOCTYPE html>
@@ -72,7 +73,42 @@ String type = (String)request.getAttribute("bulletinType");
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <tr>
+                                        <td>
+                                            <input name="issueNumber" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueNumber")%>" class="form-control" data-required="true" data-description="common">
+                                        </td>
+                                        <td>
+                                            <input name="trackingLocalTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "trackingLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
+                                        </td>
+                                        <td>
+                                            <span><%=Utils.getValidFieldFromHash(trackData, "eventCLat")%></span>
+                                        </td>
+                                        <td>
+                                            <span><%=Utils.getValidFieldFromHash(trackData, "eventCLon")%></span>
+                                        </td>
+                                        <td>
+                                            <span><%=Utils.getValidFieldFromHash(trackData, "eventDistance")%></span>
+                                        </td>
+                                        <td>
+                                            <span><%=Utils.getValidFieldFromHash(trackData, "eventWindSpeedSust")%>/<%=Utils.getValidFieldFromHash(trackData, "eventWindSpeedMax")%></span>
+                                        </td>
+                                        <td>
+                                            <select name="eventCategory" class="form-control">
+                                                <option value="DT">Depresión Tropical</option>
+                                                <option value="TT">Tormenta Tropical</option>
+                                                <option value="HR1">Huracán Categoría I</option>
+                                                <option value="HR2">Huracán Categoría II</option>
+                                                <option value="HR3">Huracán Categoría III</option>
+                                                <option value="HR4">Huracán Categoría IV</option>
+                                                <option value="HR5">Huracán Categoría V</option>
+                                                <option value="RBP">Baja remanente</option>
+                                                <option value="RTT">Regeneración a Tormenta Tropical</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <span><%=Utils.getValidFieldFromHash(trackData, "eventCurrentPath")%></span>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
