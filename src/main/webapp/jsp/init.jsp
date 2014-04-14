@@ -93,7 +93,7 @@ while(keys.hasNext()) {
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Distancia de las costas nacionales*</label>
+                            <label class="control-label">Umbral de distancia de las costas nacionales*</label>
                             <select name="eventCoastDistance" class="form-control" data-required="true" data-description="common">
                                 <option value="lessthan500km">Menos de 500Km</option>
                                 <option value="morethan500km">Más de 500Km</option>
@@ -129,20 +129,20 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Nivel de alertamiento*</label><br>
                             <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default <%=risk.equalsIgnoreCase("green")?"active":""%>">
-                                    <input type="radio" name="eventRisk" value="green" <%=risk.equalsIgnoreCase("green")?"checked":""%>>Verde
-                                </label>
+                                <!--label class="btn btn-default <%=risk.equalsIgnoreCase("green")?"active":""%>">
+                                    <input type="radio" name="eventRisk" value="green" <%=risk.equalsIgnoreCase("green")?"checked":""%>><span class="fa fa-circle alert-yellow"></span>Verde
+                                </label-->
                                 <label class="btn btn-default <%=risk.equalsIgnoreCase("yellow")?"active":""%>">
-                                    <input type="radio" name="eventRisk" value="yellow" <%=risk.equalsIgnoreCase("yellow")?"checked":""%>">Amarillo
+                                    <input type="radio" name="eventRisk" value="yellow" <%=risk.equalsIgnoreCase("yellow")?"checked":""%>><span class="fa fa-circle fa-fw alert-yellow"></span>Amarillo
                                 </label>
                                 <label class="btn btn-default <%=risk.equalsIgnoreCase("orange")?"active":""%>">
-                                    <input type="radio" name="eventRisk" value="orange" <%=risk.equalsIgnoreCase("orange")?"checked":""%>>Naranja
+                                    <input type="radio" name="eventRisk" value="orange" <%=risk.equalsIgnoreCase("orange")?"checked":""%>><span class="fa fa-circle fa-fw alert-orange"></span>Naranja
                                 </label>
                                 <label class="btn btn-default <%=risk.equalsIgnoreCase("red")?"active":""%>">
-                                    <input type="radio" name="eventRisk" value="red" <%=risk.equalsIgnoreCase("red")?"checked":""%>>Rojo
+                                    <input type="radio" name="eventRisk" value="red" <%=risk.equalsIgnoreCase("red")?"checked":""%>><span class="fa fa-circle fa-fw alert-red"></span>Rojo
                                 </label>
                                 <label class="btn btn-default <%=risk.equalsIgnoreCase("purple")?"active":""%>">
-                                    <input type="radio" name="eventRisk" value="purple" <%=risk.equalsIgnoreCase("purple")?"checked":""%>>Púrpura
+                                    <input type="radio" name="eventRisk" value="purple" <%=risk.equalsIgnoreCase("purple")?"checked":""%>><span class="fa fa-circle fa-fw alert-purple"></span>Púrpura
                                 </label>
                             </div>
                         </div>
