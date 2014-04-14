@@ -58,7 +58,7 @@ public class Statistics {
             this.latitud = init.getString("eventCLat");
             this.longitud = init.getString("eventCLon");
             this.distancia = init.getString("eventDistance");
-            this.viento = init.getString("eventWindSpeedSust")+" / "+init.getString("eventWndSpeedMax");
+            this.viento = init.getString("eventWindSpeedSust")+" / "+init.getString("eventWindSpeedMax");
             this.categoria = seguimiento.getString("eventCategory");
             this.avance = init.getString("eventCurrentPath");
     }
@@ -98,8 +98,12 @@ public class Statistics {
     public String toString() {
         return "{\"aviso\":\"" + aviso + "\",\"fecha\":\"" + fecha + "\",\"latitud\":\""
                 + latitud + "\",\"longitud\":\"" + longitud + "\",\"distancia\":\""
-                + distancia + "\",\"viento\":\"" + viento + "\",\"categoria\":\"" + categoria
-                + "\",\"avance\":\"" + avance + "\"}";
+                + escapeQuote(distancia) + "\",\"viento\":\"" + viento + "\",\"categoria\":\"" + escapeQuote(categoria)
+                + "\",\"avance\":\"" + escapeQuote(avance) + "\"}";
+    }
+    
+    private String escapeQuote(String string){
+        return string.replaceAll("\"", "\\\\\"");
     }
 
 }
