@@ -83,7 +83,7 @@ while(keys.hasNext()) {
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Distancia de las costas nacionales*</label>
+                            <label class="control-label">Umbral de distancia de las costas nacionales*</label>
                             <select name="eventCoastDistance" class="form-control" data-required="true" data-description="common">
                                 <option value="lessthan500km">Menos de 500Km</option>
                                 <option value="morethan500km">Más de 500Km</option>
