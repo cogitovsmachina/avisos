@@ -21,38 +21,52 @@
  * http://www.semanticwebbuilder.org
  */
 
-package mx.org.cepdn.avisosconagua.engine.processors;
+package mx.org.cepdn.avisosconagua.mongo;
 
-import com.mongodb.BasicDBObject;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import mx.org.cepdn.avisosconagua.engine.Processor;
-import mx.org.cepdn.avisosconagua.mongo.HtmlGenerator;
+import com.google.publicalerts.cap.Alert;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
 
 /**
  *
  * @author serch
  */
-public class Preview implements Processor {
-    private static final String ADVICE_ID = "internalId";
-
-    @Override
-    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
-        //response.setContentType("text/html;charset=UTF-8");
-        String currentId = (String) request.getSession(true).getAttribute(ADVICE_ID);
-        HtmlGenerator gen = new HtmlGenerator(currentId);
-        //response.getWriter().print(gen.generate());
-        request.setAttribute("generatedHTML", gen.generate(false));
-        request.setAttribute("isdp", gen.isDP());
-        request.setAttribute("bulletinType", parts[2]);
-        request.getRequestDispatcher("/jsp/preview.jsp").forward(request, response);
-    }
-
-    @Override
-    public void processForm(HttpServletRequest request, String[] parts, String currentId) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+public class CAPFileGenerator {
+    private CAPGenerator generator;
+    private String name;
+    private boolean isOK = false;
+    private String link;
+    
+    public CAPFileGenerator(String adviceID) {
+        generator = new CAPGenerator(adviceID);
+        name = adviceID+":cap.xml";
+        link = "/getFile/"+name;
+        
     }
     
+    public void generate() {
+        GridFS fs = MongoInterface.getInstance().getGeneratedFS();
+        fs.remove(name);
+        GridFSInputFile infile = fs.createFile(generator.generate().getBytes());
+        infile.setContentType("text/xml");
+        infile.setFilename(name);
+        infile.save();
+        isOK = true;
+    }
+
+    public boolean isOK() {
+        return isOK;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Alert getAlert() {
+        return generator.generateAlert();
+    }
 }

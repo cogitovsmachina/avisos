@@ -34,115 +34,133 @@ public class HtmlGenerator {
     private final String currentId;
     private static final String backimg = "fondo.gif";
     private boolean isDP;
+    private String principalFile = null;
+    private String pronosticoFile = null;
 
-    public HtmlGenerator(String currentId) {
+    public HtmlGenerator(final String currentId) {
         this.currentId = currentId;
     }
-    
-    public boolean isDP(){
+
+    public boolean isDP() {
         return isDP;
     }
+
+    public String getPrincipalFile() {
+        return principalFile;
+    }
+
+    public String getPronosticoFile() {
+        return pronosticoFile;
+    }
+
 //init,pronostico,seguimiento,capInfo,preview,generate
-    public String generate() {
+    public String generate(final boolean publish) {
         BasicDBObject aviso = MongoInterface.getInstance().getAdvice(currentId);
-        BasicDBObject init = (BasicDBObject)aviso.get("init");
-        BasicDBObject pronostico = (BasicDBObject)aviso.get("pronostico");
-        BasicDBObject seguimiento = (BasicDBObject)aviso.get("seguimiento");
-        BasicDBObject capInfo = (BasicDBObject)aviso.get("capInfo");
-        
+        BasicDBObject init = (BasicDBObject) aviso.get("init");
+        BasicDBObject pronostico = (BasicDBObject) aviso.get("pronostico");
+        BasicDBObject seguimiento = (BasicDBObject) aviso.get("seguimiento");
+        BasicDBObject capInfo = (BasicDBObject) aviso.get("capInfo");
+        String imagefolder = publish ? currentId + "/" : "/getImage/";
+        principalFile = init.getString("issueSateliteImg");
+        if (null != pronostico) {
+            pronosticoFile = pronostico.getString("issueSateliteLocationImg");
+        }
+
         String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
         if (isDP) {
-            return header + getEncabezado(backimg, titulo, 
-                    Utils.getDiaText(capInfo.getString("issueDate")), 
+            return header + getEncabezado(backimg, titulo,
+                    Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(capInfo.getString("eventHeadline"), "/getImage/"+init.getString("issueSateliteImg"), 
+                    + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
                             init.getString("issueImgDesc"), //TODO corregir campo
                             cleanPs(init.getString("eventDescription")))
-                    +get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
-                    +get1r3c("UBICACIÓN DEL CENTRO DE BAJA PRESIÓN", "LATITUD NORTE: "+init.getString("eventCLat")+"°", "LONGITUD OESTE: "+init.getString("eventCLon")+"°")
-                    +get1r2c("DISTANCIA AL LUGAR MÁS CERCANO", init.getString("eventDistance"))
-                    +get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
-                    +get1r3c("VIENTOS MÁXIMOS [Km/h]:", "SOSTENIDOS: "+init.getString("eventWindSpeedSust"), "RACHAS: "+init.getString("eventWndSpeedMax"))
-                    +get1r2c("PRESIÓN MÍNIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
-                    +get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h"))
-                    +get1r2c("POTENCIAL DE DESARROLLO EN CINCO DÍAS", init.getString("eventForecast5d"))
-                    +get1r2c("PRONÓSTICO DE LLUVIA:", init.getString("eventRainForecast"))
-                    +getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
+                    + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
+                    + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°")
+                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
+                    + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
+                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"))
+                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
+                    + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h"))
+                    + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d"))
+                    + get1r2c("PRON&Oacute;STICO DE LLUVIA:", init.getString("eventRainForecast"))
+                    + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         } else {
             String wind = "";
-            if ((!"".equals(init.getString("eventWind120kmNE"))) || 
-                    (!"".equals(init.getString("eventWind120kmSE"))) ||
-                    (!"".equals(init.getString("eventWind120kmSO"))) ||
-                    (!"".equals(init.getString("eventWind120kmNO"))))
-                wind+= get1r5c("RADIO DE VIENTOS DE 120 km/h", init.getString("eventWind120kmNE"), 
+            if ((!"".equals(init.getString("eventWind120kmNE")))
+                    || (!"".equals(init.getString("eventWind120kmSE")))
+                    || (!"".equals(init.getString("eventWind120kmSO")))
+                    || (!"".equals(init.getString("eventWind120kmNO")))) {
+                wind += get1r5c("RADIO DE VIENTOS DE 120 km/h", init.getString("eventWind120kmNE"),
                         init.getString("eventWind120kmSE"), init.getString("eventWind120kmSO"), init.getString("eventWind120kmNO"));
-            if ((!"".equals(init.getString("eventWind95kmNE"))) || 
-                    (!"".equals(init.getString("eventWind95kmSE"))) ||
-                    (!"".equals(init.getString("eventWind95kmSO"))) ||
-                    (!"".equals(init.getString("eventWind95kmNO"))))
-                wind+= get1r5c("RADIO DE VIENTOS DE 95 km/h", init.getString("eventWind95kmNE"), 
+            }
+            if ((!"".equals(init.getString("eventWind95kmNE")))
+                    || (!"".equals(init.getString("eventWind95kmSE")))
+                    || (!"".equals(init.getString("eventWind95kmSO")))
+                    || (!"".equals(init.getString("eventWind95kmNO")))) {
+                wind += get1r5c("RADIO DE VIENTOS DE 95 km/h", init.getString("eventWind95kmNE"),
                         init.getString("eventWind95kmSE"), init.getString("eventWind95kmSO"), init.getString("eventWind95kmNO"));
-            if ((!"".equals(init.getString("eventWind63kmNE"))) || 
-                    (!"".equals(init.getString("eventWind63kmSE"))) ||
-                    (!"".equals(init.getString("eventWind63kmSO"))) ||
-                    (!"".equals(init.getString("eventWind63kmNO"))))
-                wind+= get1r5c("RADIO DE VIENTOS DE 63 km/h", init.getString("eventWind63kmNE"), 
+            }
+            if ((!"".equals(init.getString("eventWind63kmNE")))
+                    || (!"".equals(init.getString("eventWind63kmSE")))
+                    || (!"".equals(init.getString("eventWind63kmSO")))
+                    || (!"".equals(init.getString("eventWind63kmNO")))) {
+                wind += get1r5c("RADIO DE VIENTOS DE 63 km/h", init.getString("eventWind63kmNE"),
                         init.getString("eventWind63kmSE"), init.getString("eventWind63kmSO"), init.getString("eventWind63kmNO"));
-            if ((!"".equals(init.getString("seas4mNE"))) || 
-                    (!"".equals(init.getString("seas4mSE"))) ||
-                    (!"".equals(init.getString("seas4mSO"))) ||
-                    (!"".equals(init.getString("seas4mNO"))))
-                wind+= get1r5c("OLEAJE 4 m", init.getString("seas4mNE"), 
+            }
+            if ((!"".equals(init.getString("seas4mNE")))
+                    || (!"".equals(init.getString("seas4mSE")))
+                    || (!"".equals(init.getString("seas4mSO")))
+                    || (!"".equals(init.getString("seas4mNO")))) {
+                wind += get1r5c("OLEAJE 4 m", init.getString("seas4mNE"),
                         init.getString("seas4mSE"), init.getString("seas4mSO"), init.getString("seas4mNO"));
-            return header + getEncabezado(backimg, titulo, 
-                    Utils.getDiaText(capInfo.getString("issueDate")), 
+            }
+            return header + getEncabezado(backimg, titulo,
+                    Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(capInfo.getString("eventHeadline"), "/getImage/"+init.getString("issueSateliteImg"), 
+                    + getTitulo(capInfo.getString("eventHeadline"), "/getImage/" + init.getString("issueSateliteImg"),
                             init.getString("issueImgDesc"), //TODO corregir campo
                             cleanPs(init.getString("eventDescription")))
-                    +get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
-                    +get1r3c("UBICACIÓN DEL CENTRO DE BAJA PRESIÓN", "LATITUD NORTE: "+init.getString("eventCLat")+"°", "LONGITUD OESTE: "+init.getString("eventCLon")+"°")
-                    +get1r2c("DISTANCIA AL LUGAR MÁS CERCANO", init.getString("eventDistance"))
-                    +getZonaAlerta(init.getString(""))
-                    +get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
-                    +get1r3c("VIENTOS MÁXIMOS [Km/h]:", "SOSTENIDOS: "+init.getString("eventWindSpeedSust"), "RACHAS: "+init.getString("eventWndSpeedMax"))
-                    +get1r2c("PRESIÓN MÍNIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
-                    +get1r2c("DIAMETRO DEL OJO [Km]", init.getString("eventCDiameter"))
-                    +vientosTitle
-                    +wind
-                    +get1r2c("DIAMETRO PROMEDIO DE FUERTE CONVECCIÓN", init.getString("eventDiameterConvection"))
-                    +get1r2c("COMENTARIOS ADICIONALES:", cleanPs(init.getString("eventComments")))
-                    +get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
-                    +headerSecB
-                    
-                    
-                    
-                    
-                    +tituloSecC
-                    
-                    
-                    
-                    
-                    
-                    +getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
+                    + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
+                    + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°")
+                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
+                    + getZonaAlerta(init.getString(""))
+                    + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
+                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"))
+                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
+                    + get1r2c("DIAMETRO DEL OJO [Km]", init.getString("eventCDiameter"))
+                    + vientosTitle
+                    + wind
+                    + get1r2c("DIAMETRO PROMEDIO DE FUERTE CONVECCI&Oacute;N", init.getString("eventDiameterConvection"))
+                    + get1r2c("COMENTARIOS ADICIONALES:", cleanPs(init.getString("eventComments")))
+                    + get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
+                    + headerSecB
+                    + tituloSecC
+                    + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         }
     }
-    private static String cleanPs(String stoclean){
+
+    private static String cleanPs(String stoclean) {
         return stoclean.replaceAll("<p>", "").replaceAll("</p>", "<br>");
-                
+
     }
 
-    private static String getSistemaLegend(String key){
+    private static String getSistemaLegend(String key) {
         String ret = "";
-        switch (key){
-            case "lessthan500km": ret = "Sistema a menos de 500 km de las costas"; break;
-            case "morethan500km": ret = "Sistema a mas de 500 km de las costas"; break;
-            case "land": ret = "Sistema en tierra"; break;    
+        switch (key) {
+            case "lessthan500km":
+                ret = "Sistema a menos de 500 km de las costas";
+                break;
+            case "morethan500km":
+                ret = "Sistema a mas de 500 km de las costas";
+                break;
+            case "land":
+                ret = "Sistema en tierra";
+                break;
         }
         return ret;
     }
-    
+
     private static String getFooter(String elaboro, String reviso, String pie) {
         return " <tr style='mso-yfti-irow:68;height:20.85pt'>\n"
                 + "  <td width=514 colspan=19 style='width:513.8pt;border:solid windowtext 1.0pt;\n"
