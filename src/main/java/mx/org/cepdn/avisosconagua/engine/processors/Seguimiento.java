@@ -50,7 +50,30 @@ public class Seguimiento implements Processor {
                 //System.out.println("colocando: "+key+" : "+datos.get(key));
             }
         }
+        
+        //Get previously saved data to populate first row
+        HashMap<String, String> seguimiento = new HashMap<>();
+        BasicDBObject advice = MongoInterface.getInstance().getAdvice((String)request.getSession(true).getAttribute("internalId"));
+        if (null != advice) {
+            //Add data from init section
+            BasicDBObject section = (BasicDBObject) advice.get("init");
+            if (null != section) {
+                for (String key : section.keySet()) {
+                    seguimiento.put(key, section.getString(key));
+                }
+            }
+            
+            //Add data from tracking section
+            section = (BasicDBObject) advice.get("seguimiento");
+            if (null != section) {
+                for (String key : section.keySet()) {
+                    seguimiento.put(key, section.getString(key));
+                }
+            }
+        }
+        
         request.setAttribute("data", datos);
+        request.setAttribute("trackData", seguimiento);
         request.setAttribute("bulletinType", parts[2]);
         String url = "/jsp/tracking.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(url);
