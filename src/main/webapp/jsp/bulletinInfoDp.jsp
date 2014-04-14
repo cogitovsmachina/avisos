@@ -33,7 +33,8 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
         </nav>
         <div class="container main-content">
             <h3 class="text-center"><%=Utils.getTituloBoletin(type)%></h3>
-            <div class="row progress-indicator-container text-center">
+            <h4 class="text-center text-muted hidden-lg hidden-md">Información de emisión</h4>
+            <div class="row progress-indicator-container text-center visible-lg visible-md">
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
                     --><li class="current">Información de emisión</li><!--
@@ -44,11 +45,11 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
             <div class="row inner-container">
                 <form role="form" action="" method="post">
                     <div class="row">
-                        <div class="col-lg-6 form-group">
-                            <label class="control-label">Número de boletín*</label>
+                        <div class="col-lg-6 col-md-6 form-group">
+                            <label class="control-label">Número de aviso*</label>
                             <input type="text" name="issueNumber" value="<%=Utils.getValidFieldFromHash(data, "issueNumber")%>" class="form-control" data-required="true" data-description="common">
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Fecha y hora de emisión*</label>
                             <div class="form-inline">
                                 <div class="input-group date datePicker">
@@ -61,7 +62,7 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Fecha y hora de siguiente emisión*</label>
                             <div class="form-inline">
                                 <div class="input-group date datePicker">
@@ -72,29 +73,29 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Síntesis (cintillo)*</label>
                             <input name="eventHeadline" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Meteorólogo que elabora*</label>
                             <input name="issueMetheorologist" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueMetheorologist")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Meteorólogo que revisa*</label>
                             <input name="issueShiftBoss" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueShiftBoss")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 form-group">
-                            <label class="control-label">Pie del boletín</label>
+                        <div class="col-lg-12 col-md-12 form-group">
+                            <label class="control-label">Pie del aviso</label>
                             <textarea name="issueFooter" rows="7" class="form-control"><%=issueFooter%></textarea>
                         </div>
                     </div>
                     <div class="row text-right">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 col-md-12">
                             <button class="btn btn-default"><span class="fa fa-times fa-fw"></span>Cancelar</button>
                             <button type="submit" class="btn btn-primary"><span class="fa fa-arrow-right fa-fw"></span>Continuar</button>
                         </div>

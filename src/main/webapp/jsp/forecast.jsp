@@ -30,7 +30,8 @@ String type = (String)request.getAttribute("bulletinType");
         </nav>
         <div class="container main-content">
             <h3 class="text-center"><%=Utils.getTituloBoletin(type)%></h3>
-            <div class="row progress-indicator-container text-center">
+            <h4 class="text-center text-muted hidden-lg hidden-md">Predicción de avance</h4>
+            <div class="row progress-indicator-container text-center visible-lg visible-md">
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
                     --><li class="current">Predicción de avance</li><!--
@@ -43,7 +44,7 @@ String type = (String)request.getAttribute("bulletinType");
             <div class="row inner-container">
                 <form role="form" action="" method="post" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Mapa de localización*</label>
                             <div class="input-group">
                                 <span class="input-group-btn">
@@ -58,7 +59,13 @@ String type = (String)request.getAttribute("bulletinType");
                                 <input type="text" class="form-control" value="<%=fileName%>" disabled data-required="true" data-description="common" />
                             </div>
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 col-md-6 form-group">
+                            <label class="control-label">Pie de la imagen*</label>
+                            <input type="text" name="issueSateliteLocationImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteLocationImgFooter")%>" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Enlace al forecast de NHC</label>
                             <div class="input-group">
                                 <input type="text" name="nhcLink" class="form-control">
@@ -69,24 +76,24 @@ String type = (String)request.getAttribute("bulletinType");
                         </div>
                     </div>
                     <div class="row">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
-                                    <th class="text-center">Latitud norte</th>
-                                    <th class="text-center">Longitud oeste</th>
-                                    <th class="text-center">Vientos (Km/h)<br>SOST./RACHAS</th>
-                                    <th class="text-center">Categoría</th>
-                                    <th class="text-center">Ubicación (Km)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
+                        <div class="col-lg-12 col-md-12 table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
+                                        <th class="text-center">Latitud norte</th>
+                                        <th class="text-center">Longitud oeste</th>
+                                        <th class="text-center">Vientos (Km/h)<br>SOST./RACHAS</th>
+                                        <th class="text-center">Categoría</th>
+                                        <th class="text-center">Ubicación (Km)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="row text-right">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 col-md-12">
                             <button class="btn btn-default"><span class="fa fa-times fa-fw"></span>Cancelar</button>
                             <button type="submit" class="btn btn-primary"><span class="fa fa-arrow-right fa-fw"></span>Continuar</button>
                         </div>
