@@ -129,6 +129,9 @@ public class HtmlGenerator {
                 wind += get1r5c("OLEAJE 4 m", init.getString("seas4mNE"),
                         init.getString("seas4mSE"), init.getString("seas4mSO"), init.getString("seas4mNO"));
             }
+            
+            
+            
             String sectionC ="";
             ArrayList<Statistics> secclist = MongoInterface.getInstance().getAdviceChain(currentId);
             for (Statistics secc : secclist){
