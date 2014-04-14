@@ -20,7 +20,6 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-
 package mx.org.cepdn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
@@ -30,14 +29,15 @@ import com.mongodb.BasicDBObject;
  * @author serch
  */
 public class Statistics {
-    private String aviso;
-    private String fecha;
-    private String latitud;
-    private String longitud;
-    private String distancia;
-    private String viento;
-    private String categoria;
-    private String avance;
+
+    private String aviso = "";
+    private String fecha = "";
+    private String latitud = "";
+    private String longitud = "";
+    private String distancia = "";
+    private String viento = "";
+    private String categoria = "";
+    private String avance = "";
 
     public Statistics(String aviso, String fecha, String latitud, String longitud, String distancia, String viento, String categoria, String avance) {
         this.aviso = aviso;
@@ -49,18 +49,19 @@ public class Statistics {
         this.categoria = categoria;
         this.avance = avance;
     }
-    
-    public Statistics(BasicDBObject aviso){
-        BasicDBObject seguimiento = (BasicDBObject)aviso.get("seguimiento");
-        this.aviso = seguimiento.getString("");
-        this.fecha = seguimiento.getString("");
-        this.latitud = seguimiento.getString("");
-        this.longitud = seguimiento.getString("");
-        this.distancia = seguimiento.getString("");
-        this.viento = seguimiento.getString("");
-        this.categoria = seguimiento.getString("");
-        this.avance = seguimiento.getString("");
-        
+
+    public Statistics(BasicDBObject aviso) {
+        BasicDBObject seguimiento = (BasicDBObject) aviso.get("seguimiento");
+        if (null != seguimiento) {
+            this.aviso = seguimiento.getString("");
+            this.fecha = seguimiento.getString("");
+            this.latitud = seguimiento.getString("");
+            this.longitud = seguimiento.getString("");
+            this.distancia = seguimiento.getString("");
+            this.viento = seguimiento.getString("");
+            this.categoria = seguimiento.getString("");
+            this.avance = seguimiento.getString("");
+        }
     }
 
     public String getAviso() {
@@ -94,13 +95,12 @@ public class Statistics {
     public String getAvance() {
         return avance;
     }
-    
-    public String toString(){
-        return "{\"aviso\":\""+aviso+"\",\"fecha\":\""+fecha+"\",\"latitud\":\""
-                +latitud+"\",\"longitud\":\""+longitud+"\",\"distancia\":\""
-                +distancia+"\",\"viento\":\""+viento+"\",\"categoria\":\""+categoria
-                +"\",\"avance\":\""+avance+"\"}";
+
+    public String toString() {
+        return "{\"aviso\":\"" + aviso + "\",\"fecha\":\"" + fecha + "\",\"latitud\":\""
+                + latitud + "\",\"longitud\":\"" + longitud + "\",\"distancia\":\""
+                + distancia + "\",\"viento\":\"" + viento + "\",\"categoria\":\"" + categoria
+                + "\",\"avance\":\"" + avance + "\"}";
     }
 
-    
 }

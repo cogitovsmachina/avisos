@@ -20,7 +20,6 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-
 package mx.org.cepdn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
@@ -46,6 +45,7 @@ import mx.org.cepdn.avisosconagua.util.Utils;
  * @author serch
  */
 public class MongoInterface {
+
     private final MongoClient mongoClient;
     private final MongoClientURI mongoClientURI;
     private final DB mongoDB;
@@ -60,8 +60,7 @@ public class MongoInterface {
     private static final String GENERATED_COL = "GeneratedFiles";
     private static final String GENERATED_FILES_COL = "GeneratedFiles.files";
     private static final String GENERATED_TITLE = "generatedTitle";
-    
-    
+
     public static synchronized MongoInterface getInstance() {
         if (null == instance) {
             try {
@@ -72,7 +71,7 @@ public class MongoInterface {
         }
         return instance;
     }
-    
+
     private MongoInterface() throws UnknownHostException {
         if (null != System.getenv("MONGOHQ_URL")) {
             mongoClientURI = new MongoClientURI(System.getenv("MONGOHQ_URL"));
@@ -86,14 +85,14 @@ public class MongoInterface {
         mongoDB = mongoClient.getDB(mongoClientURI.getDatabase());
         mongoDB.authenticate(mongoClientURI.getUsername(), mongoClientURI.getPassword());
     }
-    
+
     public String[] getCollections() {
         Set<String> names = mongoDB.getCollectionNames();
         return names.toArray(new String[0]);
     }
 
     public BasicDBObject createNewAdvice(String currentId, String tipo) {
-        System.out.println("new advice:"+currentId);
+        System.out.println("new advice:" + currentId);
         BasicDBObject newdata = new BasicDBObject(INTERNAL_FORM_ID, currentId)
                 .append(ADVICE_TYPE, tipo).append(UPDATE_TS, new Date());
         mongoDB.getCollection(CAPTURA_COL).insert(newdata);
@@ -101,13 +100,13 @@ public class MongoInterface {
     }
 
     public BasicDBObject getAdvice(String currentId) {
-        System.out.println("getAdvice: "+currentId);
+        System.out.println("getAdvice: " + currentId);
         BasicDBObject newdata = new BasicDBObject(INTERNAL_FORM_ID, currentId);
-        return (BasicDBObject)mongoDB.getCollection(CAPTURA_COL).findOne(newdata);
+        return (BasicDBObject) mongoDB.getCollection(CAPTURA_COL).findOne(newdata);
     }
 
     public void savePlainData(String currentId, String formId, HashMap<String, String> parametros) {
-        System.out.println("saveAdvice: "+currentId+" screen:"+formId);
+        System.out.println("saveAdvice: " + currentId + " screen:" + formId);
         BasicDBObject actual = getAdvice(currentId);
         BasicDBObject interno = new BasicDBObject(parametros);
         actual.append(formId, interno);
@@ -118,17 +117,19 @@ public class MongoInterface {
     public GridFS getImagesFS() {
         return new GridFS(mongoDB, IMAGES_COL);
     }
-    
+
     public GridFS getGeneratedFS() {
         return new GridFS(mongoDB, GENERATED_COL);
     }
-    
+
     public GridFS getGridFS(String type) {
         String collection = GENERATED_COL;
-        if ("getImage".equals(type)) collection = IMAGES_COL;
+        if ("getImage".equals(type)) {
+            collection = IMAGES_COL;
+        }
         return new GridFS(mongoDB, collection);
     }
-    
+
     public ArrayList<String> getPublisedAdvicesList() {
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
         ArrayList<String> ret = null;
@@ -142,7 +143,7 @@ public class MongoInterface {
         }
         return ret;
     }
-    
+
     ArrayList<String> listFilesFromAdvice(String adviceID) {
         ArrayList<String> ret = new ArrayList<>();
         DBCollection col = mongoDB.getCollection(IMAGES_FILES_COL);
@@ -164,25 +165,32 @@ public class MongoInterface {
                 .append("previousIssue", previous)
                 .append("generationTime", Utils.sdf.format(new Date())));
     }
-    
-    public ArrayList<Statistics> getAdviceChain(String currentId){
+
+    public ArrayList<Statistics> getAdviceChain(String currentId) {
         String searchId = currentId;
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
-        
+
         Deque<String> deque = new ArrayDeque<>();
-        while (searchId != null && !searchId.trim().equals("")){
+        while (searchId != null && !searchId.trim().equals("")) {
             deque.push(searchId);
-            BasicDBObject current = (BasicDBObject)col.findOne(new BasicDBObject(INTERNAL_FORM_ID,searchId));
-            searchId = current.getString("previousIssue");
+            BasicDBObject current = (BasicDBObject) col.findOne(new BasicDBObject(INTERNAL_FORM_ID, searchId));
+            if (null != current) {
+                searchId = current.getString("previousIssue");
+            } else {
+                searchId = null;
+            }
         }
         ArrayList<Statistics> ret = new ArrayList<>();
         DBCollection adCol = mongoDB.getCollection(CAPTURA_COL);
-        while (!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             String curr = deque.pop();
-            BasicDBObject lobj = (BasicDBObject)col.findOne(new BasicDBObject(INTERNAL_FORM_ID,curr));
-            ret.add(new Statistics(lobj));
+            System.out.println("buscar:" + curr);
+            BasicDBObject lobj = (BasicDBObject) adCol.findOne(new BasicDBObject(INTERNAL_FORM_ID, curr));
+            if (null != lobj) {
+                ret.add(new Statistics(lobj));
+            }
         }
         return ret;
     }
-    
+
 }
