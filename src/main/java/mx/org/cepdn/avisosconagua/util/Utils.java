@@ -98,4 +98,8 @@ public class Utils {
         }
         return ret;
     }
+    
+    public static String escapeQuote(String string){
+        return string.replaceAll("\"", "&quot;");
+    }
 }

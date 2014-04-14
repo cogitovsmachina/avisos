@@ -103,6 +103,7 @@ public class Init implements Processor {
         }
         BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);
         procesaAreas(parametros, anterior);
+        procesaImagen(parametros, anterior);
         MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
     }
 
@@ -139,6 +140,14 @@ public class Init implements Processor {
         }
         if (!cambios.isEmpty()){
             nuevo.putAll(cambios);
+        }
+    }
+
+    private void procesaImagen(HashMap<String, String> parametros, BasicDBObject anterior) {
+        if (null == parametros.get("issueSateliteImg")){
+            if(null!=anterior.getString("issueSateliteImg")){
+                parametros.put("issueSateliteImg", anterior.getString("issueSateliteImg"));
+            }
         }
     }
 }
