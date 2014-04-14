@@ -52,6 +52,10 @@ public class HtmlZipGenerator {
         link = "/getFile/" + nameZip;
     }
     
+    public String getPrevious(){
+        return html.getPrevious();
+    }
+    
     
     public void generate() {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {

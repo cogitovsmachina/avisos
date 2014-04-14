@@ -32,10 +32,13 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.gridfs.GridFS;
 import java.net.UnknownHostException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
 import mx.org.cepdn.avisosconagua.util.Utils;
 
 /**
@@ -139,7 +142,7 @@ public class MongoInterface {
         }
         return ret;
     }
-
+    
     ArrayList<String> listFilesFromAdvice(String adviceID) {
         ArrayList<String> ret = new ArrayList<>();
         DBCollection col = mongoDB.getCollection(IMAGES_FILES_COL);
@@ -154,8 +157,30 @@ public class MongoInterface {
         return ret;
     }
 
-    public void setGenerated(String adviceID) {
+    public void setGenerated(String adviceID, String previous) {
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
-        col.insert(new BasicDBObject(INTERNAL_FORM_ID, adviceID).append("generationTime", Utils.sdf.format(new Date())));
+        col.insert(new BasicDBObject(INTERNAL_FORM_ID, adviceID).append("previousIssue", previous)
+                .append("generationTime", Utils.sdf.format(new Date())));
     }
+    
+    public ArrayList<Statistics> getAdviceChain(String currentId){
+        String searchId = currentId;
+        DBCollection col = mongoDB.getCollection(GENERATED_COL);
+        
+        Deque<String> deque = new ArrayDeque<>();
+        while (searchId != null && !searchId.trim().equals("")){
+            deque.push(searchId);
+            BasicDBObject current = (BasicDBObject)col.findOne(new BasicDBObject(INTERNAL_FORM_ID,searchId));
+            searchId = current.getString("previousIssue");
+        }
+        ArrayList<Statistics> ret = new ArrayList<>();
+        DBCollection adCol = mongoDB.getCollection(CAPTURA_COL);
+        while (!deque.isEmpty()){
+            String curr = deque.pop();
+            BasicDBObject lobj = (BasicDBObject)col.findOne(new BasicDBObject(INTERNAL_FORM_ID,curr));
+            ret.add(new Statistics(lobj));
+        }
+        return ret;
+    }
+    
 }
