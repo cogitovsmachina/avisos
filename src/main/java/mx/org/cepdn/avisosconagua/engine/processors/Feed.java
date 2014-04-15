@@ -25,54 +25,32 @@ package mx.org.cepdn.avisosconagua.engine.processors;
 
 import com.mongodb.BasicDBObject;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mx.org.cepdn.avisosconagua.engine.FeedGenerator;
 import mx.org.cepdn.avisosconagua.engine.Processor;
-import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
 
 /**
  *
  * @author serch
  */
-public class CapInfo implements Processor {
+public class Feed implements Processor {
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
-       HashMap<String, String> datos = new HashMap<>();
-        if (null != data) {
-            for (String key : data.keySet()) {
-                datos.put(key, data.getString(key));
-            }
-        }
-        request.setAttribute("data", datos);
-        request.setAttribute("bulletinType", parts[2]);
-        request.setAttribute("advicesList", MongoInterface.getInstance().getPublisedAdvicesList());
-        String url = "/jsp/bulletinInfo.jsp";
-        if (parts[2].endsWith("dp")) {
-            url = "/jsp/bulletinInfoDp.jsp";
-        }
-        
-        RequestDispatcher rd = request.getRequestDispatcher(url);
-        rd.forward(request, response);
+        response.setContentType("text/xml; charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        FeedGenerator fg = new FeedGenerator();
+        PrintWriter out = response.getWriter();
+        out.print(fg.generateXML());
+        out.flush();
     }
 
     @Override
     public void processForm(HttpServletRequest request, String[] parts, String currentId) throws ServletException, IOException {
-        HashMap<String, String> parametros = new HashMap<>();
-        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-            try {
-                parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1"),"UTF-8"));
-            } catch (UnsupportedEncodingException ue) {
-                //No debe llegar a este punto
-                assert false;
-            }
-        }
-        MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

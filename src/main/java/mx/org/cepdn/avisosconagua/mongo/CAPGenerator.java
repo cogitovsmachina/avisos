@@ -46,7 +46,7 @@ public class CAPGenerator {
     private final BasicDBObject aviso;
     private final BasicDBObject init;
 //    private final BasicDBObject pronostico;
-//    private final BasicDBObject seguimiento;
+    private final BasicDBObject seguimiento;
     private final BasicDBObject capInfo;
 
     public CAPGenerator(String currentId) {
@@ -54,7 +54,7 @@ public class CAPGenerator {
         aviso = MongoInterface.getInstance().getAdvice(currentId);
         init = (BasicDBObject) aviso.get("init");
 //        pronostico = (BasicDBObject) aviso.get("pronostico");
-//        seguimiento = (BasicDBObject) aviso.get("seguimiento");
+        seguimiento = (BasicDBObject) aviso.get("seguimiento");
         capInfo = (BasicDBObject) aviso.get("capInfo");
 
     }
@@ -74,10 +74,12 @@ public class CAPGenerator {
 
     private Alert.Builder getValidAlertBuilder() {
 
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm aa"); //TODO quitar cuando clock 24hrs
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm aa"); //TODO quitar cuando clock 24hrs
         java.util.Date emi = new java.util.Date();
         try {
-            emi = sdf.parse(capInfo.getString("issueDate") + " " + capInfo.getString("issueTime"));
+            String fechEmi = capInfo.getString("issueDate") + " " + capInfo.getString("issueTime");
+            System.out.println("fecEmi: "+fechEmi);
+            emi = sdf.parse(fechEmi);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -94,12 +96,24 @@ public class CAPGenerator {
 //                        .addValue("incident1").addValue("incident2").build())
 
         //definir si ACTUAL o UPDATE
-        String updateToId = aviso.getString("updateToId");
+        String updateToId = seguimiento.getString("previousIssue");
+        String preSent = "";
+        if (null != updateToId) {
+            BasicDBObject ci = (BasicDBObject) MongoInterface.getInstance().getAdvice(updateToId).get("capInfo");
+            try {
+                String fecha = ci.getString("issueDate") + " " + ci.getString("issueTime");
+                System.out.println("fecha: "+fecha);
+                emi = sdf.parse(fecha);
+            } catch (ParseException pe) {
+                pe.printStackTrace();
+            }
+            preSent = Utils.getISODate(Utils.sdf.format(emi));
+        }
         Alert.MsgType type = (null == updateToId ? Alert.MsgType.ALERT : Alert.MsgType.UPDATE);
         builder.setMsgType(type);
         if (null != updateToId) {
             builder.setReferences(Group.newBuilder()
-                    .addValue(updateToId)
+                    .addValue("smn.cna.gob.mx," + updateToId + "," + preSent)
                     .build());
         }
         /*
@@ -111,7 +125,6 @@ public class CAPGenerator {
                 builder.addInfo(getValidInfoBuilder(key.substring(5)));
             }
         }
-
         return builder;
     }
 
@@ -127,7 +140,7 @@ public class CAPGenerator {
                 .setSeverity(sev)
                 .setCertainty(cer)
                 .addResponseType(Info.ResponseType.EXECUTE)
-                .setSenderName("Comisión Nacional del Agua - Servicio Meteorológico Nacional")
+                .setSenderName("Comisión Nacional del Agua - Servicio Meteorológico Nacional")
                 .setHeadline(capInfo.getString("eventHeadline"))
                 .setDescription(init.getString("eventDescription"))
                 .setWeb("http://smn.cna.gob.mx/")

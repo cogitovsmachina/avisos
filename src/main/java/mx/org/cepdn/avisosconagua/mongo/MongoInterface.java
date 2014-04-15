@@ -28,6 +28,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
 import com.mongodb.gridfs.GridFS;
 import java.net.UnknownHostException;
@@ -192,4 +193,26 @@ public class MongoInterface {
         return ret;
     }
 
+    public ArrayList<String> listPublishedAdvices() {
+        return listPublishedAdvices(10);
+    }
+
+    public ArrayList<String> listPublishedAdvices(int limit) {
+        DBCollection col = mongoDB.getCollection(GENERATED_COL);
+        ArrayList<String> ret = null;
+        DBCursor cursor;
+        if (limit > 0) {
+            cursor = col.find().sort(new BasicDBObject("generationTime", -1)).limit(limit);
+        } else {
+            cursor = col.find().sort(new BasicDBObject("generationTime", -1));
+        }
+        if (null != cursor) {
+            ret = new ArrayList<>();
+            for (DBObject obj : cursor) {
+                ret.add((String) obj.get(INTERNAL_FORM_ID));
+            }
+        }
+        return ret;
+    }
+    
 }

@@ -79,7 +79,7 @@ public class HtmlGenerator {
         }
         String interpol = init.getString("eventCCalc");
         interpol = "interpolation".equals(interpol)?"(Por interpolaci&oacute;n)":"";
-        String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
+        String titulo = Utils.getTituloBoletinHtml(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
         title = capInfo.getString("issueNumber")+" "+titulo;
         if (isDP) {
@@ -131,6 +131,7 @@ public class HtmlGenerator {
                         init.getString("seas4mSE"), init.getString("seas4mSO"), init.getString("seas4mNO"));
             }
             
+            String seccionB = "";
             
             
             String sectionC ="";
@@ -152,7 +153,7 @@ public class HtmlGenerator {
                     + getZonaAlerta(init.getString("areaDescription"))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
                     + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"), "")
-                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
+                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP")+ " hPa")
                     + get1r2c("DIAMETRO DEL OJO [Km]", init.getString("eventCDiameter"))
                     + vientosTitle
                     + wind
@@ -160,6 +161,7 @@ public class HtmlGenerator {
                     + get1r2c("COMENTARIOS ADICIONALES:", cleanPs(init.getString("eventComments")))
                     + get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
                     + headerSecB //TODO Sección B pronostico
+                    + seccionB
                     + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"),pronostico.getString("issueSateliteLocationImgFooter") )
                     + tituloSecC 
                     + sectionC
@@ -922,7 +924,7 @@ public class HtmlGenerator {
                 + "<div class=WordSection1>\n"
                 + "\n"
                 + "<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 align=left\n"
-                + " width=600 style='margin-left:9.0pt;border-collapse:collapse;mso-table-layout-alt:\n" //514
+                + " width=650 style='margin-left:9.0pt;border-collapse:collapse;mso-table-layout-alt:\n" //514
                 + " fixed;border:none;mso-border-alt:solid windowtext .5pt;mso-table-overlap:never;\n"
                 + " mso-yfti-tbllook:480;mso-table-lspace:7.05pt;margin-left:4.05pt;mso-table-rspace:\n"
                 + " 7.05pt;margin-right:4.05pt;mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:\n"

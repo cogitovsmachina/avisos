@@ -82,7 +82,7 @@ public class Pronostico implements Processor {
                     parametros.put(item.getFieldName(), filename);
                 } else {
                     System.out.println("item:" + item.getFieldName() + "=" + item.getString());
-                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1")));
+                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1"), "UTF-8"));
                 }
             }
             } catch (FileUploadException fue){
@@ -91,7 +91,7 @@ public class Pronostico implements Processor {
         } else {
             for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
                 try {
-                    parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1")));
+                    parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1"), "UTF-8"));
                 } catch (UnsupportedEncodingException ue) {
                     //No debe llegar a este punto
                     assert false;

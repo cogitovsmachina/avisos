@@ -88,7 +88,7 @@ public class Seguimiento implements Processor {
         HashMap<String, String> parametros = new HashMap<>();
         for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
             try {
-                parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1")));
+                parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1"), "UTF-8"));
             } catch (UnsupportedEncodingException ue) {
                 //No debe llegar a este punto
                 assert false;
