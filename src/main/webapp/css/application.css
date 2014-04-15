@@ -213,3 +213,12 @@ div.event-container h5 {
 .logo {
     height: 50px;
 }
+
+.table-input-sm {
+    width: 90%;
+    display: table-cell;
+}
+
+.data-table>thead>tr>th {
+    font-size: 12px;
+}
