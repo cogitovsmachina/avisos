@@ -55,7 +55,6 @@ while(keys.hasNext()) {
                 <ol class="progress-indicator">
                     <li class="current">Situación actual</li><!--
                     --><li class="pending">Predicción de avance</li><!--
-                    --><li class="pending">Seguimiento</li><!--
                     --><li class="pending">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
                     --><li class="pending">Publicación</li>
