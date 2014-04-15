@@ -77,8 +77,6 @@
                         _val = valFunction(d, _tdata);
                     }
                     
-                    _inputcell.attr("data-tooltip", "tooltip").attr("data-placement","top").attr("title",_val).attr("data-original-title",_val);
-                    
                     if (d.postProcess && typeof d.postProcess === "function") {
                         _val = d.postProcess.call(this, _val);
                     }
@@ -102,6 +100,8 @@
                             cssClass = "";
                             break;
                     }
+                    
+                    //_inputcell.attr("data-tooltip", "tooltip").attr("data-placement","top").attr("title",_val).attr("data-original-title",_val);
                     
                     if (cssClass !== "") {
                         _inputcell.attr({
