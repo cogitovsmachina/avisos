@@ -68,16 +68,16 @@ String type = (String)request.getAttribute("bulletinType");
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Enlace al forecast de NHC</label>
                             <div class="input-group">
-                                <input type="text" name="nhcLink" class="form-control">
+                                <input type="text" id="nhcLink" name="nhcLink" class="form-control">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Cargar</button>
+                                    <button id="loadButton" class="btn btn-default" type="button">Cargar</button>
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 table-responsive">
-                            <table class="table">
+                            <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
@@ -106,5 +106,80 @@ String type = (String)request.getAttribute("bulletinType");
         <script src="/js/libs/jquery/jquery-validate.min.js" type="text/javascript"></script>
         <script src="/js/libs/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="/js/application.js"></script>
+        <script src="/js/libs/dataTable/jquery-dataTable.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#loadButton").on("click", function(event){
+                    var url = $("#nhcLink").val();
+                    if (url && url !== undefined) {
+                        $.ajax({
+                            url: "http://weatherman.herokuapp.com/forecast",
+                            jsonp: "callback",
+                            dataType: "jsonp",
+                            data: {
+                                format: 'jsonp',
+                                url: url
+                            },
+                            success: function (response) {
+                                console.log(response);
+                                $("#dataTable").dataTable({
+                                    columnAlign: "center",
+                                    renderCols:false,
+                                    columns: [
+                                        {
+                                            title:"Pronóstico válido<br>al día/hora local<br>tiempo del centro",
+                                            field:"id",
+                                            formElement:"span"
+                                        },
+                                        {
+                                            title:"Latitud norte",
+                                            field:"north",
+                                            formElement:"span",
+                                            postProcess:function(val) {
+                                                //Quitar N
+                                                return val.replace(/N/g,'');
+                                            }
+                                        },
+                                        {
+                                            title:"Longitud oeste",
+                                            field:"west",
+                                            formElement:"span",
+                                            postProcess:function(val) {
+                                                //Quitar W
+                                                return val.replace(/W/g,'');
+                                            }
+                                        },
+                                        {
+                                            title:"Vientos (Km/h)<br>SOST./RACHAS",
+                                            field:"max|gusts",
+                                            separator:"/",
+                                            formElement:"span",
+                                            postProcess:function(val) {
+                                                //Elimina KT y convierte a Km/h
+                                                var ret = val.replace(/\s/g,'').replace(/KT/g,'');
+                                                var vals = ret.split("/");
+                                                return (parseFloat(vals[0])*1.852).toFixed(2) + "/" + (parseFloat(vals[1])*1.852).toFixed(2);
+                                            }
+                                        },
+                                        {
+                                            title:"Categoría",
+                                            field:"category",
+                                            formElement:"textBox"
+                                        },
+                                        {
+                                            title:"Ubicación (Km)",
+                                            field:"location",
+                                            formElement:"textArea"
+                                        }
+                                    ],
+                                    data: response
+                                });
+                            }
+                        });
+                    }
+                    event.preventDefault();
+                });
+            });
+        </script>
     </body>
 </html>
