@@ -38,7 +38,6 @@ import java.util.Date;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.Stack;
 import mx.org.cepdn.avisosconagua.util.Utils;
 
 /**
@@ -138,7 +137,7 @@ public class MongoInterface {
         if (null != cursor) {
             ret = new ArrayList<>();
             for (DBObject object : cursor) {
-                String advice = object.get(INTERNAL_FORM_ID) + " " + object.get(GENERATED_TITLE);
+                String advice = object.get(INTERNAL_FORM_ID) + "|" + object.get(GENERATED_TITLE);
                 ret.add(advice);
             }
         }

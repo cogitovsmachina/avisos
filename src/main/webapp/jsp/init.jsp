@@ -244,7 +244,7 @@ while(keys.hasNext()) {
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Diámetro promedio de fuerte convección*</label>
-                            <input name="eventDiameterConvection" value="<%=Utils.getValidFieldFromHash(data, "eventDiameterConvection")%>" type="text" class="form-control"/>
+                            <input name="eventDiameterConvection" value="<%=Utils.getValidFieldFromHash(data, "eventDiameterConvection")%>" type="text" class="form-control" data-required="true" data-description="common"/>
                         </div>
                     </div>
                     <div class="row">

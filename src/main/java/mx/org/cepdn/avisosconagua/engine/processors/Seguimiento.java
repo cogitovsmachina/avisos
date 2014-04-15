@@ -26,6 +26,7 @@ package mx.org.cepdn.avisosconagua.engine.processors;
 import com.mongodb.BasicDBObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -43,6 +44,7 @@ public class Seguimiento implements Processor {
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
+        MongoInterface mi = MongoInterface.getInstance();
         HashMap<String, String> datos = new HashMap<>();
         if (null != data) {
             for (String key : data.keySet()) {
@@ -53,7 +55,7 @@ public class Seguimiento implements Processor {
         
         //Get previously saved data to populate first row
         HashMap<String, String> seguimiento = new HashMap<>();
-        BasicDBObject advice = MongoInterface.getInstance().getAdvice((String)request.getSession(true).getAttribute("internalId"));
+        BasicDBObject advice = mi.getAdvice((String)request.getSession(true).getAttribute("internalId"));
         if (null != advice) {
             //Add data from init section
             BasicDBObject section = (BasicDBObject) advice.get("init");
@@ -74,6 +76,7 @@ public class Seguimiento implements Processor {
         
         request.setAttribute("data", datos);
         request.setAttribute("trackData", seguimiento);
+        request.setAttribute("advicesList", mi.getPublisedAdvicesList());
         request.setAttribute("bulletinType", parts[2]);
         String url = "/jsp/tracking.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(url);
