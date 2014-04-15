@@ -45,7 +45,6 @@ for(String d : _trackData) {
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
                     --><li class="current">Predicción de avance</li><!--
-                    --><li class="pending">Seguimiento</li><!--
                     --><li class="pending">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
                     --><li class="pending">Publicación</li>
