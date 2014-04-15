@@ -85,8 +85,13 @@ public class Init implements Processor {
                     System.out.println("poniendo: "+ item.getFieldName() + "=" +filename);
                     parametros.put(item.getFieldName(), filename);
                 } else {
-                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
-                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1")));
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
+//                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1")));
+//                    System.out.println("item:" + item.getFieldName() + "=" + item.getString());
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1"),"UTF-8"));
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("UTF-8"),"UTF-8"));
+                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1"),"UTF-8"));
                 }
             }
             } catch (FileUploadException fue){
@@ -94,12 +99,13 @@ public class Init implements Processor {
             }
         } else {
             for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                try {
-                    parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1")));
-                } catch (UnsupportedEncodingException ue) {
-                    //No debe llegar a este punto
-                    assert false;
-                }
+//                try {
+//                    parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1")));
+//                } catch (UnsupportedEncodingException ue) {
+//                    //No debe llegar a este punto
+//                    assert false;
+//                }
+                parametros.put(entry.getKey(), request.getParameter(entry.getKey()));
             }
         }
         BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);

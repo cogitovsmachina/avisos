@@ -152,7 +152,7 @@ public class HtmlGenerator {
                     + getZonaAlerta(init.getString("areaDescription"))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
                     + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"), "")
-                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
+                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP")+ " hPa")
                     + get1r2c("DIAMETRO DEL OJO [Km]", init.getString("eventCDiameter"))
                     + vientosTitle
                     + wind
