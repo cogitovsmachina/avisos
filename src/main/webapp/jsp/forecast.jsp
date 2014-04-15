@@ -2,10 +2,20 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
+<%@page import="java.util.regex.Pattern"%>
+<%@page import="java.util.regex.Matcher"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
 String type = (String)request.getAttribute("bulletinType");
+/*String trackData = data.get("forecastData")!= null?data.get("forecastData"):"";
+ArrayList<String> _trackData = Utils.tokenize(trackData, "\\{(.*?)\\}");
+for(String d : _trackData) {
+            String []parts = d.split("\\|");
+            for(int i = 0; i< parts.length; i++) {
+                System.out.println("part:\""+parts[i]+"\"");
+            }
+}*/
 %>
 <!DOCTYPE html>
 <html>
@@ -42,7 +52,7 @@ String type = (String)request.getAttribute("bulletinType");
                 </ol>
             </div>
             <div class="row inner-container">
-                <form role="form" action="" method="post" enctype="multipart/form-data">
+                <form role="form" action="" method="post" enctype="multipart/form-data" onsubmit="return saveGridData(this);">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Mapa de localización*</label>
@@ -66,18 +76,19 @@ String type = (String)request.getAttribute("bulletinType");
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Enlace al forecast de NHC</label>
+                            <label class="control-label">Enlace al <a target="_blank" href="http://www.nhc.noaa.gov/">forecast de NHC</a></label>
                             <div class="input-group">
-                                <input type="text" id="nhcLink" name="nhcLink" class="form-control">
+                                <input type="text" id="nhcLink" name="nhcLink" value="<%=Utils.getValidFieldFromHash(data, "nhcLink")%>" class="form-control">
                                 <span class="input-group-btn">
-                                    <button id="loadButton" class="btn btn-default" type="button">Cargar</button>
+                                    <button id="loadButton" class="btn btn-default" data-loading-text="Cargando..." type="button">Precargar</button>
                                 </span>
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 table-responsive">
-                            <table class="table" id="dataTable">
+                            <table class="table data-table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Pronóstico válido<br>al día/hora local<br>tiempo del centro</th>
@@ -90,6 +101,7 @@ String type = (String)request.getAttribute("bulletinType");
                                 </thead>
                                 <tbody></tbody>
                             </table>
+                            <input type="hidden" name="forecastData" id="forecastData" />
                         </div>
                     </div>
                     <div class="row text-right">
@@ -108,75 +120,105 @@ String type = (String)request.getAttribute("bulletinType");
         <script src="/js/application.js"></script>
         <script src="/js/libs/dataTable/jquery-dataTable.js"></script>
         <script type="text/javascript">
+            function saveGridData(form) {
+                var $form = $(form);
+                var val = "";
+                $.each($form.find("tbody").children(), function(i,d) {
+                    $row = $(d);
+                    val+="{";
+                    $.each($row.children("td"), function(i, d) {
+                       val+=$(d).find(".data-table-input").val()+"|";
+                    });
+                    val = val.substring(0, val.length-1);
+                    val+="}";
+                });
+                
+                $("#forecastData").val(val);
+                return true;
+            }
+            
+            function loadDataFromUrl(url) {
+                if (url && url !== undefined) {
+                    var btn = $("#loadButton");
+                    btn.button('loading');
+                    $.ajax({
+                        url: "http://weatherman.herokuapp.com/forecast",
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        data: {
+                            format: 'jsonp',
+                            url: url
+                        },
+                        success: function (response) {
+                            $("#dataTable tbody").empty();
+                            $("#dataTable").dataTable({
+                                columnAlign: "center",
+                                renderCols:false,
+                                columns: [
+                                    {
+                                        title:"Pronóstico válido<br>al día/hora local<br>tiempo del centro",
+                                        field:"id",
+                                        formElement:"textBox",
+                                        required: "true"
+                                    },
+                                    {
+                                        title:"Latitud norte",
+                                        field:"north",
+                                        formElement:"textBox",
+                                        postProcess:function(val) {
+                                            //Quitar N
+                                            return val.replace(/N/g,'');
+                                        },
+                                        required: "true"
+                                    },
+                                    {
+                                        title:"Longitud oeste",
+                                        field:"west",
+                                        formElement:"textBox",
+                                        postProcess:function(val) {
+                                            //Quitar W
+                                            return val.replace(/W/g,'');
+                                        },
+                                        required: "true"
+                                    },
+                                    {
+                                        title:"Vientos (Km/h)<br>SOST./RACHAS",
+                                        field:"max|gusts",
+                                        separator:"/",
+                                        formElement:"textBox",
+                                        postProcess:function(val) {
+                                            //Elimina KT y convierte a Km/h
+                                            var ret = val.replace(/\s/g,'').replace(/KT/g,'');
+                                            var vals = ret.split("/");
+                                            return (parseFloat(vals[0])*1.852).toFixed(2) + "/" + (parseFloat(vals[1])*1.852).toFixed(2);
+                                        },
+                                        required: "true"
+                                    },
+                                    {
+                                        title:"Categoría",
+                                        field:"category",
+                                        formElement:"textBox",
+                                        required: "true"
+                                    },
+                                    {
+                                        title:"Ubicación (Km)",
+                                        field:"location",
+                                        formElement:"textBox",
+                                        required: "true"
+                                    }
+                                ],
+                                data: response
+                            });
+                            btn.button('reset');
+                        }
+                    });
+                }
+            }
+            
             $(document).ready(function() {
-                $("#loadButton").on("click", function(event){
+                $("#loadButton").on("click", function(event) {
                     var url = $("#nhcLink").val();
-                    if (url && url !== undefined) {
-                        $.ajax({
-                            url: "http://weatherman.herokuapp.com/forecast",
-                            jsonp: "callback",
-                            dataType: "jsonp",
-                            data: {
-                                format: 'jsonp',
-                                url: url
-                            },
-                            success: function (response) {
-                                console.log(response);
-                                $("#dataTable").dataTable({
-                                    columnAlign: "center",
-                                    renderCols:false,
-                                    columns: [
-                                        {
-                                            title:"Pronóstico válido<br>al día/hora local<br>tiempo del centro",
-                                            field:"id",
-                                            formElement:"span"
-                                        },
-                                        {
-                                            title:"Latitud norte",
-                                            field:"north",
-                                            formElement:"span",
-                                            postProcess:function(val) {
-                                                //Quitar N
-                                                return val.replace(/N/g,'');
-                                            }
-                                        },
-                                        {
-                                            title:"Longitud oeste",
-                                            field:"west",
-                                            formElement:"span",
-                                            postProcess:function(val) {
-                                                //Quitar W
-                                                return val.replace(/W/g,'');
-                                            }
-                                        },
-                                        {
-                                            title:"Vientos (Km/h)<br>SOST./RACHAS",
-                                            field:"max|gusts",
-                                            separator:"/",
-                                            formElement:"span",
-                                            postProcess:function(val) {
-                                                //Elimina KT y convierte a Km/h
-                                                var ret = val.replace(/\s/g,'').replace(/KT/g,'');
-                                                var vals = ret.split("/");
-                                                return (parseFloat(vals[0])*1.852).toFixed(2) + "/" + (parseFloat(vals[1])*1.852).toFixed(2);
-                                            }
-                                        },
-                                        {
-                                            title:"Categoría",
-                                            field:"category",
-                                            formElement:"textBox"
-                                        },
-                                        {
-                                            title:"Ubicación (Km)",
-                                            field:"location",
-                                            formElement:"textArea"
-                                        }
-                                    ],
-                                    data: response
-                                });
-                            }
-                        });
-                    }
+                    loadDataFromUrl(url);
                     event.preventDefault();
                 });
             });
