@@ -79,7 +79,7 @@ public class HtmlGenerator {
         }
         String interpol = init.getString("eventCCalc");
         interpol = "interpolation".equals(interpol)?"(Por interpolaci&oacute;n)":"";
-        String titulo = Utils.getTituloBoletin(aviso.getString(MongoInterface.ADVICE_TYPE));
+        String titulo = Utils.getTituloBoletinHtml(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
         title = capInfo.getString("issueNumber")+" "+titulo;
         if (isDP) {
@@ -131,6 +131,7 @@ public class HtmlGenerator {
                         init.getString("seas4mSE"), init.getString("seas4mSO"), init.getString("seas4mNO"));
             }
             
+            String seccionB = "";
             
             
             String sectionC ="";
@@ -160,6 +161,7 @@ public class HtmlGenerator {
                     + get1r2c("COMENTARIOS ADICIONALES:", cleanPs(init.getString("eventComments")))
                     + get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
                     + headerSecB //TODO Sección B pronostico
+                    + seccionB
                     + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"),pronostico.getString("issueSateliteLocationImgFooter") )
                     + tituloSecC 
                     + sectionC

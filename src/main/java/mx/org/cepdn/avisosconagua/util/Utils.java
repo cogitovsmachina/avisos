@@ -66,7 +66,7 @@ public class Utils {
         return fecha;
     }
 
-    public static String getTituloBoletin(String type){
+    public static String getTituloBoletinHtml(String type){
         String titulo = "";
         switch (type) {
             case "pacdp":
@@ -80,6 +80,25 @@ public class Utils {
                 break;
             case "atlht":
                 titulo = "Aviso de Cicl&oacute;n Tropical del Oc&oacute;ano Atl&aacute;ntico";
+                break;
+        }
+        return titulo;
+    }
+    
+    public static String getTituloBoletin(String type){
+        String titulo = "";
+        switch (type) {
+            case "pacdp":
+                titulo = "Aviso de zonas de baja presión en el Océano Pacífico con potencial ciclónico";
+                break;
+            case "pacht":
+                titulo = "Aviso de Ciclón Tropical del Océano Pacífico";
+                break;
+            case "atldp":
+                titulo = "Aviso de zonas de baja presión en el Océano Atlántico con potencial ciclónico";
+                break;
+            case "atlht":
+                titulo = "Aviso de Ciclón Tropical del Océano Atlántico";
                 break;
         }
         return titulo;
