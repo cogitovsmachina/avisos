@@ -20,58 +20,37 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-package mx.org.cepdn.avisosconagua.mongo;
 
-import com.google.publicalerts.cap.Alert;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSInputFile;
-import java.io.UnsupportedEncodingException;
+package mx.org.cepdn.avisosconagua.engine.processors;
+
+import com.mongodb.BasicDBObject;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import mx.org.cepdn.avisosconagua.engine.FeedGenerator;
+import mx.org.cepdn.avisosconagua.engine.Processor;
 
 /**
  *
  * @author serch
  */
-public class CAPFileGenerator {
+public class Feed implements Processor {
 
-    private CAPGenerator generator;
-    private String name;
-    private boolean isOK = false;
-    private String link;
-
-    public CAPFileGenerator(String adviceID) {
-        generator = new CAPGenerator(adviceID);
-        name = adviceID + ":cap.xml";
-        link = "/getFile/" + name;
-
+    @Override
+    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
+        response.setContentType("text/xml; charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        FeedGenerator fg = new FeedGenerator();
+        PrintWriter out = response.getWriter();
+        out.print(fg.generateXML());
+        out.flush();
     }
 
-    public void generate() {
-        try {
-            GridFS fs = MongoInterface.getInstance().getGeneratedFS();
-            fs.remove(name);
-            GridFSInputFile infile = fs.createFile(generator.generate().getBytes("UTF-8"));
-            infile.setContentType("text/xml");
-            infile.setFilename(name);
-            infile.save();
-            isOK = true;
-        } catch (UnsupportedEncodingException uex) {
-            uex.printStackTrace();
-        }
+    @Override
+    public void processForm(HttpServletRequest request, String[] parts, String currentId) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public boolean isOK() {
-        return isOK;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Alert getAlert() {
-        return generator.generateAlert();
-    }
+    
 }

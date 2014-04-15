@@ -924,7 +924,7 @@ public class HtmlGenerator {
                 + "<div class=WordSection1>\n"
                 + "\n"
                 + "<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 align=left\n"
-                + " width=600 style='margin-left:9.0pt;border-collapse:collapse;mso-table-layout-alt:\n" //514
+                + " width=650 style='margin-left:9.0pt;border-collapse:collapse;mso-table-layout-alt:\n" //514
                 + " fixed;border:none;mso-border-alt:solid windowtext .5pt;mso-table-overlap:never;\n"
                 + " mso-yfti-tbllook:480;mso-table-lspace:7.05pt;margin-left:4.05pt;mso-table-rspace:\n"
                 + " 7.05pt;margin-right:4.05pt;mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:\n"

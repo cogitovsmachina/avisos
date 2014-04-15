@@ -111,7 +111,6 @@ public class CAPGenerator {
                 builder.addInfo(getValidInfoBuilder(key.substring(5)));
             }
         }
-
         return builder;
     }
 
@@ -127,7 +126,7 @@ public class CAPGenerator {
                 .setSeverity(sev)
                 .setCertainty(cer)
                 .addResponseType(Info.ResponseType.EXECUTE)
-                .setSenderName("Comisión Nacional del Agua - Servicio Meteorológico Nacional")
+                .setSenderName("Comisión Nacional del Agua - Servicio Meteorológico Nacional")
                 .setHeadline(capInfo.getString("eventHeadline"))
                 .setDescription(init.getString("eventDescription"))
                 .setWeb("http://smn.cna.gob.mx/")
