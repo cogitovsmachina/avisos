@@ -101,8 +101,10 @@
                             break;
                     }
                     
+                    if (d.required && d.required==="true") {
+                        _inputcell.attr("data-required","true").attr("data-description","common");
+                    }
                     //_inputcell.attr("data-tooltip", "tooltip").attr("data-placement","top").attr("title",_val).attr("data-original-title",_val);
-                    
                     if (cssClass !== "") {
                         _inputcell.attr({
                             class: cssClass,
