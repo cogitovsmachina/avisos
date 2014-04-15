@@ -20,16 +20,18 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-
 package mx.org.cepdn.avisosconagua.engine.processors;
 
 import com.mongodb.BasicDBObject;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.org.cepdn.avisosconagua.engine.Processor;
 import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
+import mx.org.cepdn.avisosconagua.mongo.Statistics;
 
 /**
  *
@@ -39,12 +41,27 @@ public class Listadv implements Processor {
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
-        MongoInterface.getInstance().getPublisedAdvicesList();
+        String currentId = (String) request.getSession(true).getAttribute("internalId");
+        ArrayList<Statistics> lista = MongoInterface.getInstance().getAdviceChain(currentId);
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print("[");
+        boolean flag = false;
+        for (Statistics stat : lista) {
+            if (flag) {
+                out.print(", ");
+            } else {
+                flag = true;
+            }
+            out.print(stat.toString());
+        }
+        out.print("]");
+        out.flush();
     }
 
     @Override
     public void processForm(HttpServletRequest request, String[] parts, String currentId) throws ServletException, IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

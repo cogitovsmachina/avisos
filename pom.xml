@@ -90,6 +90,7 @@
                 <version>2.1</version>
                 <executions>
                     <execution>
+                        <id>validate</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy</goal>
@@ -107,14 +108,8 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
                     <execution>
+                        <id>package-files</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
@@ -130,13 +125,6 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
                     <execution>
                         <id>copy-dependencies</id>
                         <phase>package</phase>

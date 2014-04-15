@@ -28,6 +28,8 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -43,6 +45,14 @@ public class HtmlZipGenerator {
     private final String adviceID;
     private boolean isOK = false;
     
+    
+     {
+        System.out.println("Default Charset=" + Charset.defaultCharset());
+        System.out.println("file.encoding=" + System.getProperty("file.encoding"));
+        System.out.println("Default Charset=" + Charset.defaultCharset());
+        System.out.println("Default Charset in Use=" + getDefaultCharSet());
+    }
+        
     
     public HtmlZipGenerator(String adviceID){
         html = new HtmlGenerator(adviceID);
@@ -60,7 +70,16 @@ public class HtmlZipGenerator {
         return html.getTitle();
     }
     
+    private static String getDefaultCharSet() {
+        OutputStreamWriter writer = new OutputStreamWriter(new ByteArrayOutputStream());
+        String enc = writer.getEncoding();
+        return enc;
+    }
+    
     public void generate() {
+        
+       
+        
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             String localFolder = "./"+adviceID+"/";
             ZipOutputStream zout = new ZipOutputStream(baos);

@@ -52,16 +52,15 @@ public class Statistics {
 
     public Statistics(BasicDBObject aviso) {
         BasicDBObject seguimiento = (BasicDBObject) aviso.get("seguimiento");
-        if (null != seguimiento) {
-            this.aviso = seguimiento.getString("");
-            this.fecha = seguimiento.getString("");
-            this.latitud = seguimiento.getString("");
-            this.longitud = seguimiento.getString("");
-            this.distancia = seguimiento.getString("");
-            this.viento = seguimiento.getString("");
-            this.categoria = seguimiento.getString("");
-            this.avance = seguimiento.getString("");
-        }
+        BasicDBObject init = (BasicDBObject) aviso.get("init");
+            this.aviso = seguimiento.getString("issueNumber");
+            this.fecha = seguimiento.getString("trackingLocalTime");
+            this.latitud = init.getString("eventCLat");
+            this.longitud = init.getString("eventCLon");
+            this.distancia = init.getString("eventDistance");
+            this.viento = init.getString("eventWindSpeedSust")+" / "+init.getString("eventWindSpeedMax");
+            this.categoria = seguimiento.getString("eventCategory");
+            this.avance = init.getString("eventCurrentPath");
     }
 
     public String getAviso() {
@@ -99,8 +98,12 @@ public class Statistics {
     public String toString() {
         return "{\"aviso\":\"" + aviso + "\",\"fecha\":\"" + fecha + "\",\"latitud\":\""
                 + latitud + "\",\"longitud\":\"" + longitud + "\",\"distancia\":\""
-                + distancia + "\",\"viento\":\"" + viento + "\",\"categoria\":\"" + categoria
-                + "\",\"avance\":\"" + avance + "\"}";
+                + escapeQuote(distancia) + "\",\"viento\":\"" + viento + "\",\"categoria\":\"" + escapeQuote(categoria)
+                + "\",\"avance\":\"" + escapeQuote(avance) + "\"}";
+    }
+    
+    private String escapeQuote(String string){
+        return string.replaceAll("\"", "\\\\\"");
     }
 
 }

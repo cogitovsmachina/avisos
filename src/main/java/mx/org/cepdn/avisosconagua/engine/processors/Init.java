@@ -80,8 +80,9 @@ public class Init implements Processor {
             List<FileItem> items = upload.parseRequest(request);
             String filename = null;
             for (FileItem item : items) {
-                if (!item.isFormField()) {
+                if (!item.isFormField() && item.getSize()>0) {
                     filename = processUploadedFile(item, currentId);
+                    System.out.println("poniendo: "+ item.getFieldName() + "=" +filename);
                     parametros.put(item.getFieldName(), filename);
                 } else {
                     System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
@@ -103,10 +104,12 @@ public class Init implements Processor {
         }
         BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);
         procesaAreas(parametros, anterior);
+        procesaImagen(parametros, anterior);
         MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
     }
 
     private String processUploadedFile(FileItem item, String currentId) throws IOException {
+        System.out.println("file: size="+item.getSize()+" name:"+item.getName());
         GridFS gridfs = MongoInterface.getInstance().getImagesFS();
         String filename = currentId + ":" + item.getFieldName() + "_" + item.getName();
         gridfs.remove(filename);
@@ -139,6 +142,15 @@ public class Init implements Processor {
         }
         if (!cambios.isEmpty()){
             nuevo.putAll(cambios);
+        }
+    }
+
+    private void procesaImagen(HashMap<String, String> parametros, BasicDBObject anterior) {
+        if (null == parametros.get("issueSateliteImg") || "".equals(parametros.get("issueSateliteImg").trim())){
+            if(null!=anterior.getString("issueSateliteImg")){
+                System.out.println("Arreglando: issueSateliteImg="+anterior.getString("issueSateliteImg"));
+                parametros.put("issueSateliteImg", anterior.getString("issueSateliteImg"));
+            }
         }
     }
 }
