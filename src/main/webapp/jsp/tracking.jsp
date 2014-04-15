@@ -7,6 +7,7 @@
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
 HashMap<String,String> trackData = (HashMap<String,String>)request.getAttribute("trackData");
 String type = (String)request.getAttribute("bulletinType");
+ArrayList<String> advicesList = (ArrayList<String>)request.getAttribute("advicesList");
 %>
 <!DOCTYPE html>
 <html>
@@ -48,11 +49,21 @@ String type = (String)request.getAttribute("bulletinType");
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">En seguimiento a</label>
                             <div class="input-group">
-                                <select name="previousIssue" class="form-control">
-                                    <option value=""></option>
+                                <select id="previousIssue" name="previousIssue" class="form-control">
+                                    <option value="">Sin seguimiento</option>
+                                    <%
+                                    for(String adv : advicesList) {
+                                        String pairs[] = adv.split("\\|");
+                                        if (pairs.length==2) {
+                                            %>
+                                            <option value="<%=pairs[0]%>"><%=pairs[1]%></option>
+                                            <%
+                                        }
+                                    }
+                                    %>
                                 </select>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Cargar</button>
+                                    <button id="loadButton" class="btn btn-default" type="button">Cargar</button>
                                 </span>
                             </div>
                         </div>
