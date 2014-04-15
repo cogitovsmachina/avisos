@@ -24,9 +24,12 @@ package mx.org.cepdn.avisosconagua.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -101,5 +104,22 @@ public class Utils {
     
     public static String escapeQuote(String string){
         return string.replaceAll("\"", "&quot;");
+    }
+    
+    /**
+     * Tokenizes a string splitting in base to the provided regexp.
+     * @param source Source string to tokenize.
+     * @param regex Regular expression for token matching.
+     * @return List of tokens.
+     */
+    public static ArrayList<String> tokenize(String source, String regex) {
+        ArrayList<String> ret = new ArrayList<String>();
+        Pattern logEntry = Pattern.compile(regex);
+        Matcher matchPattern = logEntry.matcher(source);
+
+        while(matchPattern.find()) {
+            ret.add(matchPattern.group(1));
+        }
+        return ret;
     }
 }
