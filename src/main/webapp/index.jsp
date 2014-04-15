@@ -22,12 +22,12 @@
         </nav>
         <div class="container main-content">
             <div class="row text-center">
-                <h3>Emisión de boletines</h3>
+                <h3>Emisión de avisos de ciclones tropicales</h3>
             </div>
             <div class="row inner-container text-center">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Seleccione un boletín
+                        Seleccione un aviso
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu text-left" role="menu">
