@@ -82,6 +82,7 @@ public class FeedWriter {
         feed.setFeedType(feedType);
         feed.setTitle(feedTitle);
         feed.setAuthor(feedAuthor);
+        feed.setUri("http://smn.cna.gob.mx/capalert");
     }
     
     /**
@@ -161,9 +162,8 @@ public class FeedWriter {
             SyndEntry entry = new SyndEntryImpl();
             entry.setUri(alert.getIdentifier());
             entry.setTitle(alert.getInfo(0).getEvent());
-            
             try {
-                entry.setUpdatedDate(Utils.getDateFromString(alert.getSent()));
+                entry.setUpdatedDate(Utils.isoformater.parse(alert.getSent()));
             } catch (ParseException ex) {
                 
             }

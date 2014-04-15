@@ -74,10 +74,12 @@ public class CAPGenerator {
 
     private Alert.Builder getValidAlertBuilder() {
 
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm aa"); //TODO quitar cuando clock 24hrs
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm aa"); //TODO quitar cuando clock 24hrs
         java.util.Date emi = new java.util.Date();
         try {
-            emi = sdf.parse(capInfo.getString("issueDate") + " " + capInfo.getString("issueTime"));
+            String fechEmi = capInfo.getString("issueDate") + " " + capInfo.getString("issueTime");
+            System.out.println("fecEmi: "+fechEmi);
+            emi = sdf.parse(fechEmi);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
@@ -95,11 +97,23 @@ public class CAPGenerator {
 
         //definir si ACTUAL o UPDATE
         String updateToId = seguimiento.getString("previousIssue");
+        String preSent = "";
+        if (null != updateToId) {
+            BasicDBObject ci = (BasicDBObject) MongoInterface.getInstance().getAdvice(updateToId).get("capInfo");
+            try {
+                String fecha = ci.getString("issueDate") + " " + ci.getString("issueTime");
+                System.out.println("fecha: "+fecha);
+                emi = sdf.parse(fecha);
+            } catch (ParseException pe) {
+                pe.printStackTrace();
+            }
+            preSent = Utils.getISODate(Utils.sdf.format(emi));
+        }
         Alert.MsgType type = (null == updateToId ? Alert.MsgType.ALERT : Alert.MsgType.UPDATE);
         builder.setMsgType(type);
         if (null != updateToId) {
             builder.setReferences(Group.newBuilder()
-                    .addValue(updateToId)
+                    .addValue("smn.cna.gob.mx," + updateToId + "," + preSent)
                     .build());
         }
         /*
