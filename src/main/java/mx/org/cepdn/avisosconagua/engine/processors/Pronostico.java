@@ -77,7 +77,7 @@ public class Pronostico implements Processor {
             List<FileItem> items = upload.parseRequest(request);
             String filename = null;
             for (FileItem item : items) {
-                if (!item.isFormField()) {
+                if (!item.isFormField() && item.getSize()>0) {
                     filename = processUploadedFile(item, currentId);
                     parametros.put(item.getFieldName(), filename);
                 } else {
@@ -114,7 +114,7 @@ public class Pronostico implements Processor {
     }
     
     private void procesaImagen(HashMap<String, String> parametros, BasicDBObject anterior) {
-        if (null == parametros.get("issueSateliteLocationImg")){
+        if (null == parametros.get("issueSateliteLocationImg")||"".equals(parametros.get("issueSateliteLocationImg").trim())){
             if(null!=anterior.getString("issueSateliteLocationImg")){
                 parametros.put("issueSateliteLocationImg", anterior.getString("issueSateliteLocationImg"));
             }

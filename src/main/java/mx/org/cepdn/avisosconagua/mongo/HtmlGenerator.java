@@ -23,6 +23,7 @@
 package mx.org.cepdn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import mx.org.cepdn.avisosconagua.util.Utils;
 
@@ -87,7 +88,7 @@ public class HtmlGenerator {
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
                     + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
                             init.getString("issueSateliteImgFooter"), 
-                            cleanPs(init.getString("eventDescription")))
+                            cleanPs(init.getString("eventDescriptionHTML")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
                     + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
@@ -142,9 +143,9 @@ public class HtmlGenerator {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(capInfo.getString("eventHeadline"), "/getImage/" + init.getString("issueSateliteImg"),
+                    + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
                             init.getString("issueSateliteImgFooter"), 
-                            cleanPs(init.getString("eventDescription")))
+                            cleanPs(init.getString("eventDescriptionHTML")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DEL CICL&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
                     + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
@@ -158,7 +159,8 @@ public class HtmlGenerator {
                     + get1r2c("DIAMETRO PROMEDIO DE FUERTE CONVECCI&Oacute;N", init.getString("eventDiameterConvection"))
                     + get1r2c("COMENTARIOS ADICIONALES:", cleanPs(init.getString("eventComments")))
                     + get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
-                    + headerSecB //TODO Sección B
+                    + headerSecB //TODO Sección B pronostico
+                    + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"),pronostico.getString("issueSateliteLocationImgFooter") )
                     + tituloSecC 
                     + sectionC
                     + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
@@ -196,16 +198,16 @@ public class HtmlGenerator {
                 + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
                 + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:8.0pt;\n"
                 + "  font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;\n"
-                + "  mso-bidi-font-style:italic'>ELABORÓ (SMN): " + elaboro + "<span\n"
+                + "  mso-bidi-font-style:italic'>ELABOR&Oacute; (SMN): " + elaboro + "<span\n"
                 + "  style=\"mso-spacerun:yes\">  </span><span\n"
                 + "  style=\"mso-spacerun:yes\">                       </span><span\n"
-                + "  style=\"mso-spacerun:yes\">   </span>REVISÓ: " + reviso + "<o:p></o:p></span></em></p>\n"
+                + "  style=\"mso-spacerun:yes\">   </span>REVIS&Oacute;: " + reviso + "<o:p></o:p></span></em></p>\n"
                 + "  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;\n"
                 + "  mso-element-frame-hspace:7.05pt;mso-element-wrap:around;mso-element-anchor-vertical:\n"
                 + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
                 + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:8.0pt;\n"
                 + "  font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;\n"
-                + "  mso-bidi-font-style:italic'>SMN EN COORDINACIÓN CON SERVICIOS ESPECIALIZADOS:\n"
+                + "  mso-bidi-font-style:italic'>SMN EN COORDINACI&Oacute;N CON SERVICIOS ESPECIALIZADOS:\n"
                 + "  CFE, SEGOB (CNPC-CENAPRED), SEMAR, SEDENA, SCT (SENEAM, DM) E IMTA. <o:p></o:p></span></em></p>\n"
                 + "  </td>\n"
                 + " </tr>\n"
@@ -359,7 +361,7 @@ public class HtmlGenerator {
             + "  mso-height-rule:exactly'><em><b style='mso-bidi-font-weight:normal'><span\n"
             + "  lang=ES-MX style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:\n"
             + "  \"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;mso-bidi-font-style:\n"
-            + "  italic'>SECCIÓN C. TABLA DE SEGUIMIENTO DEL CICLÓN TROPICAL</span></b></em><em><span\n"
+            + "  italic'>SECCI&Oacute;N C. TABLA DE SEGUIMIENTO DEL CICL&Oacute;N TROPICAL</span></b></em><em><span\n"
             + "  lang=ES-MX style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:\n"
             + "  \"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;mso-bidi-font-style:\n"
             + "  italic'><o:p></o:p></span></em></p>\n"
@@ -418,7 +420,7 @@ public class HtmlGenerator {
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:8.0pt;\n"
             + "  font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;\n"
-            + "  mso-bidi-font-style:italic'>Distancia más cercana (km)<o:p></o:p></span></em></p>\n"
+            + "  mso-bidi-font-style:italic'>Distancia m&aacute;s cercana (km)<o:p></o:p></span></em></p>\n"
             + "  </td>\n"
             + "  <td width=50 colspan=4 style='width:49.7pt;border-top:none;border-left:none;\n"
             + "  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;\n"
@@ -429,7 +431,7 @@ public class HtmlGenerator {
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:8.0pt;\n"
             + "  font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;\n"
-            + "  mso-bidi-font-style:italic'>Viento máx. / rachas<o:p></o:p></span></em></p>\n"
+            + "  mso-bidi-font-style:italic'>Viento m&iacute;x. / rachas<o:p></o:p></span></em></p>\n"
             + "  </td>\n"
             + "  <td width=48 colspan=2 style='width:48.0pt;border-top:none;border-left:none;\n"
             + "  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;\n"
@@ -440,7 +442,7 @@ public class HtmlGenerator {
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:8.0pt;\n"
             + "  font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;\n"
-            + "  mso-bidi-font-style:italic'>Categoría<o:p></o:p></span></em></p>\n"
+            + "  mso-bidi-font-style:italic'>Categor&iacute;a<o:p></o:p></span></em></p>\n"
             + "  </td>\n"
             + "  <td width=73 colspan=4 style='width:72.5pt;border-top:none;border-left:none;\n"
             + "  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;\n"
@@ -567,7 +569,7 @@ public class HtmlGenerator {
             + "  mso-height-rule:exactly'><em><b style='mso-bidi-font-weight:normal'><span\n"
             + "  lang=ES-MX style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:\n"
             + "  \"Arial Narrow\";mso-ansi-language:ES-MX;font-style:normal;mso-bidi-font-style:\n"
-            + "  italic'>SECCIÓN B. PRONÓSTICO DE DESPLAZAMIENTO Y EVOLUCIÓN<o:p></o:p></span></b></em></p>\n"
+            + "  italic'>SECCI&Oacute;N B. PRON&Oacute;STICO DE DESPLAZAMIENTO Y EVOLUCI&Oacute;N<o:p></o:p></span></b></em></p>\n"
             + "  </td>\n"
             + " </tr>\n"
             + " <tr style='mso-yfti-irow:24;height:20.85pt'>\n"
@@ -579,13 +581,13 @@ public class HtmlGenerator {
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:10.0pt;\n"
             + "  mso-bidi-font-size:12.0pt;font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;\n"
-            + "  font-style:normal;mso-bidi-font-style:italic'>PRONÓSTICO VALIDO AL <o:p></o:p></span></em></p>\n"
+            + "  font-style:normal;mso-bidi-font-style:italic'>PRON&Oacute;STICO VALIDO AL <o:p></o:p></span></em></p>\n"
             + "  <p class=MsoNormal align=center style='text-align:center;mso-element:frame;\n"
             + "  mso-element-frame-hspace:7.05pt;mso-element-wrap:around;mso-element-anchor-vertical:\n"
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:10.0pt;\n"
             + "  mso-bidi-font-size:12.0pt;font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;\n"
-            + "  font-style:normal;mso-bidi-font-style:italic'>DÍA/HORA LOCAL TIEMPO CENTRO <o:p></o:p></span></em></p>\n"
+            + "  font-style:normal;mso-bidi-font-style:italic'>D&Iacute;A/HORA LOCAL TIEMPO CENTRO <o:p></o:p></span></em></p>\n"
             + "  </td>\n"
             + "  <td width=64 colspan=2 style='width:63.75pt;border-top:none;border-left:none;\n"
             + "  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;\n"
@@ -635,7 +637,7 @@ public class HtmlGenerator {
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:10.0pt;\n"
             + "  mso-bidi-font-size:12.0pt;font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;\n"
-            + "  font-style:normal;mso-bidi-font-style:italic'>CATEGORÍA<o:p></o:p></span></em></p>\n"
+            + "  font-style:normal;mso-bidi-font-style:italic'>CATEGOR&Iacute;A<o:p></o:p></span></em></p>\n"
             + "  </td>\n"
             + "  <td width=128 colspan=4 style='width:127.8pt;border-top:none;border-left:\n"
             + "  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;\n"
@@ -646,7 +648,7 @@ public class HtmlGenerator {
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES-MX style='font-size:10.0pt;\n"
             + "  mso-bidi-font-size:12.0pt;font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;\n"
-            + "  font-style:normal;mso-bidi-font-style:italic'>UBICACIÓN (en km)<o:p></o:p></span></em></p>\n"
+            + "  font-style:normal;mso-bidi-font-style:italic'>UBICACI&Oacute;N (en km)<o:p></o:p></span></em></p>\n"
             + "  </td>\n"
             + " </tr>";
 
@@ -709,7 +711,7 @@ public class HtmlGenerator {
             + "  paragraph;mso-element-anchor-horizontal:column;mso-element-top:.05pt;\n"
             + "  mso-height-rule:exactly'><em><span lang=ES style='font-size:10.0pt;\n"
             + "  mso-bidi-font-size:12.0pt;font-family:\"Arial Narrow\";font-style:normal;\n"
-            + "  mso-bidi-font-style:italic'>EXTENSIÓN EN CUADRANTES DE RADIOS DE VIENTOS Y\n"
+            + "  mso-bidi-font-style:italic'>EXTENSI&Oacute;N EN CUADRANTES DE RADIOS DE VIENTOS Y\n"
             + "  OLEAJE<o:p></o:p></span></em></p>\n"
             + "  </td>\n"
             + " </tr>";
@@ -731,7 +733,7 @@ public class HtmlGenerator {
                 + "  mso-element-anchor-horizontal:column;mso-element-top:.05pt;mso-height-rule:\n"
                 + "  exactly'><em><span lang=ES style='font-size:9.0pt;mso-bidi-font-size:12.0pt;\n"
                 + "  font-family:\"Arial Narrow\";font-style:normal;mso-bidi-font-style:italic'>[SE\n"
-                + "  ESTABLECE EN COORDINACIÓN CON EL CMRE-MIAMI]</span></em><span lang=ES-MX\n"
+                + "  ESTABLECE EN COORDINACI&Oacute;N CON EL CMRE-MIAMI]</span></em><span lang=ES-MX\n"
                 + "  style='font-size:10.0pt;font-family:\"Arial Narrow\";mso-ansi-language:ES-MX;\n"
                 + "  mso-fareast-language:ES-MX;mso-no-proof:yes'><o:p></o:p></span></p>\n"
                 + "  </td>\n"
@@ -807,6 +809,7 @@ public class HtmlGenerator {
     }
 
     private static String getTitulo(String sintesis, String imgFile, String leyendaImg, String situacionActual) {
+        
         return " <tr style='mso-yfti-irow:3;height:17.5pt'>\n"
                 + "  <td width=514 colspan=19 style='width:513.8pt;border:solid windowtext 1.0pt;\n"
                 + "  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;\n"
@@ -883,7 +886,7 @@ public class HtmlGenerator {
                 + "  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:228.6pt'>\n"
                 + "  <p class=MsoNormal style='text-align:justify'><em><b style='mso-bidi-font-weight:\n"
                 + "  normal'><u><span lang=ES style='font-size:10.0pt;mso-bidi-font-size:12.0pt;\n"
-                + "  font-family:\"Arial Narrow\";font-style:normal;mso-bidi-font-style:italic'>SITUACIÓN\n"
+                + "  font-family:\"Arial Narrow\";font-style:normal;mso-bidi-font-style:italic'>SITUACI&Oacute;N\n"
                 + "  ACTUAL:<o:p></o:p></span></u></b></em></p>\n"
                 + "  <p class=MsoNormal style='text-align:justify'><em><span lang=ES\n"
                 + "  style='font-size:10.0pt;mso-bidi-font-size:12.0pt;font-family:\"Arial Narrow\";\n"
@@ -901,7 +904,7 @@ public class HtmlGenerator {
                 + "  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;\n"
                 + "  mso-element-top:.05pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:\n"
                 + "  normal'><span lang=ES style='font-size:10.0pt;font-family:\"Arial Narrow\";\n"
-                + "  mso-bidi-font-family:Arial'>SECCIÓN A. CONDICIONES ACTUALES<o:p></o:p></span></b></p>\n"
+                + "  mso-bidi-font-family:Arial'>SECCI&Oacute;N A. CONDICIONES ACTUALES<o:p></o:p></span></b></p>\n"
                 + "  </td>\n"
                 + " </tr>";
     }
@@ -948,12 +951,12 @@ public class HtmlGenerator {
                 + "  ES-MX'><o:p>&nbsp;</o:p></span></b></p>\n"
                 + "  <p class=MsoNormal align=right style='text-align:right;text-autospace:none'><b><span\n"
                 + "  lang=ES style='font-size:10.0pt;font-family:Arial;color:#C00000;mso-fareast-language:\n"
-                + "  ES-MX'>COMISIÓN NACIONAL DEL AGUA</span></b><span lang=ES-MX\n"
+                + "  ES-MX'>COMISI&Oacute;N NACIONAL DEL AGUA</span></b><span lang=ES-MX\n"
                 + "  style='color:#C00000;mso-ansi-language:ES-MX;mso-fareast-language:ES-MX'><o:p></o:p></span></p>\n"
                 + "  <p class=MsoNormal align=right style='text-align:right;page-break-after:avoid;\n"
                 + "  mso-outline-level:8'><b style='mso-bidi-font-weight:normal'><span lang=ES\n"
                 + "  style='font-size:10.0pt;font-family:Arial;color:#C00000;mso-fareast-language:\n"
-                + "  ES-MX'>Servicio Meteorológico Nacional</span></b><span lang=ES\n"
+                + "  ES-MX'>Servicio Meteorol&oacute;gico Nacional</span></b><span lang=ES\n"
                 + "  style='font-size:10.0pt;font-family:Arial;color:#C00000;mso-fareast-language:\n"
                 + "  ES-MX;mso-bidi-font-weight:bold'><o:p></o:p></span></p>\n"
                 + "  <p class=MsoNormal align=right style='text-align:right;mso-element:frame;\n"
@@ -970,7 +973,7 @@ public class HtmlGenerator {
                 + "  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:\n"
                 + "  column;mso-element-top:.05pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:\n"
                 + "  normal'><span lang=ES-MX style='font-size:9.0pt;mso-bidi-font-size:10.0pt;\n"
-                + "  font-family:Arial;mso-ansi-language:ES-MX'>México, D.F. a " + textoFecha + "<o:p></o:p></span></b></p>\n"
+                + "  font-family:Arial;mso-ansi-language:ES-MX'>M&eacute;xico, D.F. a " + textoFecha + "<o:p></o:p></span></b></p>\n"
                 + "  <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none;\n"
                 + "  mso-element:frame;mso-element-frame-hspace:7.05pt;mso-element-wrap:around;\n"
                 + "  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;\n"
@@ -991,7 +994,7 @@ public class HtmlGenerator {
                 + "  column;mso-element-top:.05pt;mso-height-rule:exactly'><span\n"
                 + "  class=MsoIntenseEmphasis><span lang=ES-MX style='font-size:9.0pt;font-family:\n"
                 + "  Arial;color:windowtext;mso-ansi-language:ES-MX;font-style:normal;mso-bidi-font-style:\n"
-                + "  italic'>Emisión: " + horaEmision + " horas (tiempo del Centro)<o:p></o:p></span></span></p>\n"
+                + "  italic'>Emisi&oacute;n: " + horaEmision + " horas (tiempo del Centro)<o:p></o:p></span></span></p>\n"
                 + "  <p class=MsoNormal align=right style='text-align:right;mso-layout-grid-align:\n"
                 + "  none;text-autospace:none;mso-element:frame;mso-element-frame-hspace:7.05pt;\n"
                 + "  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:\n"
@@ -1016,11 +1019,10 @@ public class HtmlGenerator {
                 + "  column;mso-element-top:.05pt;mso-height-rule:exactly'><i style='mso-bidi-font-style:\n"
                 + "  normal'><span lang=ES-MX style='font-size:9.0pt;mso-bidi-font-size:10.0pt;\n"
                 + "  font-family:\"Arial Narrow\";mso-bidi-font-family:Arial;color:#002060;\n"
-                + "  mso-ansi-language:ES-MX;mso-bidi-font-weight:bold'>El Servicio Meteorológico\n"
-                + "  Nacional dependiente de la CONAGUA (fuente oficial del Gobierno de México) en\n"
-                + "  el marco del Sistema Nacional de Protección Civil y en Coordinación con el\n"
-                + "  CMRE de la Organización Meteorológica Mundial <span\n"
-                + "  style=\"mso-spacerun:yes\"> </span>de Miami, Fl. emite el siguiente aviso:</span></i><span\n"
+                + "  mso-ansi-language:ES-MX;mso-bidi-font-weight:bold'>El Servicio Meteorol&oacute;gico\n"
+                + "  Nacional dependiente de la CONAGUA (fuente oficial del Gobierno de M&eacute;xico) en\n"
+                + "  el marco del Sistema Nacional de Protecci&oacute;n Civil y en Coordinaci&oacute;n con el\n"
+                + "  CMRE de la Organizaci&oacute;n Meteorol&oacute;gica Mundial de Miami, Fl. emite el siguiente aviso:</span></i><span\n"
                 + "  class=MsoIntenseEmphasis><span lang=ES-MX style='font-size:9.0pt;mso-bidi-font-size:\n"
                 + "  10.0pt;font-family:Arial;color:#002060;mso-ansi-language:ES-MX;font-weight:\n"
                 + "  normal;mso-bidi-font-weight:bold;font-style:normal;mso-bidi-font-style:italic'><o:p></o:p></span></span></p>\n"
