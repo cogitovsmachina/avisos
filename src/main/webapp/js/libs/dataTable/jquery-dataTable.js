@@ -6,7 +6,7 @@
         //Main vars
         $table = $(this);
         $tbody = $table.children("tbody") || $(document.createElement("tbody"));
-        
+        rowCont = $tbody.children().length || 0;
         //Merge options
         _settings = $.extend({}, $.fn.dataTable.defaults, options);
         
@@ -110,6 +110,7 @@
                     }
                     
                     _inputcell.addClass(_colAlign);
+                    _inputcell.addClass("data-table-input");
                     
                     _domcell.append(_inputcell);
                     _domrow.append(_domcell);
@@ -127,6 +128,7 @@
     
     $.fn.dataTable.defaults = {
         thClass: "text-center",
-        renderCols: false
+        renderCols: false,
+        idPrefix: "dataTableInput"
     };
 })(jQuery);
