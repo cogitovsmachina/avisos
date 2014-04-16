@@ -95,7 +95,7 @@ public class Controler extends HttpServlet {
             BasicDBObject datos = null;
             if (flujo.contains(parts[3])) {
                 if (parts.length > 4 && !"new".equals(parts[4])) {
-                    //datos = MongoInterface.getInstance().getAdvice(parts[4]);
+                    datos = MongoInterface.getInstance().getAdvice(parts[4]);
                     if (null != datos) {
                         currentId = parts[4];
                         request.getSession(true).setAttribute(ADVICE_ID, currentId);

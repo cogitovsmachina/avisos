@@ -167,13 +167,14 @@ public class MongoInterface {
         return ret;
     }
 
-    public void setGenerated(String adviceID, String previous, String title, String type) {
+    public void setGenerated(String adviceID, String previous, String title, String type, String date) {
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
         BasicDBObject nuevo = new BasicDBObject(INTERNAL_FORM_ID, adviceID)
                 .append(GENERATED_TITLE, title)
                 .append("previousIssue", previous)
                 .append("generationTime", Utils.sdf.format(new Date()))
-                .append("adviceType", type);
+                .append("adviceType", type)
+                .append("issueDate", date);
         BasicDBObject query = new BasicDBObject(INTERNAL_FORM_ID, adviceID);
         BasicDBObject old = (BasicDBObject) col.findOne(query);
         if (null == old) {
@@ -219,9 +220,9 @@ public class MongoInterface {
         ArrayList<String> ret = null;
         DBCursor cursor;
         if (limit > 0) {
-            cursor = col.find().sort(new BasicDBObject("generationTime", -1)).limit(limit);
+            cursor = col.find().sort(new BasicDBObject("issueDate", -1)).limit(limit);
         } else {
-            cursor = col.find().sort(new BasicDBObject("generationTime", -1));
+            cursor = col.find().sort(new BasicDBObject("issueDate", -1));
         }
         if (null != cursor) {
             ret = new ArrayList<>();
@@ -232,4 +233,7 @@ public class MongoInterface {
         return ret;
     }
 
+    public DBObject getPublishedAdvice(String adviceId){
+        return mongoDB.getCollection(GENERATED_COL).findOne(new BasicDBObject(INTERNAL_FORM_ID, adviceId));
+    }
 }

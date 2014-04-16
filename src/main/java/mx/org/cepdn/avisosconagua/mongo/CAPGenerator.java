@@ -48,6 +48,7 @@ public class CAPGenerator {
 //    private final BasicDBObject pronostico;
 //    private final BasicDBObject seguimiento;
     private final BasicDBObject capInfo;
+    private String _date=null;
 
     public CAPGenerator(String currentId) {
         this.currentId = currentId;
@@ -61,6 +62,10 @@ public class CAPGenerator {
 
     public String generate() {
         return getXML();
+    }
+    
+    public String getDate(){
+        return _date;
     }
 
     public Alert generateAlert() {
@@ -80,6 +85,7 @@ public class CAPGenerator {
             String fechEmi = capInfo.getString("issueDate") + " " + capInfo.getString("issueTime");
             System.out.println("fecEmi: " + fechEmi);
             emi = sdf.parse(fechEmi);
+            _date = Utils.sdf.format(emi);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }

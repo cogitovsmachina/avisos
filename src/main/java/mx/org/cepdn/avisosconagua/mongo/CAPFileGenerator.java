@@ -40,7 +40,7 @@ public class CAPFileGenerator {
 
     public CAPFileGenerator(String adviceID) {
         generator = new CAPGenerator(adviceID);
-        name = adviceID + ":cap.xml";
+        name = adviceID + "_cap.xml";
         link = "/getFile/" + name;
 
     }
@@ -73,5 +73,9 @@ public class CAPFileGenerator {
 
     public Alert getAlert() {
         return generator.generateAlert();
+    }
+    
+    public String getDate() {
+        return generator.getDate();
     }
 }

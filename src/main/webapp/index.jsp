@@ -1,3 +1,6 @@
+<%@page import="com.mongodb.BasicDBObject"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="mx.org.cepdn.avisosconagua.mongo.MongoInterface"%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -38,6 +41,29 @@
                         <li><a href="/ctrl/pacht/init/new">Ciclón en el pacífico</a></li>
                         <li><a href="/ctrl/atlht/init/new">Ciclón en el atlántico</a></li>
                     </ul>
+                </div>
+                <div class="btn-group">
+                    <div class="row">
+                    <%
+                      ArrayList<String> lista = MongoInterface.getInstance().listPublishedAdvices(20);
+                      for(String aviso:lista){
+                          BasicDBObject avisoData = (BasicDBObject)MongoInterface.getInstance().getPublishedAdvice(aviso);
+                          %>
+                          <div class="col-md-2">
+                              <%=avisoData.getString("generatedTitle") + " " +
+                          avisoData.getString("issueDate")%>
+                          </div>
+                          <div class="col-md-1">
+                              <a href="/getFile/<%=aviso%>_cap.xml" class="btn btn-default btn-xs">CAP</a>
+                          
+                              <a href="/getFile/<%=aviso%>.zip" class="btn btn-default btn-xs">ZIP</a>
+                          
+                              <a href="/ctrl/<%=avisoData.getString("adviceType")%>/generate/<%=aviso%>" class="btn btn-default btn-xs">regenerar</a>
+                          </div>
+                            <%
+                      }
+                        %>
+                        </div>
                 </div>
             </div>
         </div>

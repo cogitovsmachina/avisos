@@ -57,8 +57,8 @@
                 </p>
                 <hr>
                 <p class="text-center">
-                    <button class="btn btn-default">Regresar al inicio</button>
-                    <button onclick="window.location='index.jsp';" class="btn btn-primary">Emitir otro boletín</button>
+                    <button onclick="window.location='init';" class="btn btn-default">Regresar al inicio</button>
+                    <button onclick="window.location='/';" class="btn btn-primary">Emitir otro boletín</button>
                 </p>
             </div>
         </div>
