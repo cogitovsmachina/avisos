@@ -92,7 +92,7 @@ public class HtmlGenerator {
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
                     + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
-                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWndSpeedMax"),"")
+                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"),"")
                     + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
                     + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h")+"%")
                     + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d")+"%")

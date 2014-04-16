@@ -78,7 +78,7 @@ public class CAPGenerator {
         java.util.Date emi = new java.util.Date();
         try {
             String fechEmi = capInfo.getString("issueDate") + " " + capInfo.getString("issueTime");
-            System.out.println("fecEmi: "+fechEmi);
+            System.out.println("fecEmi: " + fechEmi);
             emi = sdf.parse(fechEmi);
         } catch (ParseException pe) {
             pe.printStackTrace();
@@ -102,7 +102,7 @@ public class CAPGenerator {
             BasicDBObject ci = (BasicDBObject) MongoInterface.getInstance().getAdvice(updateToId).get("capInfo");
             try {
                 String fecha = ci.getString("issueDate") + " " + ci.getString("issueTime");
-                System.out.println("fecha: "+fecha);
+                System.out.println("fecha: " + fecha);
                 emi = sdf.parse(fecha);
             } catch (ParseException pe) {
                 pe.printStackTrace();
@@ -111,7 +111,7 @@ public class CAPGenerator {
         }
         Alert.MsgType type = (null == updateToId ? Alert.MsgType.ALERT : Alert.MsgType.UPDATE);
         builder.setMsgType(type);
-        if (null != updateToId) {
+        if (null != updateToId && !"".equals(updateToId.trim())) {
             builder.setReferences(Group.newBuilder()
                     .addValue("smn.cna.gob.mx," + updateToId + "," + preSent)
                     .build());
@@ -129,7 +129,7 @@ public class CAPGenerator {
     }
 
     private Info.Builder getValidInfoBuilder(String areaId) {
-        Info.Urgency urg = Info.Urgency.EXPECTED;//TODO: definir valueOf(CAPUtils.Urgency.valueOf(event.get("eventUrgency")).ordinal());
+        Info.Urgency urg = Info.Urgency.IMMEDIATE;//TODO: definir valueOf(CAPUtils.Urgency.valueOf(event.get("eventUrgency")).ordinal());
         Info.Severity sev = Info.Severity.UNKNOWN_SEVERITY; //TODO: definir el valor de la severidad
         Info.Certainty cer = Info.Certainty.OBSERVED;//TODO: valueOf(CAPUtils.Certainty.valueOf(event.get("eventCertainty")).ordinal());
         Info.Builder builder = Info.newBuilder()
@@ -157,6 +157,9 @@ public class CAPGenerator {
                         .setValueName("Elaboró").setValue(capInfo.getString("issueMetheorologist")).build())
                 .addParameter(ValuePair.newBuilder()
                         .setValueName("Revisó").setValue(capInfo.getString("issueShiftBoss")).build());
+        if (null != init.getString("eventRisk") && !"".equals(init.getString("eventRisk"))) {
+            builder.addParameter(ValuePair.newBuilder().setValueName("semáforo").setValue(init.getString("eventRisk")).build());
+        }
         if (null != init.getString("eventInstructions")) {
             builder.setInstruction(init.getString("eventInstructions"));
         }
