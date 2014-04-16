@@ -46,7 +46,7 @@ public class CAPGenerator {
     private final BasicDBObject aviso;
     private final BasicDBObject init;
 //    private final BasicDBObject pronostico;
-    private final BasicDBObject seguimiento;
+//    private final BasicDBObject seguimiento;
     private final BasicDBObject capInfo;
 
     public CAPGenerator(String currentId) {
@@ -54,7 +54,7 @@ public class CAPGenerator {
         aviso = MongoInterface.getInstance().getAdvice(currentId);
         init = (BasicDBObject) aviso.get("init");
 //        pronostico = (BasicDBObject) aviso.get("pronostico");
-        seguimiento = (BasicDBObject) aviso.get("seguimiento");
+//        seguimiento = (BasicDBObject) aviso.get("seguimiento");
         capInfo = (BasicDBObject) aviso.get("capInfo");
 
     }
@@ -96,7 +96,7 @@ public class CAPGenerator {
 //                        .addValue("incident1").addValue("incident2").build())
 
         //definir si ACTUAL o UPDATE
-        String updateToId = seguimiento.getString("previousIssue");
+        String updateToId = capInfo.getString("previousIssue");
         String preSent = "";
         if (null != updateToId) {
             BasicDBObject ci = (BasicDBObject) MongoInterface.getInstance().getAdvice(updateToId).get("capInfo");

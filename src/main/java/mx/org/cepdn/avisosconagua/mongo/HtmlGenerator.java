@@ -70,7 +70,6 @@ public class HtmlGenerator {
         BasicDBObject aviso = MongoInterface.getInstance().getAdvice(currentId);
         BasicDBObject init = (BasicDBObject) aviso.get("init");
         BasicDBObject pronostico = (BasicDBObject) aviso.get("pronostico");
-        BasicDBObject seguimiento = (BasicDBObject) aviso.get("seguimiento");
         BasicDBObject capInfo = (BasicDBObject) aviso.get("capInfo");
         String imagefolder = publish ? currentId + "/" : "/getImage/";
         principalFile = init.getString("issueSateliteImg");
@@ -100,7 +99,7 @@ public class HtmlGenerator {
                     + get1r2c("PRON&Oacute;STICO DE LLUVIA:", init.getString("eventRainForecast"))
                     + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         } else {
-            previous = seguimiento.getString("previousIssue");
+            previous = capInfo.getString("previousIssue");
             String wind = "";
             if ((!"".equals(init.getString("eventWind120kmNE")))
                     || (!"".equals(init.getString("eventWind120kmSE")))
