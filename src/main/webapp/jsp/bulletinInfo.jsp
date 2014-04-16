@@ -39,7 +39,6 @@ ArrayList<String> advicesList = (ArrayList<String>)request.getAttribute("advices
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
                     --><li class="done">Predicción de avance</li><!--
-                    --><li class="done">Seguimiento</li><!--
                     --><li class="current">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
                     --><li class="pending">Publicación</li>

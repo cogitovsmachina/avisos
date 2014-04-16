@@ -37,7 +37,6 @@
                     <li class="done">Situación actual</li><!--
                     <%
                         if (!isdp){ %>--><li class="done">Predicción de avance</li><!--
-                    --><li class="done">Seguimiento</li><!--
                     <% }
                     %>--><li class="done">Información de emisión</li><!--
                     --><li class="current">Vista previa</li><!--
