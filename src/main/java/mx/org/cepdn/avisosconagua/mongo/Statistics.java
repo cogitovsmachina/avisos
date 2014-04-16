@@ -51,15 +51,15 @@ public class Statistics {
     }
 
     public Statistics(BasicDBObject aviso) {
-        BasicDBObject seguimiento = (BasicDBObject) aviso.get("seguimiento");
+        BasicDBObject capInfo = (BasicDBObject) aviso.get("capInfo");
         BasicDBObject init = (BasicDBObject) aviso.get("init");
-            this.aviso = seguimiento.getString("issueNumber");
-            this.fecha = seguimiento.getString("trackingLocalTime");
+            this.aviso = capInfo.getString("issueNumber");
+            this.fecha = init.getString("issueDate")+" / "+ init.getString("issueLocalTime");
             this.latitud = init.getString("eventCLat");
             this.longitud = init.getString("eventCLon");
             this.distancia = init.getString("eventDistance");
             this.viento = init.getString("eventWindSpeedSust")+" / "+init.getString("eventWindSpeedMax");
-            this.categoria = seguimiento.getString("eventCategory");
+            this.categoria = capInfo.getString("eventCategory");
             this.avance = init.getString("eventCurrentPath");
     }
 
