@@ -132,10 +132,8 @@ public class HtmlGenerator {
             
             String seccionB = "";
             String data = pronostico.getString("forecastData");
-            System.out.println("forecast:"+data);
             ArrayList<String> rows = Utils.tokenize(data, "\\{(.*?)\\}");
             for(String row:rows){
-                System.out.println("row:"+row);
                 String[] values = row.split("\\|");
                 seccionB += getRowSecB(values[0], values[1], values[2], values[3], values[4], values[5]);
             }

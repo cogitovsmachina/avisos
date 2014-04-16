@@ -131,9 +131,18 @@ public class MongoInterface {
     }
 
     public ArrayList<String> getPublisedAdvicesList() {
+        return getPublisedAdvicesList(null);
+    }
+
+    public ArrayList<String> getPublisedAdvicesList(String type) {
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
         ArrayList<String> ret = null;
-        DBCursor cursor = col.find().sort(new BasicDBObject(UPDATE_TS, -1)).limit(20);
+        DBCursor cursor = null;
+        if (null == type) {
+            cursor = col.find().sort(new BasicDBObject(UPDATE_TS, -1)).limit(10);
+        } else {
+            cursor = col.find(new BasicDBObject("adviceType", type)).sort(new BasicDBObject(UPDATE_TS, -1)).limit(10);
+        }
         if (null != cursor) {
             ret = new ArrayList<>();
             for (DBObject object : cursor) {
@@ -158,22 +167,32 @@ public class MongoInterface {
         return ret;
     }
 
-    public void setGenerated(String adviceID, String previous, String title) {
+    public void setGenerated(String adviceID, String previous, String title, String type) {
         DBCollection col = mongoDB.getCollection(GENERATED_COL);
-        col.insert(new BasicDBObject(INTERNAL_FORM_ID, adviceID)
+        BasicDBObject nuevo = new BasicDBObject(INTERNAL_FORM_ID, adviceID)
                 .append(GENERATED_TITLE, title)
                 .append("previousIssue", previous)
-                .append("generationTime", Utils.sdf.format(new Date())));
+                .append("generationTime", Utils.sdf.format(new Date()))
+                .append("adviceType", type);
+        BasicDBObject query = new BasicDBObject(INTERNAL_FORM_ID, adviceID);
+        BasicDBObject old = (BasicDBObject) col.findOne(query);
+        if (null == old) {
+            col.insert(nuevo);
+        } else {
+            col.update(old, nuevo);
+        }
     }
 
     public ArrayList<Statistics> getAdviceChain(String currentId) {
         String searchId = currentId;
-        DBCollection col = mongoDB.getCollection(GENERATED_COL);
-
+        DBCollection col = mongoDB.getCollection(CAPTURA_COL);
         Deque<String> deque = new ArrayDeque<>();
         while (searchId != null && !searchId.trim().equals("")) {
             deque.push(searchId);
             BasicDBObject current = (BasicDBObject) col.findOne(new BasicDBObject(INTERNAL_FORM_ID, searchId));
+            if (null!=current){
+                current = (BasicDBObject)current.get("capInfo");
+            }
             if (null != current) {
                 searchId = current.getString("previousIssue");
             } else {
@@ -181,11 +200,9 @@ public class MongoInterface {
             }
         }
         ArrayList<Statistics> ret = new ArrayList<>();
-        DBCollection adCol = mongoDB.getCollection(CAPTURA_COL);
         while (!deque.isEmpty()) {
             String curr = deque.pop();
-            System.out.println("buscar:" + curr);
-            BasicDBObject lobj = (BasicDBObject) adCol.findOne(new BasicDBObject(INTERNAL_FORM_ID, curr));
+            BasicDBObject lobj = (BasicDBObject) col.findOne(new BasicDBObject(INTERNAL_FORM_ID, curr));
             if (null != lobj) {
                 ret.add(new Statistics(lobj));
             }
@@ -214,5 +231,5 @@ public class MongoInterface {
         }
         return ret;
     }
-    
+
 }
