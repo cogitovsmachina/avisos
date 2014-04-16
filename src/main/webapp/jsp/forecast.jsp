@@ -126,7 +126,9 @@ for(String d : _trackData) {
                     $row = $(d);
                     val+="{";
                     $.each($row.children("td"), function(i, d) {
-                       val+=$(d).find(".data-table-input").val()+"|";
+                       var v = $.trim($(d).find(".data-table-input").val());
+			if (v==="") v = "_";
+                       val+= v+"|";
                     });
                     val = val.substring(0, val.length-1);
                     val+="}";
@@ -202,7 +204,7 @@ for(String d : _trackData) {
                                     {
                                         title:"Ubicación (Km)",
                                         field:"location",
-                                        formElement:"textBox",
+                                        formElement:"textArea",
                                         required: "true"
                                     }
                                 ],

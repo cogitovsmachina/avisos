@@ -56,11 +56,11 @@ public class HtmlGenerator {
     public String getPronosticoFile() {
         return pronosticoFile;
     }
-    
+
     public String getPrevious() {
         return previous;
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -77,25 +77,25 @@ public class HtmlGenerator {
             pronosticoFile = pronostico.getString("issueSateliteLocationImg");
         }
         String interpol = init.getString("eventCCalc");
-        interpol = "interpolation".equals(interpol)?"(Por interpolaci&oacute;n)":"";
+        interpol = "interpolation".equals(interpol) ? "(Por interpolaci&oacute;n)" : "";
         String titulo = Utils.getTituloBoletinHtml(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
-        title = capInfo.getString("issueNumber")+" "+titulo;
+        title = capInfo.getString("issueNumber") + " " + titulo;
         if (isDP) {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
                     + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
-                            init.getString("issueSateliteImgFooter"), 
+                            init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
                     + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
-                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"),"")
+                    + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"), "")
                     + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
-                    + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h")+"%")
-                    + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d")+"%")
+                    + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h") + "%")
+                    + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d") + "%")
                     + get1r2c("PRON&Oacute;STICO DE LLUVIA:", init.getString("eventRainForecast"))
                     + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         } else {
@@ -129,26 +129,31 @@ public class HtmlGenerator {
                 wind += get1r5c("OLEAJE 4 m", init.getString("seas4mNE"),
                         init.getString("seas4mSE"), init.getString("seas4mSO"), init.getString("seas4mNO"));
             }
-            
+
             String seccionB = "";
             String data = pronostico.getString("forecastData");
             ArrayList<String> rows = Utils.tokenize(data, "\\{(.*?)\\}");
-            for(String row:rows){
+            for (String row : rows) {
                 String[] values = row.split("\\|");
+                for (int i = 0; i < values.length; i++) {
+                    if ("_".equals(values[i])) {
+                        values[i] = "";
+                    }
+                }
                 seccionB += getRowSecB(values[0], values[1], values[2], values[3], values[4], values[5]);
             }
-            String sectionC ="";
+            String sectionC = "";
             ArrayList<Statistics> secclist = MongoInterface.getInstance().getAdviceChain(currentId);
-            for (Statistics secc : secclist){
-                sectionC += getSectionCRow(secc.getAviso(), secc.getFecha(), secc.getLatitud(), 
+            for (Statistics secc : secclist) {
+                sectionC += getSectionCRow(secc.getAviso(), secc.getFecha(), secc.getLatitud(),
                         secc.getLongitud(), secc.getDistancia(), secc.getViento(), secc.getCategoria(), secc.getAvance());
             }
-            
+
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
                     + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
-                            init.getString("issueSateliteImgFooter"), 
+                            init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DEL CICL&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
@@ -156,7 +161,7 @@ public class HtmlGenerator {
                     + getZonaAlerta(init.getString("areaDescription"))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
                     + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"), "")
-                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP")+ " hPa")
+                    + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP") + " hPa")
                     + get1r2c("DIAMETRO DEL OJO [Km]", init.getString("eventCDiameter"))
                     + vientosTitle
                     + wind
@@ -165,8 +170,8 @@ public class HtmlGenerator {
                     + get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
                     + headerSecB //TODO Sección B pronostico
                     + seccionB
-                    + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"),pronostico.getString("issueSateliteLocationImgFooter") )
-                    + tituloSecC 
+                    + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"), pronostico.getString("issueSateliteLocationImgFooter"))
+                    + tituloSecC
                     + sectionC
                     + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
         }
@@ -792,7 +797,7 @@ public class HtmlGenerator {
                 + "  mso-element-anchor-horizontal:column;mso-element-top:.05pt;mso-height-rule:\n"
                 + "  exactly'><span lang=ES-MX style='font-size:10.0pt;font-family:\"Arial Narrow\";\n"
                 + "  mso-ansi-language:ES-MX;mso-fareast-language:ES-MX;mso-no-proof:yes'>"
-                +inter+"<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>\n"
+                + inter + "<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>\n"
                 + "  </td>\n"
                 + "  <td width=138 colspan=6 style='width:138.2pt;border-top:none;border-left:\n"
                 + "  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;\n"
@@ -814,7 +819,7 @@ public class HtmlGenerator {
     }
 
     private static String getTitulo(String sintesis, String imgFile, String leyendaImg, String situacionActual) {
-        
+
         return " <tr style='mso-yfti-irow:3;height:17.5pt'>\n"
                 + "  <td width=514 colspan=19 style='width:513.8pt;border:solid windowtext 1.0pt;\n"
                 + "  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;\n"
