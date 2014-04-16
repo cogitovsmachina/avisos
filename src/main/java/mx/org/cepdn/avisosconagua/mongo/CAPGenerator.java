@@ -98,7 +98,7 @@ public class CAPGenerator {
         //definir si ACTUAL o UPDATE
         String updateToId = capInfo.getString("previousIssue");
         String preSent = "";
-        if (null != updateToId) {
+        if (null != updateToId && !"".equals(updateToId.trim())) {
             BasicDBObject ci = (BasicDBObject) MongoInterface.getInstance().getAdvice(updateToId).get("capInfo");
             try {
                 String fecha = ci.getString("issueDate") + " " + ci.getString("issueTime");

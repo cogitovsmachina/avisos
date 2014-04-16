@@ -23,6 +23,10 @@
 package mx.org.cepdn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -53,14 +57,48 @@ public class Statistics {
     public Statistics(BasicDBObject aviso) {
         BasicDBObject capInfo = (BasicDBObject) aviso.get("capInfo");
         BasicDBObject init = (BasicDBObject) aviso.get("init");
-            this.aviso = capInfo.getString("issueNumber");
-            this.fecha = init.getString("issueDate")+" / "+ init.getString("issueLocalTime");
-            this.latitud = init.getString("eventCLat");
-            this.longitud = init.getString("eventCLon");
-            this.distancia = init.getString("eventDistance");
-            this.viento = init.getString("eventWindSpeedSust")+" / "+init.getString("eventWindSpeedMax");
-            this.categoria = capInfo.getString("eventCategory");
-            this.avance = init.getString("eventCurrentPath");
+        this.aviso = capInfo.getString("issueNumber");
+        String tmp = init.getString("issueLocalTime");
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+        for (; i < tmp.length(); i++) {
+            if ((tmp.charAt(i) >= '0' && tmp.charAt(i) <= '9') || tmp.charAt(i) == ':') {
+                builder.append(tmp.charAt(i));
+            }
+            if (tmp.charAt(i) == 'a' || tmp.charAt(i) == 'A') {
+                builder.append(" am");
+                break;
+            }
+            if (tmp.charAt(i) == 'p' || tmp.charAt(i) == 'P') {
+                builder.append(" pm");
+                break;
+            }
+            if (tmp.charAt(i) == 'h' || tmp.charAt(i) == 'H' || tmp.charAt(i) == '(') {
+                break;
+            }
+        }
+        String pattern = "MM/dd/yyyyHH:mm";
+        String hora = builder.toString();
+        if (hora.contains("am") || hora.contains("pm")) {
+            pattern = "MM/dd/yyyyhh:mm aa";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        String fechaStr = capInfo.getString("issueDate") + hora;
+        Date date = new Date();
+        try {
+            date = sdf.parse(fechaStr);
+            System.out.println("fecha: " + fechaStr + " : " + date);
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+        }
+        SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM '/' HH:mm", Locale.forLanguageTag("es-mx"));
+        this.fecha = sdf2.format(date);
+        this.latitud = init.getString("eventCLat");
+        this.longitud = init.getString("eventCLon");
+        this.distancia = init.getString("eventDistance");
+        this.viento = init.getString("eventWindSpeedSust") + " / " + init.getString("eventWindSpeedMax");
+        this.categoria = capInfo.getString("eventCategory");
+        this.avance = init.getString("eventCurrentPath");
     }
 
     public String getAviso() {
@@ -101,8 +139,8 @@ public class Statistics {
                 + escapeQuote(distancia) + "\",\"viento\":\"" + viento + "\",\"categoria\":\"" + escapeQuote(categoria)
                 + "\",\"avance\":\"" + escapeQuote(avance) + "\"}";
     }
-    
-    private String escapeQuote(String string){
+
+    private String escapeQuote(String string) {
         return string.replaceAll("\"", "\\\\\"");
     }
 
