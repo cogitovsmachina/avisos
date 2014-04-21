@@ -23,7 +23,6 @@
 package mx.org.cedn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import mx.org.cedn.avisosconagua.util.Utils;
 
@@ -131,16 +130,18 @@ public class HtmlGenerator {
             }
 
             String seccionB = "";
-            String data = pronostico.getString("forecastData");
-            ArrayList<String> rows = Utils.tokenize(data, "\\{(.*?)\\}");
-            for (String row : rows) {
-                String[] values = row.split("\\|");
-                for (int i = 0; i < values.length; i++) {
-                    if ("_".equals(values[i])) {
-                        values[i] = "";
+            if (null != pronostico) {
+                String data = pronostico.getString("forecastData");
+                ArrayList<String> rows = Utils.tokenize(data, "\\{(.*?)\\}");
+                for (String row : rows) {
+                    String[] values = row.split("\\|");
+                    for (int i = 0; i < values.length; i++) {
+                        if ("_".equals(values[i])) {
+                            values[i] = "";
+                        }
                     }
+                    seccionB += getRowSecB(values[0], values[1], values[2], values[3], values[4], values[5]);
                 }
-                seccionB += getRowSecB(values[0], values[1], values[2], values[3], values[4], values[5]);
             }
             String sectionC = "";
             ArrayList<Statistics> secclist = MongoInterface.getInstance().getAdviceChain(currentId);
