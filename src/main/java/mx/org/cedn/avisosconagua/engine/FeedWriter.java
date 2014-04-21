@@ -159,21 +159,23 @@ public class FeedWriter {
         String ret = "";
         List<SyndEntry> entries = new ArrayList<>();
         for(Alert alert : alerts) {
-            SyndEntry entry = new SyndEntryImpl();
-            entry.setUri(alert.getIdentifier());
-            entry.setTitle(alert.getInfo(0).getEvent());
-            try {
-                entry.setUpdatedDate(Utils.isoformater.parse(alert.getSent()));
-            } catch (ParseException ex) {
-                
+            if (!alert.getInfoList().isEmpty()) {
+                SyndEntry entry = new SyndEntryImpl();
+                entry.setUri(alert.getIdentifier());
+                entry.setTitle(alert.getInfo(0).getEvent());
+                try {
+                    entry.setUpdatedDate(Utils.isoformater.parse(alert.getSent()));
+                } catch (ParseException ex) {
+
+                }
+
+                SyndContent cnt = new SyndContentImpl();
+                cnt.setType("text/xml");
+                cnt.setValue(CapUtil.stripXmlPreamble(builder.toXml(alert)));
+
+                entry.setContents(Collections.singletonList(cnt));            
+                entries.add(entry);
             }
-            
-            SyndContent cnt = new SyndContentImpl();
-            cnt.setType("text/xml");
-            cnt.setValue(CapUtil.stripXmlPreamble(builder.toXml(alert)));
-            
-            entry.setContents(Collections.singletonList(cnt));            
-            entries.add(entry);
         }
         feed.setEntries(entries);
         
