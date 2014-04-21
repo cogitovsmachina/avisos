@@ -21,35 +21,38 @@
  * http://www.semanticwebbuilder.org
  */
 
-package mx.org.cepdn.avisosconagua.engine;
+package mx.org.cedn.avisosconagua.engine.processors;
 
-import com.google.publicalerts.cap.Alert;
-import java.util.ArrayList;
-import java.util.Date;
-import mx.org.cepdn.avisosconagua.mongo.CAPGenerator;
-import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
+import com.mongodb.BasicDBObject;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import mx.org.cedn.avisosconagua.engine.Processor;
+import mx.org.cedn.avisosconagua.mongo.HtmlGenerator;
 
 /**
- * Utility class to generate a RSS or ATOM Feed for CONAGUA.
- * @author Hasdai Pacheco
+ *
+ * @author serch
  */
-public class FeedGenerator {
-    private FeedWriter feedWriter;
-    private static MongoInterface mi = MongoInterface.getInstance();
+public class Preview implements Processor {
+    private static final String ADVICE_ID = "internalId";
 
-    public FeedGenerator() {
-        feedWriter = new FeedWriter("atom_1.0", "Alertas por ciclones tropicales", "Comisión Nacional del Agua");
-        feedWriter.setPubDate(new Date(System.currentTimeMillis()));
+    @Override
+    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
+        //response.setContentType("text/html;charset=UTF-8");
+        String currentId = (String) request.getSession(true).getAttribute(ADVICE_ID);
+        HtmlGenerator gen = new HtmlGenerator(currentId);
+        //response.getWriter().print(gen.generate());
+        request.setAttribute("generatedHTML", gen.generate(false));
+        request.setAttribute("isdp", gen.isDP());
+        request.setAttribute("bulletinType", parts[2]);
+        request.getRequestDispatcher("/jsp/preview.jsp").forward(request, response);
+    }
+
+    @Override
+    public void processForm(HttpServletRequest request, String[] parts, String currentId) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public String generateXML() {
-        ArrayList<String> alertIds = mi.listPublishedAdvices();
-        for(String id : alertIds) {
-            CAPGenerator gen = new CAPGenerator(id);
-            Alert alert = gen.generateAlert();
-            feedWriter.addAlert(alert);
-        }
-        
-        return feedWriter.getXML();
-    }
 }

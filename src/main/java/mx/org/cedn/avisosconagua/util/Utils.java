@@ -20,7 +20,7 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-package mx.org.cepdn.avisosconagua.util;
+package mx.org.cedn.avisosconagua.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

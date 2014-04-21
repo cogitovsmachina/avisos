@@ -21,7 +21,7 @@
  * http://www.semanticwebbuilder.org
  */
 
-package mx.org.cepdn.avisosconagua.engine;
+package mx.org.cedn.avisosconagua.engine;
 
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -32,7 +32,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
+import mx.org.cedn.avisosconagua.mongo.MongoInterface;
 
 /**
  *

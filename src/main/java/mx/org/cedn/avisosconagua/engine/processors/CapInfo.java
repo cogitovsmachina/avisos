@@ -21,64 +21,42 @@
  * http://www.semanticwebbuilder.org
  */
 
-package mx.org.cepdn.avisosconagua.engine.processors;
+package mx.org.cedn.avisosconagua.engine.processors;
 
 import com.mongodb.BasicDBObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mx.org.cepdn.avisosconagua.engine.Processor;
-import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
+import mx.org.cedn.avisosconagua.engine.Processor;
+import mx.org.cedn.avisosconagua.mongo.MongoInterface;
 
 /**
  *
  * @author serch
  */
-public class Seguimiento implements Processor {
+public class CapInfo implements Processor {
 
     @Override
-    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
-        MongoInterface mi = MongoInterface.getInstance();
-        HashMap<String, String> datos = new HashMap<>();
+    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
+       HashMap<String, String> datos = new HashMap<>();
         if (null != data) {
             for (String key : data.keySet()) {
                 datos.put(key, data.getString(key));
-                //System.out.println("colocando: "+key+" : "+datos.get(key));
             }
         }
-        
-        //Get previously saved data to populate first row
-        HashMap<String, String> seguimiento = new HashMap<>();
-        BasicDBObject advice = mi.getAdvice((String)request.getSession(true).getAttribute("internalId"));
-        if (null != advice) {
-            //Add data from init section
-            BasicDBObject section = (BasicDBObject) advice.get("init");
-            if (null != section) {
-                for (String key : section.keySet()) {
-                    seguimiento.put(key, section.getString(key));
-                }
-            }
-            
-            //Add data from tracking section
-            section = (BasicDBObject) advice.get("seguimiento");
-            if (null != section) {
-                for (String key : section.keySet()) {
-                    seguimiento.put(key, section.getString(key));
-                }
-            }
-        }
-        
         request.setAttribute("data", datos);
-        request.setAttribute("trackData", seguimiento);
-        request.setAttribute("advicesList", mi.getPublisedAdvicesList());
         request.setAttribute("bulletinType", parts[2]);
-        String url = "/jsp/tracking.jsp";
+        request.setAttribute("advicesList", MongoInterface.getInstance().getPublisedAdvicesList(parts[2]));
+        String url = "/jsp/bulletinInfo.jsp";
+        if (parts[2].endsWith("dp")) {
+            url = "/jsp/bulletinInfoDp.jsp";
+        }
+        
         RequestDispatcher rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
     }
@@ -88,7 +66,7 @@ public class Seguimiento implements Processor {
         HashMap<String, String> parametros = new HashMap<>();
         for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
             try {
-                parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1"), "UTF-8"));
+                parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1"),"UTF-8"));
             } catch (UnsupportedEncodingException ue) {
                 //No debe llegar a este punto
                 assert false;

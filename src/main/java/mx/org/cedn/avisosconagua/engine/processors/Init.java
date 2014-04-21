@@ -20,8 +20,7 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-
-package mx.org.cepdn.avisosconagua.engine.processors;
+package mx.org.cedn.avisosconagua.engine.processors;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.gridfs.GridFS;
@@ -35,8 +34,8 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mx.org.cepdn.avisosconagua.engine.Processor;
-import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
+import mx.org.cedn.avisosconagua.engine.Processor;
+import mx.org.cedn.avisosconagua.mongo.MongoInterface;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -46,8 +45,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author serch
  */
-public class Pronostico implements Processor {
-    private static final int MAX_SIZE = 3 * 1024 * 1024;
+public class Init implements Processor {
+
+    private static final int MAX_SIZE = 1 * 1024 * 1024;
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
@@ -60,7 +60,10 @@ public class Pronostico implements Processor {
         }
         request.setAttribute("data", datos);
         request.setAttribute("bulletinType", parts[2]);
-        String url = "/jsp/forecast.jsp";
+        String url = "/jsp/init.jsp";
+        if (parts[2].endsWith("dp")) {
+            url = "/jsp/initdp.jsp";
+        }
         RequestDispatcher rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
     }
@@ -79,10 +82,16 @@ public class Pronostico implements Processor {
             for (FileItem item : items) {
                 if (!item.isFormField() && item.getSize()>0) {
                     filename = processUploadedFile(item, currentId);
+                    System.out.println("poniendo: "+ item.getFieldName() + "=" +filename);
                     parametros.put(item.getFieldName(), filename);
                 } else {
-                    System.out.println("item:" + item.getFieldName() + "=" + item.getString());
-                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1"), "UTF-8"));
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
+//                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1")));
+//                    System.out.println("item:" + item.getFieldName() + "=" + item.getString());
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1"),"UTF-8"));
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
+//                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("UTF-8"),"UTF-8"));
+                    parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1"),"UTF-8"));
                 }
             }
             } catch (FileUploadException fue){
@@ -90,35 +99,64 @@ public class Pronostico implements Processor {
             }
         } else {
             for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                try {
-                    parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1"), "UTF-8"));
-                } catch (UnsupportedEncodingException ue) {
-                    //No debe llegar a este punto
-                    assert false;
-                }
+//                try {
+//                    parametros.put(entry.getKey(), new String(request.getParameter(entry.getKey()).getBytes("ISO8859-1")));
+//                } catch (UnsupportedEncodingException ue) {
+//                    //No debe llegar a este punto
+//                    assert false;
+//                }
+                parametros.put(entry.getKey(), request.getParameter(entry.getKey()));
             }
         }
         BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);
+        procesaAreas(parametros, anterior);
         procesaImagen(parametros, anterior);
         MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
     }
-    
+
     private String processUploadedFile(FileItem item, String currentId) throws IOException {
+        System.out.println("file: size="+item.getSize()+" name:"+item.getName());
         GridFS gridfs = MongoInterface.getInstance().getImagesFS();
-        GridFSInputFile gfsFile = gridfs.createFile(item.getInputStream());
         String filename = currentId + ":" + item.getFieldName() + "_" + item.getName();
+        gridfs.remove(filename);
+        GridFSInputFile gfsFile = gridfs.createFile(item.getInputStream());
         gfsFile.setFilename(filename);
         gfsFile.setContentType(item.getContentType());
         gfsFile.save();
         return filename;
     }
     
+    
+    private void procesaAreas(HashMap<String, String> nuevo, BasicDBObject anterior) {
+        HashMap<String, String> cambios = new HashMap<>();
+        for (String key:nuevo.keySet()){
+            if (key.startsWith("area-")){
+                String states = "states" + key.substring(4);
+                String municipalities = "municipalities" + key.substring(4);
+                if (null==nuevo.get(states)||null==nuevo.get(municipalities)){
+                    if (((String)nuevo.get(key)).equals(anterior.get(key))){
+                        if (null!=anterior.get(states)){
+                            cambios.put(states, (String)anterior.get(states));
+                        }
+                        if (null!=anterior.get(municipalities)){
+                            cambios.put(municipalities, (String)anterior.get(municipalities));
+                        }
+                    }
+                }
+                    
+            }
+        }
+        if (!cambios.isEmpty()){
+            nuevo.putAll(cambios);
+        }
+    }
+
     private void procesaImagen(HashMap<String, String> parametros, BasicDBObject anterior) {
-        if (null == parametros.get("issueSateliteLocationImg")||"".equals(parametros.get("issueSateliteLocationImg").trim())){
-            if(null!=anterior.getString("issueSateliteLocationImg")){
-                parametros.put("issueSateliteLocationImg", anterior.getString("issueSateliteLocationImg"));
+        if (null == parametros.get("issueSateliteImg") || "".equals(parametros.get("issueSateliteImg").trim())){
+            if(null!=anterior.getString("issueSateliteImg")){
+                System.out.println("Arreglando: issueSateliteImg="+anterior.getString("issueSateliteImg"));
+                parametros.put("issueSateliteImg", anterior.getString("issueSateliteImg"));
             }
         }
     }
-    
 }

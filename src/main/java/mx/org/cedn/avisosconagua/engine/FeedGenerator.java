@@ -20,62 +20,36 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-package mx.org.cepdn.avisosconagua.mongo;
+
+package mx.org.cedn.avisosconagua.engine;
 
 import com.google.publicalerts.cap.Alert;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSInputFile;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import mx.org.cedn.avisosconagua.mongo.CAPGenerator;
+import mx.org.cedn.avisosconagua.mongo.MongoInterface;
 
 /**
- *
- * @author serch
+ * Utility class to generate a RSS or ATOM Feed for CONAGUA.
+ * @author Hasdai Pacheco
  */
-public class CAPFileGenerator {
+public class FeedGenerator {
+    private FeedWriter feedWriter;
+    private static MongoInterface mi = MongoInterface.getInstance();
 
-    private CAPGenerator generator;
-    private String name;
-    private boolean isOK = false;
-    private String link;
-
-    public CAPFileGenerator(String adviceID) {
-        generator = new CAPGenerator(adviceID);
-        name = adviceID + "_cap.xml";
-        link = "/getFile/" + name;
-
-    }
-
-    public void generate() {
-        try {
-            GridFS fs = MongoInterface.getInstance().getGeneratedFS();
-            fs.remove(name);
-            GridFSInputFile infile = fs.createFile(generator.generate().getBytes("UTF-8"));
-            infile.setContentType("text/xml");
-            infile.setFilename(name);
-            infile.save();
-            isOK = true;
-        } catch (UnsupportedEncodingException uex) {
-            uex.printStackTrace();
-        }
-    }
-
-    public boolean isOK() {
-        return isOK;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Alert getAlert() {
-        return generator.generateAlert();
+    public FeedGenerator() {
+        feedWriter = new FeedWriter("atom_1.0", "Alertas por ciclones tropicales", "Comisión Nacional del Agua");
+        feedWriter.setPubDate(new Date(System.currentTimeMillis()));
     }
     
-    public String getDate() {
-        return generator.getDate();
+    public String generateXML() {
+        ArrayList<String> alertIds = mi.listPublishedAdvices();
+        for(String id : alertIds) {
+            CAPGenerator gen = new CAPGenerator(id);
+            Alert alert = gen.generateAlert();
+            feedWriter.addAlert(alert);
+        }
+        
+        return feedWriter.getXML();
     }
 }

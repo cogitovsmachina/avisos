@@ -21,7 +21,7 @@
  * http://www.semanticwebbuilder.org
  */
 
-package mx.org.cepdn.avisosconagua.engine;
+package mx.org.cedn.avisosconagua.engine;
 
 import com.google.publicalerts.cap.Alert;
 import com.google.publicalerts.cap.CapUtil;
@@ -39,8 +39,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
-import mx.org.cepdn.avisosconagua.util.Utils;
+import mx.org.cedn.avisosconagua.mongo.MongoInterface;
+import mx.org.cedn.avisosconagua.util.Utils;
 /**
  * Feed Writer using google cap-library utilities.
  * @author Hasdai Pacheco

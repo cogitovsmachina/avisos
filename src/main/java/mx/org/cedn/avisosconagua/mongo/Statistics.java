@@ -20,7 +20,7 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-package mx.org.cepdn.avisosconagua.mongo;
+package mx.org.cedn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
 import java.text.ParseException;

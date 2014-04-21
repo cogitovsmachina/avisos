@@ -20,7 +20,7 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-package mx.org.cepdn.avisosconagua.engine;
+package mx.org.cedn.avisosconagua.engine;
 
 import com.mongodb.BasicDBObject;
 import java.io.BufferedReader;
@@ -37,7 +37,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mx.org.cepdn.avisosconagua.mongo.MongoInterface;
+import mx.org.cedn.avisosconagua.mongo.MongoInterface;
 
 /**
  *
@@ -63,7 +63,7 @@ public class Controler extends HttpServlet {
                     control.put(kv[0], list);
                     for (String proc : list) {
                         if (!processors.containsKey(proc)) {
-                            String clazzName = "mx.org.cepdn.avisosconagua.engine.processors." + proc.substring(0, 1).toUpperCase() + proc.substring(1);
+                            String clazzName = "mx.org.cedn.avisosconagua.engine.processors." + proc.substring(0, 1).toUpperCase() + proc.substring(1);
                             Class clazz = Class.forName(clazzName);
                             Processor procObj = (Processor) clazz.newInstance();
                             processors.put(proc, procObj);

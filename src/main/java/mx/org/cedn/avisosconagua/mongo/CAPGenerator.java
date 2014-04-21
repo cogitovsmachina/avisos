@@ -20,7 +20,7 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
-package mx.org.cepdn.avisosconagua.mongo;
+package mx.org.cedn.avisosconagua.mongo;
 
 import com.google.publicalerts.cap.Alert;
 import com.google.publicalerts.cap.Area;
@@ -34,7 +34,7 @@ import com.google.publicalerts.cap.Polygon;
 import com.google.publicalerts.cap.ValuePair;
 import com.mongodb.BasicDBObject;
 import java.text.ParseException;
-import mx.org.cepdn.avisosconagua.util.Utils;
+import mx.org.cedn.avisosconagua.util.Utils;
 
 /**
  *

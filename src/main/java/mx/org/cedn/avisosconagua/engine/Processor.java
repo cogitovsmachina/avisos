@@ -21,38 +21,21 @@
  * http://www.semanticwebbuilder.org
  */
 
-package mx.org.cepdn.avisosconagua.engine.processors;
+package mx.org.cedn.avisosconagua.engine;
 
 import com.mongodb.BasicDBObject;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mx.org.cepdn.avisosconagua.engine.Processor;
-import mx.org.cepdn.avisosconagua.mongo.HtmlGenerator;
 
 /**
  *
  * @author serch
  */
-public class Preview implements Processor {
-    private static final String ADVICE_ID = "internalId";
-
-    @Override
-    public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException {
-        //response.setContentType("text/html;charset=UTF-8");
-        String currentId = (String) request.getSession(true).getAttribute(ADVICE_ID);
-        HtmlGenerator gen = new HtmlGenerator(currentId);
-        //response.getWriter().print(gen.generate());
-        request.setAttribute("generatedHTML", gen.generate(false));
-        request.setAttribute("isdp", gen.isDP());
-        request.setAttribute("bulletinType", parts[2]);
-        request.getRequestDispatcher("/jsp/preview.jsp").forward(request, response);
-    }
-
-    @Override
-    public void processForm(HttpServletRequest request, String[] parts, String currentId) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+public interface Processor {
+    
+    void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException;
+    void processForm(HttpServletRequest request, String[] parts, String currentId)throws ServletException, IOException;
     
 }

@@ -20,22 +20,62 @@
  * dirección electrónica:
  * http://www.semanticwebbuilder.org
  */
+package mx.org.cedn.avisosconagua.mongo;
 
-package mx.org.cepdn.avisosconagua.engine;
-
-import com.mongodb.BasicDBObject;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.google.publicalerts.cap.Alert;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
+import java.io.UnsupportedEncodingException;
 
 /**
  *
  * @author serch
  */
-public interface Processor {
+public class CAPFileGenerator {
+
+    private CAPGenerator generator;
+    private String name;
+    private boolean isOK = false;
+    private String link;
+
+    public CAPFileGenerator(String adviceID) {
+        generator = new CAPGenerator(adviceID);
+        name = adviceID + "_cap.xml";
+        link = "/getFile/" + name;
+
+    }
+
+    public void generate() {
+        try {
+            GridFS fs = MongoInterface.getInstance().getGeneratedFS();
+            fs.remove(name);
+            GridFSInputFile infile = fs.createFile(generator.generate().getBytes("UTF-8"));
+            infile.setContentType("text/xml");
+            infile.setFilename(name);
+            infile.save();
+            isOK = true;
+        } catch (UnsupportedEncodingException uex) {
+            uex.printStackTrace();
+        }
+    }
+
+    public boolean isOK() {
+        return isOK;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Alert getAlert() {
+        return generator.generateAlert();
+    }
     
-    void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String[] parts) throws ServletException, IOException;
-    void processForm(HttpServletRequest request, String[] parts, String currentId)throws ServletException, IOException;
-    
+    public String getDate() {
+        return generator.getDate();
+    }
 }
