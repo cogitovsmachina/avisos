@@ -1,4 +1,4 @@
-<%@page import="mx.org.cepdn.avisosconagua.util.Utils"%>
+<%@page import="mx.org.cedn.avisosconagua.util.Utils"%>
 <%@page contentType="text/html" pageEncoding="utf-8"%>
 <%
     String titulo = (String)request.getAttribute("titulo");

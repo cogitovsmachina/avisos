@@ -1,4 +1,4 @@
-<%@page import="mx.org.cepdn.avisosconagua.util.Utils"%>
+<%@page import="mx.org.cedn.avisosconagua.util.Utils"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>

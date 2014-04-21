@@ -1,4 +1,4 @@
-<%@page import="mx.org.cepdn.avisosconagua.util.Utils"%>
+<%@page import="mx.org.cedn.avisosconagua.util.Utils"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
@@ -8,7 +8,7 @@
 String regex = "((\\+|\\-)?\\d+.?\\d*),\\s*((\\+|\\-)?\\d+.?\\d*)\\s\\d+.?\\d*";
 String type = (String)request.getAttribute("bulletinType");
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
-ArrayList<String> areas = new ArrayList<String>();
+ArrayList<String> areas = new ArrayList<>();
 
 String calcMethod = Utils.getValidFieldFromHash(data, "eventCCalc");
 String risk = Utils.getValidFieldFromHash(data, "eventRisk");

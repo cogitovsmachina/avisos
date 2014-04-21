@@ -1,6 +1,6 @@
 <%@page import="com.mongodb.BasicDBObject"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="mx.org.cepdn.avisosconagua.mongo.MongoInterface"%>
+<%@page import="mx.org.cedn.avisosconagua.mongo.MongoInterface"%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
