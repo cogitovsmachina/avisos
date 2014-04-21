@@ -74,16 +74,16 @@ public class Utils {
         String titulo = "";
         switch (type) {
             case "pacdp":
-                titulo = "Aviso de zonas de baja presi&oacute;n en el Oc&eacute;ano Pac&iacute;fico con potencial cicl&oacute;nico";
+                titulo = "Aviso de zonas de baja presi&oacute;n en el Pac&iacute;fico con potencial cicl&oacute;nico";
                 break;
             case "pacht":
-                titulo = "Aviso de Cicl&oacute;n Tropical del Oc&eacute;ano Pac&iacute;fico";
+                titulo = "Aviso de Cicl&oacute;n Tropical en el Pac&iacute;fico";
                 break;
             case "atldp":
-                titulo = "Aviso de zonas de baja presi&oacute;n en el Oc&eacute;ano Atl&aacute;ntico con potencial cicl&oacute;nico";
+                titulo = "Aviso de zonas de baja presi&oacute;n en el Atl&aacute;ntico con potencial cicl&oacute;nico";
                 break;
             case "atlht":
-                titulo = "Aviso de Cicl&oacute;n Tropical del Oc&oacute;ano Atl&aacute;ntico";
+                titulo = "Aviso de Cicl&oacute;n Tropical en el Atl&aacute;ntico";
                 break;
         }
         return titulo;
@@ -93,16 +93,16 @@ public class Utils {
         String titulo = "";
         switch (type) {
             case "pacdp":
-                titulo = "Aviso de zonas de baja presión en el Océano Pacífico con potencial ciclónico";
+                titulo = "Aviso de zonas de baja presión en el Pacífico con potencial ciclónico";
                 break;
             case "pacht":
-                titulo = "Aviso de Ciclón Tropical del Océano Pacífico";
+                titulo = "Aviso de Ciclón Tropical en el Pacífico";
                 break;
             case "atldp":
-                titulo = "Aviso de zonas de baja presión en el Océano Atlántico con potencial ciclónico";
+                titulo = "Aviso de zonas de baja presión en el Atlántico con potencial ciclónico";
                 break;
             case "atlht":
-                titulo = "Aviso de Ciclón Tropical del Océano Atlántico";
+                titulo = "Aviso de Ciclón Tropical en el Océano Atlántico";
                 break;
         }
         return titulo;
