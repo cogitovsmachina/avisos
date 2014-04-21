@@ -130,7 +130,7 @@ public class HtmlGenerator {
             }
 
             String seccionB = "";
-            if (null != pronostico) { //siempre debería ser true
+            if (null != pronostico || !"".equals(pronostico.getString("forecastData").trim())) { //siempre debería ser true
                 String data = pronostico.getString("forecastData");
                 ArrayList<String> rows = Utils.tokenize(data, "\\{(.*?)\\}");
                 for (String row : rows) {
