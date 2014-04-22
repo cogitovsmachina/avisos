@@ -94,25 +94,31 @@ public class Controler extends HttpServlet {
             List<String> flujo = control.get(parts[2]);
             BasicDBObject datos = null;
             if (flujo.contains(parts[3])) {
+                if (!"capgen".equals(parts[2])) {
+                    processors.get(parts[3]).invokeForm(request, response,
+                            null, parts);
+                    return;
+                }
                 if (parts.length > 4 && !"new".equals(parts[4])) {
                     datos = MongoInterface.getInstance().getAdvice(parts[4]);
                     if (null != datos) {
                         currentId = parts[4];
                         request.getSession(true).setAttribute(ADVICE_ID, currentId);
-                        response.sendRedirect("/"+parts[1]+"/"+parts[2]+"/"+parts[3]);
+                        response.sendRedirect("/" + parts[1] + "/" + parts[2] + "/" + parts[3]);
                         return;
                     }
                 }
                 if ((null == currentId && parts[3].equals(flujo.get(0))) || (parts.length > 4 && "new".equals(parts[4]))) {
                     currentId = UUID.randomUUID().toString();
                     request.getSession(true).setAttribute(ADVICE_ID, currentId);
-                    datos = MongoInterface.getInstance().createNewAdvice(currentId, parts[2]);
-                    response.sendRedirect("/"+parts[1]+"/"+parts[2]+"/"+parts[3]);
+                    MongoInterface.getInstance().createNewAdvice(currentId, parts[2]);
+                    response.sendRedirect("/" + parts[1] + "/" + parts[2] + "/" + parts[3]);
                     return;
                 }
                 if (null == datos) {
                     datos = MongoInterface.getInstance().getAdvice(currentId);
                 }
+
                 cleanAttributes(request);
                 processors.get(parts[3]).invokeForm(request, response,
                         (BasicDBObject) datos.get(parts[3]), parts);
