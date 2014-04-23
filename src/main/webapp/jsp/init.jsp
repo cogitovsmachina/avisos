@@ -8,7 +8,7 @@
 String regex = "((\\+|\\-)?\\d+.?\\d*),\\s*((\\+|\\-)?\\d+.?\\d*)\\s\\d+.?\\d*";
 String type = (String)request.getAttribute("bulletinType");
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
-ArrayList<String> areas = new ArrayList<>();
+ArrayList<String> areas = new ArrayList<String>();
 
 String calcMethod = Utils.getValidFieldFromHash(data, "eventCCalc");
 String risk = Utils.getValidFieldFromHash(data, "eventRisk");
