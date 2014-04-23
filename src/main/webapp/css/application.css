@@ -1,6 +1,18 @@
+@charset "utf-8";
+@font-face { font-family: Soberana Titular; src: url(fonts/SoberanaTitular-Regular.otf);font-weight: normal; }
+@font-face { font-family: Soberana Titular Bold; src: url(fonts/SoberanaTitular-Bold.otf); font-weight: normal; }
+@font-face { font-family: Soberana Sans; src: url(fonts/SoberanaSans-Regular.otf); font-weight: normal; }
+@font-face { font-family: Soberana Sans Italic; src: url(fonts/SoberanaSans-Italic.otf); font-weight: normal; }
+@font-face { font-family: Soberana Sans Bold; src: url(fonts/SoberanaSans-Bold.otf); font-weight: normal; }
+
 body {
+        /*font-family: "Soberana Sans Regular", Calibri, sans-serif;*/
 	padding-top: 60px;
 }
+
+/*h1, h2, h3, h4 {
+    font-family: "Soberana Titular", Calibri, sans-serif;
+}*/
 
 .main-content {
 	border-right: 1px solid #ccc;
