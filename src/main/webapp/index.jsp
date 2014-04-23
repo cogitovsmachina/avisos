@@ -5,7 +5,7 @@
 <html lang="es">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <title>CONAGUA Bulletin Builder</title>
         <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="/css/font-awesome/font-awesome.min.css">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="row">
+                <div class="row visible-md visible-lg">
                     <%
                     ArrayList<String> lista = MongoInterface.getInstance().listPublishedAdvices(20);
                     if (!lista.isEmpty()) {
