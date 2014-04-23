@@ -13,7 +13,7 @@ ArrayList<String> advicesList = (ArrayList<String>)request.getAttribute("advices
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <title>CAP Architect v1</title>
         <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="/css/font-awesome/font-awesome.min.css">
