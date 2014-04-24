@@ -8,6 +8,39 @@
 <%
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
 String type = (String)request.getAttribute("bulletinType");
+String forecast = Utils.getValidFieldFromHash(data, "forecastData");
+ArrayList<String> rows = Utils.tokenize(forecast, "\\{(.*?)\\}");
+
+if (!forecast.equals("")) {
+    forecast = "[";
+
+    for (int i = 0; i < rows.size(); i++) {
+        String[] values = rows.get(i).split("\\|");
+        for (int j = 0; j < values.length; j++) {
+            if ("_".equals(values[j])) {
+                values[j] = "";
+            }
+        }
+
+        if (values.length == 6) {
+            forecast += "{";
+
+            forecast += "\"id\":\""+values[0]+"\",";
+            forecast += "\"north\":\""+values[1]+"\",";
+            forecast += "\"west\":\""+values[2]+"\",";
+            forecast += "\"max\":\""+values[3].split("/")[0]+"\",";
+            forecast += "\"gusts\":\""+values[3].split("/")[1]+"\",";
+            forecast += "\"category\":\""+values[4]+"\",";
+            forecast += "\"location\":\""+values[5]+"\"";
+
+            forecast+= "}";
+            if (i < rows.size() -1) {
+                forecast += ",";
+            }
+        }
+    }
+    forecast += "]";
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -131,6 +164,58 @@ String type = (String)request.getAttribute("bulletinType");
                 return true;
             }
             
+            <%
+            if  (!forecast.equals("")) {
+                %>
+                var data = JSON.parse('<%=forecast%>');
+                $("#dataTable tbody").empty();
+                $("#dataTable").dataTable({
+                    columnAlign: "center",
+                    renderCols:false,
+                    columns: [
+                        {
+                            title:"Pronóstico válido<br>al día/hora local<br>tiempo del centro",
+                            field:"id",
+                            formElement:"textBox",
+                            required: "true"
+                        },
+                        {
+                            title:"Latitud norte",
+                            field:"north",
+                            formElement:"textBox",
+                            required: "true"
+                        },
+                        {
+                            title:"Longitud oeste",
+                            field:"west",
+                            formElement:"textBox",
+                            required: "true"
+                        },
+                        {
+                            title:"Vientos (Km/h)<br>SOST./RACHAS",
+                            field:"max|gusts",
+                            separator:"/",
+                            formElement:"textBox",
+                            required: "true"
+                        },
+                        {
+                            title:"Categoría",
+                            field:"category",
+                            formElement:"textBox",
+                            required: "true"
+                        },
+                        {
+                            title:"Ubicación (Km)",
+                            field:"location",
+                            formElement:"textArea",
+                            //required: "true"
+                        }
+                    ],
+                    data: data
+                });
+                <%
+            }
+            %>
             function loadDataFromUrl(url) {
                 if (url && url !== undefined) {
                     var btn = $("#loadButton");
