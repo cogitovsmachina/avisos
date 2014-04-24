@@ -22,7 +22,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing"></script>
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default navbar-fixed-top hidden-print" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/"><img class="logo img-responsive" src="/css/img/CONAGUALOGO.png"/></a>
@@ -30,8 +30,8 @@
             </div>
         </nav>
         <div class="container main-content">
-            <h3 class="text-center"><%=Utils.getTituloBoletin(type)%></h3>
-            <div class="row progress-indicator-container text-center">
+            <h3 class="text-center hidden-print"><%=Utils.getTituloBoletin(type)%></h3>
+            <div class="row progress-indicator-container text-center hidden-print">
                 <ol class="progress-indicator">
                     <li class="done">Situación actual</li><!--
                     <%
@@ -49,7 +49,7 @@
                 %>
                 
             </div>
-                <div class="row inner-container text-right">
+            <div class="row inner-container text-right hidden-print">
                 <div class="col-lg-12">
                     <form>
                         <button onclick="window.location = 'init';
