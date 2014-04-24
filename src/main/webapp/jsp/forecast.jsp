@@ -8,14 +8,6 @@
 <%
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
 String type = (String)request.getAttribute("bulletinType");
-/*String trackData = data.get("forecastData")!= null?data.get("forecastData"):"";
-ArrayList<String> _trackData = Utils.tokenize(trackData, "\\{(.*?)\\}");
-for(String d : _trackData) {
-            String []parts = d.split("\\|");
-            for(int i = 0; i< parts.length; i++) {
-                System.out.println("part:\""+parts[i]+"\"");
-            }
-}*/
 %>
 <!DOCTYPE html>
 <html>
@@ -75,11 +67,11 @@ for(String d : _trackData) {
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Enlace al <a target="_blank" href="http://www.nhc.noaa.gov/">forecast de NHC</a></label>
+                            <label class="control-label">Liga al forecast advisory de <a target="_blank" href="http://www.nhc.noaa.gov/">NOAA&nbsp;<span class="fa fa-external-link"></span></a></label>
                             <div class="input-group">
                                 <input type="text" id="nhcLink" name="nhcLink" value="<%=Utils.getValidFieldFromHash(data, "nhcLink")%>" class="form-control">
                                 <span class="input-group-btn">
-                                    <button id="loadButton" class="btn btn-default" data-loading-text="Cargando..." type="button">Precargar</button>
+                                    <button id="loadButton" class="btn btn-primary" data-loading-text="Cargando..." type="button">Precargar tabla</button>
                                 </span>
                             </div>
                         </div>
@@ -116,6 +108,7 @@ for(String d : _trackData) {
         <script src="/js/libs/jquery/jquery.min.js" type="text/javascript"></script>
         <script src="/js/libs/jquery/jquery-validate.min.js" type="text/javascript"></script>
         <script src="/js/libs/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/libs/moment/moment.min.js" type="text/javascript"></script>
         <script src="/js/application.js"></script>
         <script src="/js/libs/dataTable/jquery-dataTable.js"></script>
         <script type="text/javascript">
@@ -151,6 +144,8 @@ for(String d : _trackData) {
                             url: url
                         },
                         success: function (response) {
+                            var pData = processData(response);
+                            
                             $("#dataTable tbody").empty();
                             $("#dataTable").dataTable({
                                 columnAlign: "center",
@@ -166,20 +161,12 @@ for(String d : _trackData) {
                                         title:"Latitud norte",
                                         field:"north",
                                         formElement:"textBox",
-                                        postProcess:function(val) {
-                                            //Quitar N
-                                            return val.replace(/N/g,'');
-                                        },
                                         required: "true"
                                     },
                                     {
                                         title:"Longitud oeste",
                                         field:"west",
                                         formElement:"textBox",
-                                        postProcess:function(val) {
-                                            //Quitar W
-                                            return val.replace(/W/g,'');
-                                        },
                                         required: "true"
                                     },
                                     {
@@ -187,12 +174,6 @@ for(String d : _trackData) {
                                         field:"max|gusts",
                                         separator:"/",
                                         formElement:"textBox",
-                                        postProcess:function(val) {
-                                            //Elimina KT y convierte a Km/h
-                                            var ret = val.replace(/\s/g,'').replace(/KT/g,'');
-                                            var vals = ret.split("/");
-                                            return (parseFloat(vals[0])*1.852).toFixed(2) + "/" + (parseFloat(vals[1])*1.852).toFixed(2);
-                                        },
                                         required: "true"
                                     },
                                     {
@@ -208,12 +189,50 @@ for(String d : _trackData) {
                                         required: "true"
                                     }
                                 ],
-                                data: response
+                                data: pData
                             });
                             btn.button('reset');
                         }
                     });
                 }
+            }
+            
+            function processData(data) {
+                console.log(data);
+                $.each(data, function(i,d) {
+                    //Get rid of units
+                    d.id = d.id.replace(/Z/g,'');
+                    d.max = d.max.replace(/\s/g,'').replace(/KT/g,'');
+                    d.gusts = d.gusts.replace(/\s/g,'').replace(/KT/g,'');
+                    d.north = d.north.replace(/N/g,'');
+                    d.west = d.west.replace(/W/g,'');
+                    
+                    //KT to Km/h
+                    d.max = (parseFloat(d.max)*1.852).toFixed();
+                    d.gusts = (parseFloat(d.gusts)*1.852).toFixed();
+                    
+                    //UTC to Local time
+                    var nowUTC = moment.utc();
+                    if (d.id.indexOf("/") !== -1) {
+                        var nowUTC = moment.utc(d.id.split("/")[0]+"-"+nowUTC.month()+"-"+nowUTC.year()+d.id.split("/")[1],"DD-MM-YYYY/HH:mm");
+                    }
+                    nowUTC.local();
+                    d.id=nowUTC.format("DD/HH")+"h";
+                    
+                    //Get category
+                    var winds = parseFloat(d.max);
+                    var category = "Desconocida";
+                    if (winds <= 62) category = "Depresión Tropical";
+                    if (winds >= 62.1 && winds <= 118) category = "Tormenta Tropical";
+                    if (winds >= 118.1 && winds <= 154) category = "Huracán categoría I";
+                    if (winds >= 154.1 && winds <= 178) category = "Huracán categoría II";
+                    if (winds >= 178.1 && winds <= 210) category = "Huracán categoría III";
+                    if (winds >= 210.1 && winds <= 250) category = "Huracán categoría IV";
+                    if (winds >= 250.1) category = "Huracán categoría V";
+                    
+                    d.category = category;
+                });
+                return data;
             }
             
             $(document).ready(function() {
