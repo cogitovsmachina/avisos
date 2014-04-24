@@ -23,7 +23,6 @@
 package mx.org.cedn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import mx.org.cedn.avisosconagua.util.Utils;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
@@ -172,7 +171,7 @@ public class HtmlGenerator {
                     + get1r2c("DIAMETRO PROMEDIO DE FUERTE CONVECCI&Oacute;N", escapeHtml4(init.getString("eventDiameterConvection")))
                     + get1r2c("COMENTARIOS ADICIONALES:", escapeHtml4(cleanPs(init.getString("eventComments"))))
                     + get1r2c("RECOMENDACIONES", escapeHtml4(init.getString("eventInstructions")))
-                    + headerSecB //TODO Sección B pronostico
+                    + headerSecB 
                     + seccionB
                     + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"), escapeHtml4(pronostico.getString("issueSateliteLocationImgFooter")))
                     + tituloSecC

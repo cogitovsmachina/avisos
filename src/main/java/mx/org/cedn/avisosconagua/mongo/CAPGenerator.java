@@ -79,21 +79,12 @@ public class CAPGenerator {
 
     private Alert.Builder getValidAlertBuilder() {
 
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm aa"); //TODO quitar cuando clock 24hrs
-        java.util.Date emi = new java.util.Date();
-        try {
-            String fechEmi = capInfo.getString("issueDate") + " " + capInfo.getString("issueTime");
-            System.out.println("fecEmi: " + fechEmi);
-            emi = sdf.parse(fechEmi);
-            _date = Utils.sdf.format(emi);
-        } catch (ParseException pe) {
-            pe.printStackTrace();
-        }
+        _date = capInfo.getString("issueDate") + " " + capInfo.getString("issueTime");
         Alert.Builder builder = Alert.newBuilder()
                 .setXmlns(CapValidator.CAP12_XMLNS)
                 .setIdentifier(currentId)
                 .setSender("smn.cna.gob.mx")
-                .setSent(Utils.getISODate(Utils.sdf.format(emi)))//2003-04-02T14:39:01-05:00 2014-04-93T12:58:00-06:00
+                .setSent(Utils.getISODate(_date))//2003-04-02T14:39:01-05:00 2014-04-93T12:58:00-06:00
                 .setStatus(Alert.Status.ACTUAL)
                 .setScope(Alert.Scope.PUBLIC)
                 .addCode(capInfo.getString("issueNumber"));
@@ -106,14 +97,8 @@ public class CAPGenerator {
         String preSent = "";
         if (null != updateToId && !"".equals(updateToId.trim())) {
             BasicDBObject ci = (BasicDBObject) MongoInterface.getInstance().getAdvice(updateToId).get("capInfo");
-            try {
-                String fecha = ci.getString("issueDate") + " " + ci.getString("issueTime");
-                System.out.println("fecha: " + fecha);
-                emi = sdf.parse(fecha);
-            } catch (ParseException pe) {
-                pe.printStackTrace();
-            }
-            preSent = Utils.getISODate(Utils.sdf.format(emi));
+            String fecha = ci.getString("issueDate") + " " + ci.getString("issueTime");
+            preSent = Utils.getISODate(fecha);
         }
         Alert.MsgType type = (null == updateToId ? Alert.MsgType.ALERT : Alert.MsgType.UPDATE);
         builder.setMsgType(type);
