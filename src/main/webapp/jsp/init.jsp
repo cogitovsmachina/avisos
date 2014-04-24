@@ -12,7 +12,11 @@ ArrayList<String> areas = new ArrayList<String>();
 
 String calcMethod = Utils.getValidFieldFromHash(data, "eventCCalc");
 String risk = Utils.getValidFieldFromHash(data, "eventRisk");
-String instructions = "A LA POBLACIÓN EN GENERAL EN LOS ESTADOS MENCIONADOS Y A LA NAVEGACIÓN MARÍTIMA EN LAS INMEDIACIONES DEL SISTEMA, MANTENER PRECAUCIONES Y ATENDER RECOMENDACIONES EMITIDAS POR LAS AUTORIDADES DEL SISTEMA NACIONAL DE PROTECCIÓN CIVIL";
+String instructions = Utils.getValidFieldFromHash(data, "eventInstructions");
+String imgFooter = Utils.getValidFieldFromHash(data, "issueSateliteImgFooter");
+
+if (imgFooter.equals("")) imgFooter = "Imagen de satélite del ciclón tropical";
+if (instructions.equals("")) instructions = "A LA POBLACIÓN EN GENERAL EN LOS ESTADOS MENCIONADOS Y A LA NAVEGACIÓN MARÍTIMA EN LAS INMEDIACIONES DEL SISTEMA, MANTENER PRECAUCIONES Y ATENDER RECOMENDACIONES EMITIDAS POR LAS AUTORIDADES DEL SISTEMA NACIONAL DE PROTECCIÓN CIVIL";
 
 calcMethod = calcMethod.equals("")?"forecast":calcMethod;
 risk = risk.equals("")?"green":risk;
@@ -85,12 +89,11 @@ while(keys.hasNext()) {
                                 <input type="text" class="form-control" value="<%=fileName%>" disabled data-required="true" data-description="common" />
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 form-group">
+                        <!--div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Pie de la imagen*</label>
                             <input type="text" name="issueSateliteImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImgFooter")%>" />
-                        </div>
-                    </div>
-                    <div class="row">
+                        </div-->
+                        <input type="hidden" name="issueSateliteImgFooter" value="<%=imgFooter%>" />
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Umbral de distancia de las costas nacionales*</label>
                             <%
@@ -102,12 +105,12 @@ while(keys.hasNext()) {
                                 <option value="land" <%=selectedValue.equalsIgnoreCase("land")?"selected":""%>>En tierra</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Hora local tiempo del centro (Hora GMT)*</label>
                             <input name="issueLocalTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Ubicación del centro del ciclón tropical</label>
                             <div class="form-inline">
@@ -115,6 +118,8 @@ while(keys.hasNext()) {
                                 <input name="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Método de cálculo del centro</label><br>
                             <div class="btn-group" data-toggle="buttons">
@@ -126,8 +131,6 @@ while(keys.hasNext()) {
                                 </label>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Nivel de alertamiento*</label><br>
                             <div class="btn-group" data-toggle="buttons">
@@ -255,7 +258,7 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-12 col-md-12 form-group">
                             <label class="control-label">Recomendaciones*</label>
-                            <textarea name="eventInstructions" rows="7" value="<%=Utils.getValidFieldFromHash(data, "eventInstructions")%>" class="form-control" data-required="true" data-description="common"><%=instructions%></textarea>
+                            <textarea name="eventInstructions" rows="7" class="form-control" data-required="true" data-description="common"><%=instructions%></textarea>
                         </div>
                     </div>
                     <div class="row text-right">
