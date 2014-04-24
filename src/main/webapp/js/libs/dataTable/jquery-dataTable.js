@@ -9,9 +9,15 @@
         rowCont = $tbody.children().length || 0;
         //Merge options
         _settings = $.extend({}, $.fn.dataTable.defaults, options);
-        
         _cols = _settings.columns || [];
-        _data = _settings.data || [];
+        
+        if(_settings.data) {
+            if (typeof _settings.data === "function") {
+                _data = _settings.data.call(this);
+            } else {
+                _data = _settings.data || [];
+            }
+        }
         _colAlign = _settings.columnAlign || "center";
         
         switch(_colAlign) {
