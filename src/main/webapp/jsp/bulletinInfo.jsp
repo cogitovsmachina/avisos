@@ -9,6 +9,28 @@ String issueFooter = Utils.getValidFieldFromHash(data, "issueFooter");
 issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HRS TIEMPO DEL CENTRO O ANTES SI OCURREN CAMBIOS SIGNIFICATIVOS":issueFooter;
 String type = (String)request.getAttribute("bulletinType");
 ArrayList<String> advicesList = (ArrayList<String>)request.getAttribute("advicesList");
+
+System.out.print(data.get("eventCategory"));
+
+String category = Utils.getValidFieldFromHash(data, "eventCategory");
+if (category.equals("") || category.length() < 4 ) {
+    System.out.println("xxx");
+    String sus = Utils.getValidFieldFromHash(data, "eventWindSpeedSust");
+    System.out.println("sust:"+sus);
+    if (!sus.equals("")) {
+        try {
+            double winds = Double.parseDouble(sus);
+            if (winds <= 62) category = "Depresión Tropical";
+            if (winds >= 62.1 && winds <= 118) category = "Tormenta Tropical";
+            if (winds >= 118.1 && winds <= 154) category = "Huracán categoría I";
+            if (winds >= 154.1 && winds <= 178) category = "Huracán categoría II";
+            if (winds >= 178.1 && winds <= 210) category = "Huracán categoría III";
+            if (winds >= 210.1 && winds <= 250) category = "Huracán categoría IV";
+            if (winds >= 250.1) category = "Huracán categoría V";
+        } catch (NumberFormatException ex) {}
+    }
+}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -103,28 +125,12 @@ ArrayList<String> advicesList = (ArrayList<String>)request.getAttribute("advices
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Categoría*</label>
-                            <%
-                            selectedValue = Utils.getValidFieldFromHash(data, "eventCategory");
-                            %>
-                            <select name="eventCategory" class="form-control" data-required="true" data-description="common">
-                                <option value="DT" <%=selectedValue.equalsIgnoreCase("DT")?"selected":""%>>Depresión Tropical</option>
-                                <option value="TT" <%=selectedValue.equalsIgnoreCase("TT")?"selected":""%>>Tormenta Tropical</option>
-                                <option value="HR1" <%=selectedValue.equalsIgnoreCase("HR1")?"selected":""%>>Huracán Categoría I</option>
-                                <option value="HR2" <%=selectedValue.equalsIgnoreCase("HR2")?"selected":""%>>Huracán Categoría II</option>
-                                <option value="HR3" <%=selectedValue.equalsIgnoreCase("HR3")?"selected":""%>>Huracán Categoría III</option>
-                                <option value="HR4" <%=selectedValue.equalsIgnoreCase("HR4")?"selected":""%>>Huracán Categoría IV</option>
-                                <option value="HR5" <%=selectedValue.equalsIgnoreCase("HR5")?"selected":""%>>Huracán Categoría V</option>
-                                <option value="RBP" <%=selectedValue.equalsIgnoreCase("RBP")?"selected":""%>>Baja remanente</option>
-                                <option value="RTT" <%=selectedValue.equalsIgnoreCase("RTT")?"selected":""%>>Regeneración a Tormenta Tropical</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Meteorólogo que elabora*</label>
                             <input name="issueMetheorologist" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueMetheorologist")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
+                        <input type="hidden" name="eventCategory" value="<%=category%>"/>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Meteorólogo que revisa*</label>
                             <input name="issueShiftBoss" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueShiftBoss")%>" class="form-control" data-required="true" data-description="common"/>
