@@ -28,7 +28,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
 import com.mongodb.gridfs.GridFS;
 import java.net.UnknownHostException;
@@ -78,8 +77,8 @@ public class MongoInterface {
         } else {
             //mongodb://conagua:C0n4gu4@192.168.204.147/conagua
             //MONGOHQ_URL=mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821
-            //mongoClientURI = new MongoClientURI("mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821");
-            mongoClientURI = new MongoClientURI("mongodb://conagua:C0n4gu4@192.168.204.147/conagua");
+            mongoClientURI = new MongoClientURI("mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821");
+            //mongoClientURI = new MongoClientURI("mongodb://conagua:C0n4gu4@192.168.204.147/conagua");
         }
         mongoClient = new MongoClient(mongoClientURI);
         mongoDB = mongoClient.getDB(mongoClientURI.getDatabase());
@@ -235,5 +234,14 @@ public class MongoInterface {
 
     public DBObject getPublishedAdvice(String adviceId){
         return mongoDB.getCollection(GENERATED_COL).findOne(new BasicDBObject(INTERNAL_FORM_ID, adviceId));
+    }
+    
+    public void copyFromAdvice(String originAdviceID, String currentAdviceId){
+        BasicDBObject origen = getAdvice(originAdviceID);
+        BasicDBObject destino = getAdvice(currentAdviceId);
+        destino.putAll(origen.toMap());
+        destino.put(INTERNAL_FORM_ID, currentAdviceId);
+        origen = getAdvice(currentAdviceId);
+        mongoDB.getCollection(CAPTURA_COL).update(origen, destino);
     }
 }

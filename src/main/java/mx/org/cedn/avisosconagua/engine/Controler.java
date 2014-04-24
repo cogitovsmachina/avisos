@@ -94,7 +94,7 @@ public class Controler extends HttpServlet {
             List<String> flujo = control.get(parts[2]);
             BasicDBObject datos = null;
             if (flujo.contains(parts[3])) {
-                if (!"capgen".equals(parts[2])) {
+                if ("capgen".equals(parts[2])) {
                     processors.get(parts[3]).invokeForm(request, response,
                             null, parts);
                     return;
