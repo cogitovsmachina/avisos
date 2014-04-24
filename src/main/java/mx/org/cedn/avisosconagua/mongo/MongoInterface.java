@@ -83,7 +83,7 @@ public class MongoInterface {
                     running = true;
                 }
             }
-        }
+        }System.out.println("running: "+running);
         if (null != System.getenv("MONGOHQ_URL") && running) {
             mongoClientURI = new MongoClientURI(System.getenv("MONGOHQ_URL"));
         } else {
