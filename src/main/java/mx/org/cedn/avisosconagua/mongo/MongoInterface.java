@@ -78,6 +78,7 @@ public class MongoInterface {
         boolean running = false;
         for (String key : System.getenv().keySet()) {
             if (key.startsWith("JAVA_MAIN")) {
+                System.out.println(key+""+System.getenv(key));
                 if (System.getenv(key).equals("webapp.runner.launch.Main")) {
                     running = true;
                 }
