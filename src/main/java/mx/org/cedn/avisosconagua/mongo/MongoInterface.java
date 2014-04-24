@@ -77,14 +77,12 @@ public class MongoInterface {
     private MongoInterface() throws UnknownHostException {
         boolean running = true;
         for (String key : System.getenv().keySet()) {
-            System.out.println("->"+key+":"+System.getenv(key));
             if (key.startsWith("JAVA_MAIN")) {
-                System.out.println(key+":"+System.getenv(key));
-                if (System.getenv(key).equals("webapp.runner.launch.Main")) {
-                    running = true;
+                if (System.getenv(key).startsWith("org.apache.maven")) {
+                    running = false;
                 }
             }
-        }System.out.println("running: "+running);
+        }
         if (null != System.getenv("MONGOHQ_URL") && running) {
             mongoClientURI = new MongoClientURI(System.getenv("MONGOHQ_URL"));
         } else {
