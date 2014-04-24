@@ -1,6 +1,18 @@
+@charset "utf-8";
+@font-face { font-family: Soberana Titular; src: url(fonts/SoberanaTitular-Regular.otf);font-weight: normal; }
+@font-face { font-family: Soberana Titular Bold; src: url(fonts/SoberanaTitular-Bold.otf); font-weight: normal; }
+@font-face { font-family: Soberana Sans; src: url(fonts/SoberanaSans-Regular.otf); font-weight: normal; }
+@font-face { font-family: Soberana Sans Italic; src: url(fonts/SoberanaSans-Italic.otf); font-weight: normal; }
+@font-face { font-family: Soberana Sans Bold; src: url(fonts/SoberanaSans-Bold.otf); font-weight: normal; }
+
 body {
-	padding-top: 50px;
+        /*font-family: "Soberana Sans Regular", Calibri, sans-serif;*/
+	padding-top: 60px;
 }
+
+/*h1, h2, h3, h4 {
+    font-family: "Soberana Titular", Calibri, sans-serif;
+}*/
 
 .main-content {
 	border-right: 1px solid #ccc;
@@ -206,12 +218,26 @@ div.event-container h5 {
 }
 
 /*************************Bootstrap overrides***************************/
+.navbar-default {
+    height: 60px;
+    background: #efefef; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VmZWZlZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYzJSIgc3RvcC1jb2xvcj0iI2Y3ZjVmNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top,  #efefef 0%, #f7f5f6 63%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efefef), color-stop(63%,#f7f5f6)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #efefef 0%,#f7f5f6 63%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #efefef 0%,#f7f5f6 63%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #efefef 0%,#f7f5f6 63%); /* IE10+ */
+    background: linear-gradient(to bottom,  #efefef 0%,#f7f5f6 63%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#f7f5f6',GradientType=0 ); /* IE6-8 */
+}
+
 .navbar-brand {
     padding:0;
 }
 
 .logo {
-    height: 50px;
+    height: 60px;
 }
 
 .table-input-sm {
