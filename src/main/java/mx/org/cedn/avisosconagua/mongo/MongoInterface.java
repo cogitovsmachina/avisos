@@ -77,8 +77,9 @@ public class MongoInterface {
     private MongoInterface() throws UnknownHostException {
         boolean running = true;
         for (String key : System.getenv().keySet()) {
+            System.out.println("->"+key+":"+System.getenv(key));
             if (key.startsWith("JAVA_MAIN")) {
-                System.out.println(key+""+System.getenv(key));
+                System.out.println(key+":"+System.getenv(key));
                 if (System.getenv(key).equals("webapp.runner.launch.Main")) {
                     running = true;
                 }
