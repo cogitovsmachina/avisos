@@ -59,6 +59,9 @@ public class MongoInterface {
     private static final String GENERATED_COL = "GeneratedFiles";
     private static final String GENERATED_FILES_COL = "GeneratedFiles.files";
     private static final String GENERATED_TITLE = "generatedTitle";
+    //public static final String LOCAL_MONGO_URL = "mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821";
+    //public static final String LOCAL_MONGO_URL = "mongodb://conagua:C0n4gu4@192.168.204.147/conagua";
+    public static final String LOCAL_MONGO_URL = "mongodb://localhost:25000/conagua";
 
     public static synchronized MongoInterface getInstance() {
         if (null == instance) {
@@ -72,17 +75,28 @@ public class MongoInterface {
     }
 
     private MongoInterface() throws UnknownHostException {
-        if (null != System.getenv("MONGOHQ_URL")) {
+        boolean running = false;
+        for (String key : System.getenv().keySet()) {
+            if (key.startsWith("JAVA_MAIN")) {
+                if (System.getenv(key).equals("webapp.runner.launch.Main")) {
+                    running = true;
+                }
+            }
+        }
+        if (null != System.getenv("MONGOHQ_URL") && running) {
             mongoClientURI = new MongoClientURI(System.getenv("MONGOHQ_URL"));
         } else {
             //mongodb://conagua:C0n4gu4@192.168.204.147/conagua
             //MONGOHQ_URL=mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821
-            mongoClientURI = new MongoClientURI("mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821");
+            //mongoClientURI = new MongoClientURI("mongodb://heroku:DnZ2AYC8nmtWR3p1Dccs4N9WSLUIrQQTrjcvfLrDlLo8V8yD4Pz6yV5mR5HPuTdEDx2b34v2W0qfufBHUBZlQg@oceanic.mongohq.com:10080/app23903821");
             //mongoClientURI = new MongoClientURI("mongodb://conagua:C0n4gu4@192.168.204.147/conagua");
+            mongoClientURI = new MongoClientURI(LOCAL_MONGO_URL);
         }
         mongoClient = new MongoClient(mongoClientURI);
         mongoDB = mongoClient.getDB(mongoClientURI.getDatabase());
-        mongoDB.authenticate(mongoClientURI.getUsername(), mongoClientURI.getPassword());
+        if (null != mongoClientURI.getUsername()) {
+            mongoDB.authenticate(mongoClientURI.getUsername(), mongoClientURI.getPassword());
+        }
     }
 
     public String[] getCollections() {
@@ -190,8 +204,8 @@ public class MongoInterface {
         while (searchId != null && !searchId.trim().equals("")) {
             deque.push(searchId);
             BasicDBObject current = (BasicDBObject) col.findOne(new BasicDBObject(INTERNAL_FORM_ID, searchId));
-            if (null!=current){
-                current = (BasicDBObject)current.get("capInfo");
+            if (null != current) {
+                current = (BasicDBObject) current.get("capInfo");
             }
             if (null != current) {
                 searchId = current.getString("previousIssue");
@@ -232,11 +246,11 @@ public class MongoInterface {
         return ret;
     }
 
-    public DBObject getPublishedAdvice(String adviceId){
+    public DBObject getPublishedAdvice(String adviceId) {
         return mongoDB.getCollection(GENERATED_COL).findOne(new BasicDBObject(INTERNAL_FORM_ID, adviceId));
     }
-    
-    public void copyFromAdvice(String originAdviceID, String currentAdviceId){
+
+    public void copyFromAdvice(String originAdviceID, String currentAdviceId) {
         BasicDBObject origen = getAdvice(originAdviceID);
         BasicDBObject destino = getAdvice(currentAdviceId);
         destino.putAll(origen.toMap());
