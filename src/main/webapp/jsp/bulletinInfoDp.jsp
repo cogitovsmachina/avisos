@@ -52,10 +52,10 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Fecha y hora de emisión*</label>
                             <div class="form-inline">
-                                <div class="input-group date datePicker">
-                                    <input name="issueDate" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueDate")%>" class="form-control" data-required="true" data-description="common" data-date-format="DD/MM/YYYY"/><span class="input-group-addon"><span class="fa fa-calendar"></span>
+                                <div class="input-group date datePicker" data-date-format="DD/MM/YYYY">
+                                    <input name="issueDate" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueDate")%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-calendar"></span>
                                 </div>
-                                <div class="input-group date timePicker">
+                                <div class="input-group date timePicker" data-date-format="HH:mm" data-date-use24hours="true">
                                     <input name="issueTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueTime")%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-clock-o"></span>
                                 </div>
                             </div>
@@ -65,10 +65,10 @@ issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HR
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Fecha y hora de siguiente emisión*</label>
                             <div class="form-inline">
-                                <div class="input-group date datePicker">
-                                    <input name="issueNextDate" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueNextDate")%>" class="form-control" data-required="true" data-description="common" data-date-format="DD/MM/YYYY"/><span class="input-group-addon"><span class="fa fa-calendar"></span>
+                                <div class="input-group date datePicker" data-date-format="DD/MM/YYYY">
+                                    <input name="issueNextDate" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueNextDate")%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-calendar"></span>
                                 </div>
-                                <div class="input-group date timePicker">
+                                <div class="input-group date timePicker" data-date-format="HH:mm" data-date-use24hours="true">
                                     <input name="issueNextTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueNextTime")%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-clock-o"></span>
                                 </div>
                             </div>
