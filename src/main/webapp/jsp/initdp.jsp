@@ -9,6 +9,9 @@ String type = (String)request.getAttribute("bulletinType");
 HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data");
 ArrayList<String> areas = new ArrayList<String>();
 
+String imgFooter = Utils.getValidFieldFromHash(data, "issueSateliteImgFooter");
+if (imgFooter.equals("")) imgFooter = "Imagen de satélite de la baja presión";
+
 //Get area keys
 Iterator<String> keys = data.keySet().iterator();
 while(keys.hasNext()) {
@@ -76,12 +79,11 @@ while(keys.hasNext()) {
                                 <input type="text" class="form-control" value="<%=fileName%>" disabled data-required="true" data-description="common" />
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 form-group">
+                        <!--div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Pie de la imagen*</label>
-                            <input type="text" name="issueSateliteImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteImgFooter")%>" />
-                        </div>
-                    </div>
-                    <div class="row">
+                            <input type="text" name="issueSateliteImgFooter" class="form-control" data-required="true" data-description="common" value="<%=imgFooter%>" />
+                        </div-->
+                        <input type="hidden" name="issueSateliteImgFooter" value="<%=imgFooter%>" />
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Umbral de distancia de las costas nacionales*</label>
                             <%
@@ -93,12 +95,12 @@ while(keys.hasNext()) {
                                 <option value="land" <%=selectedValue.equalsIgnoreCase("land")?"selected":""%>>En tierra</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Hora local tiempo del centro (Hora GMT)*</label>
                             <input name="issueLocalTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueLocalTime")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Ubicación del centro de la baja presión</label>
                             <div class="form-inline">
@@ -106,6 +108,8 @@ while(keys.hasNext()) {
                                 <input name="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Distancia al lugar más cercano*</label>
                             <input name="eventDistance" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventDistance")%>" class="form-control" data-required="true" data-description="common" data-describedby="_eventDistance"/>

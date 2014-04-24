@@ -49,6 +49,17 @@ public class CapInfo implements Processor {
                 datos.put(key, data.getString(key));
             }
         }
+        
+        //Put max sustained winds in map
+        BasicDBObject advice = MongoInterface.getInstance().getAdvice((String)request.getSession(true).getAttribute("internalId"));
+        if (null != advice) {
+            //Get wind speed from init section
+            BasicDBObject section = (BasicDBObject) advice.get("init");
+            if (null != section) {
+                datos.put("eventWindSpeedSust", section.getString("eventWindSpeedSust"));
+            }
+        }
+        
         request.setAttribute("data", datos);
         request.setAttribute("bulletinType", parts[2]);
         request.setAttribute("advicesList", MongoInterface.getInstance().getPublisedAdvicesList(parts[2]));
