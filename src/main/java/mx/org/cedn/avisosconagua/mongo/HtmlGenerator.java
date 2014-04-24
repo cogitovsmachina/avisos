@@ -23,9 +23,10 @@
 package mx.org.cedn.avisosconagua.mongo;
 
 import com.mongodb.BasicDBObject;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import mx.org.cedn.avisosconagua.util.Utils;
-
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 /**
  *
  * @author serch
@@ -84,19 +85,20 @@ public class HtmlGenerator {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
-                            init.getString("issueSateliteImgFooter"),
+                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + init.getString("issueSateliteImg"),
+                            "imagen de sat&eacute;lite del cicl&oacute;n tropical",
+                            //init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DE BAJA PRESI&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
-                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
-                    + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
+                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", escapeHtml4(init.getString("eventDistance")))
+                    + get1r2c("DESPLAZAMIENTO ACTUAL:", escapeHtml4(init.getString("eventCurrentPath")))
                     + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"), "")
                     + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP"))
                     + get1r2c("POTENCIAL DE DESARROLLO EN 48 HORAS", init.getString("eventForecast48h") + "%")
                     + get1r2c("POTENCIAL DE DESARROLLO EN CINCO D&Iacute;AS", init.getString("eventForecast5d") + "%")
-                    + get1r2c("PRON&Oacute;STICO DE LLUVIA:", init.getString("eventRainForecast"))
-                    + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
+                    + get1r2c("PRON&Oacute;STICO DE LLUVIA:", escapeHtml4(init.getString("eventRainForecast")))
+                    + getFooter(escapeHtml4(capInfo.getString("issueMetheorologist")), escapeHtml4(capInfo.getString("issueShiftBoss")), escapeHtml4(capInfo.getString("issueFooter")));
         } else {
             previous = capInfo.getString("previousIssue");
             String wind = "";
@@ -149,32 +151,33 @@ public class HtmlGenerator {
                 sectionC += getSectionCRow(secc.getAviso(), secc.getFecha(), secc.getLatitud(),
                         secc.getLongitud(), secc.getDistancia(), secc.getViento(), secc.getCategoria(), secc.getAvance());
             }
-
+            
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(capInfo.getString("eventHeadline"), imagefolder + init.getString("issueSateliteImg"),
-                            init.getString("issueSateliteImgFooter"),
+                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + init.getString("issueSateliteImg"),
+                            "imagen de sat&eacute;lite del cicl&oacute;n tropical",
+                            //init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DEL CICL&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
-                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", init.getString("eventDistance"))
-                    + getZonaAlerta(init.getString("areaDescription"))
-                    + get1r2c("DESPLAZAMIENTO ACTUAL:", init.getString("eventCurrentPath"))
+                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", escapeHtml4(init.getString("eventDistance")))
+                    + getZonaAlerta(escapeHtml4(init.getString("areaDescription")))
+                    + get1r2c("DESPLAZAMIENTO ACTUAL:", escapeHtml4(init.getString("eventCurrentPath")))
                     + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"), "")
                     + get1r2c("PRESI&Oacute;N M&Iacute;NIMA CENTRAL [hPa]:", init.getString("eventMinCP") + " hPa")
                     + get1r2c("DIAMETRO DEL OJO [Km]", init.getString("eventCDiameter"))
                     + vientosTitle
                     + wind
-                    + get1r2c("DIAMETRO PROMEDIO DE FUERTE CONVECCI&Oacute;N", init.getString("eventDiameterConvection"))
-                    + get1r2c("COMENTARIOS ADICIONALES:", cleanPs(init.getString("eventComments")))
-                    + get1r2c("RECOMENDACIONES", cleanPs(init.getString("eventInstructions")))
+                    + get1r2c("DIAMETRO PROMEDIO DE FUERTE CONVECCI&Oacute;N", escapeHtml4(init.getString("eventDiameterConvection")))
+                    + get1r2c("COMENTARIOS ADICIONALES:", escapeHtml4(cleanPs(init.getString("eventComments"))))
+                    + get1r2c("RECOMENDACIONES", escapeHtml4(init.getString("eventInstructions")))
                     + headerSecB //TODO Sección B pronostico
                     + seccionB
-                    + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"), pronostico.getString("issueSateliteLocationImgFooter"))
+                    + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"), escapeHtml4(pronostico.getString("issueSateliteLocationImgFooter")))
                     + tituloSecC
                     + sectionC
-                    + getFooter(capInfo.getString("issueMetheorologist"), capInfo.getString("issueShiftBoss"), capInfo.getString("issueFooter"));
+                    + getFooter(escapeHtml4(capInfo.getString("issueMetheorologist")), escapeHtml4(capInfo.getString("issueShiftBoss")), escapeHtml4(capInfo.getString("issueFooter")));
         }
     }
 
@@ -182,7 +185,7 @@ public class HtmlGenerator {
         return stoclean.replaceAll("<p>", "").replaceAll("</p>", "<br>");
 
     }
-
+    
     private static String getSistemaLegend(String key) {
         String ret = "";
         switch (key) {
