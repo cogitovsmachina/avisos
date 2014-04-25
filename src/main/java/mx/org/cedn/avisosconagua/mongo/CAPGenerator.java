@@ -152,7 +152,7 @@ public class CAPGenerator {
             builder.addParameter(ValuePair.newBuilder().setValueName("semáforo").setValue(init.getString("eventRisk")).build());
         }
         if (null != init.getString("eventInstructions")) {
-            builder.setInstruction(init.getString("eventInstructions"));
+            builder.setInstruction(init.getString("eventInstructions").toLowerCase());
         }
 //        for (String area : event.keySet()) {
 //            if (area.startsWith("area")) {

@@ -41,8 +41,7 @@ public class Utils {
     private static final SimpleDateFormat sdfjd = new SimpleDateFormat("MM/dd/yyyy");
     public static final SimpleDateFormat diaformater = new SimpleDateFormat("dd 'de' MMMMM 'del' yyyy", Locale.forLanguageTag("es-mx"));
     public static final SimpleDateFormat horaformater = new SimpleDateFormat("HH:mm", Locale.forLanguageTag("es-mx"));
-    public static final SimpleDateFormat isoformater = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'-06:00'");
-    
+    public static final SimpleDateFormat isoformater = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ssXXX"); 
 
     public static Date getDateFromString(String date) throws ParseException {
         return sdfjd.parse(date);
