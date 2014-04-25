@@ -87,7 +87,7 @@ public class Statistics {
         Date date = new Date();
         try {
             date = sdf.parse(fechaStr);
-            System.out.println("fecha: " + fechaStr + " : " + date);
+            //System.out.println("fecha: " + fechaStr + " : " + date);
         } catch (ParseException pe) {
             pe.printStackTrace();
         }

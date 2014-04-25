@@ -71,9 +71,9 @@ public class HtmlGenerator {
         BasicDBObject pronostico = (BasicDBObject) aviso.get("pronostico");
         BasicDBObject capInfo = (BasicDBObject) aviso.get("capInfo");
         String imagefolder = publish ? currentId + "/" : "/getImage/";
-        principalFile = init.getString("issueSateliteImg");
+        principalFile = init.getString("issueSateliteImg"); 
         if (null != pronostico) {
-            pronosticoFile = pronostico.getString("issueSateliteLocationImg");
+            pronosticoFile = pronostico.getString("issueSateliteLocationImg"); 
         }
         String interpol = init.getString("eventCCalc");
         interpol = "interpolation".equals(interpol) ? "(Por interpolaci&oacute;n)" : "";
@@ -84,7 +84,7 @@ public class HtmlGenerator {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + init.getString("issueSateliteImg"),
+                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + convertFilename(principalFile),
                             "imagen de sat&eacute;lite del cicl&oacute;n tropical",
                             //init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
@@ -154,7 +154,7 @@ public class HtmlGenerator {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + init.getString("issueSateliteImg"),
+                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + convertFilename(principalFile),
                             "imagen de sat&eacute;lite del cicl&oacute;n tropical",
                             //init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
@@ -173,7 +173,7 @@ public class HtmlGenerator {
                     + get1r2c("RECOMENDACIONES", escapeHtml4(init.getString("eventInstructions")))
                     + headerSecB 
                     + seccionB
-                    + getImagenSecB(imagefolder + pronostico.getString("issueSateliteLocationImg"), escapeHtml4(pronostico.getString("issueSateliteLocationImgFooter")))
+                    + getImagenSecB(imagefolder + convertFilename(pronosticoFile), escapeHtml4(pronostico.getString("issueSateliteLocationImgFooter")))
                     + tituloSecC
                     + sectionC
                     + getFooter(escapeHtml4(capInfo.getString("issueMetheorologist")), escapeHtml4(capInfo.getString("issueShiftBoss")), escapeHtml4(capInfo.getString("issueFooter")));
@@ -183,6 +183,10 @@ public class HtmlGenerator {
     private static String cleanPs(String stoclean) {
         return stoclean.replaceAll("<p>", "").replaceAll("</p>", "<br>");
 
+    }
+    
+    public static String convertFilename(String filename){
+        return filename.substring(filename.indexOf(":")+1);
     }
     
     private static String getSistemaLegend(String key) {

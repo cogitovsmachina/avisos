@@ -45,13 +45,13 @@ public class HtmlZipGenerator {
     private final String adviceID;
     private boolean isOK = false;
     
-    
-     {
-        System.out.println("Default Charset=" + Charset.defaultCharset());
-        System.out.println("file.encoding=" + System.getProperty("file.encoding"));
-        System.out.println("Default Charset=" + Charset.defaultCharset());
-        System.out.println("Default Charset in Use=" + getDefaultCharSet());
-    }
+    //Test local charset
+//     {
+//        System.out.println("Default Charset=" + Charset.defaultCharset());
+//        System.out.println("file.encoding=" + System.getProperty("file.encoding"));
+//        System.out.println("Default Charset=" + Charset.defaultCharset());
+//        System.out.println("Default Charset in Use=" + getDefaultCharSet());
+//    }
         
     
     public HtmlZipGenerator(String adviceID){
@@ -90,13 +90,13 @@ public class HtmlZipGenerator {
             if (html.getPrincipalFile()!=null){
                 GridFS gridfs = MongoInterface.getInstance().getImagesFS();
                 GridFSDBFile imageForOutput = gridfs.findOne(html.getPrincipalFile());
-                zout.putNextEntry(new ZipEntry(localFolder + html.getPrincipalFile()));
+                zout.putNextEntry(new ZipEntry(localFolder + HtmlGenerator.convertFilename(html.getPrincipalFile())));
                 imageForOutput.writeTo(zout);
             }
             if (html.getPronosticoFile()!=null){
                 GridFS gridfs = MongoInterface.getInstance().getImagesFS();
                 GridFSDBFile imageForOutput = gridfs.findOne(html.getPronosticoFile());
-                zout.putNextEntry(new ZipEntry(localFolder + html.getPronosticoFile()));
+                zout.putNextEntry(new ZipEntry(localFolder + HtmlGenerator.convertFilename(html.getPronosticoFile())));
                 imageForOutput.writeTo(zout);
             }
 //            ArrayList<String> lista = MongoInterface.getInstance().listFilesFromAdvice(adviceID);
