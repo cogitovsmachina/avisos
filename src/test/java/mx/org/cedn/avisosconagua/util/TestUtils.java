@@ -24,6 +24,7 @@
 package mx.org.cedn.avisosconagua.util;
 
 import java.util.HashMap;
+import java.util.Locale;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -49,7 +50,8 @@ public class TestUtils {
     @Test
     public void getISODate(){
         //YYYY-MM-dd'T'HH:mm:ss'-06:00'
-        assertEquals("2014-04-20T18:30:00-06:00", mx.org.cedn.avisosconagua.util.Utils.getISODate("20/04/2014 18:30"));
+        assertEquals("2014-04-20T18:30:00-05:00", mx.org.cedn.avisosconagua.util.Utils.getISODate("20/04/2014 18:30"));
+        assertEquals("2014-01-20T18:30:00-06:00", mx.org.cedn.avisosconagua.util.Utils.getISODate("20/01/2014 18:30"));
     }
     
     @Test
