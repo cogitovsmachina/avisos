@@ -43,7 +43,7 @@ public class FeedGenerator {
     }
     
     public String generateXML() {
-        ArrayList<String> alertIds = mi.listPublishedAdvices();
+        ArrayList<String> alertIds = mi.listPublishedHurricanes(10);
         for(String id : alertIds) {
             CAPGenerator gen = new CAPGenerator(id);
             Alert alert = gen.generateAlert();
