@@ -82,7 +82,7 @@ if (!forecast.equals("")) {
                 <form role="form" action="" method="post" enctype="multipart/form-data" onsubmit="return saveGridData(this);">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Mapa de localización*</label>
+                            <label class="control-label">Imagen de desplazamiento*</label>
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn btn-primary btn-file">
