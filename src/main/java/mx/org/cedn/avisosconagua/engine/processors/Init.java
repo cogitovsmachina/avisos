@@ -52,6 +52,8 @@ public class Init implements Processor {
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
         HashMap<String, String> datos = new HashMap<>();
+        String prevIssue = null;
+        
         if (null != data) {
             for (String key : data.keySet()) {
                 datos.put(key, data.getString(key));
@@ -66,6 +68,25 @@ public class Init implements Processor {
             if (null != section) {
                 datos.put("nhcForecastLink", section.getString("nhcForecastLink"));
                 datos.put("nhcPublicLink", section.getString("nhcPublicLink"));
+                prevIssue = section.getString("previousIssue");
+            }
+        }
+        
+        //Advice without init saved and for tracking
+        if (advice != null && advice.get("init") == null) {
+            if (prevIssue != null) {
+                BasicDBObject previous = mi.getAdvice(prevIssue);
+                if (previous != null) {
+                    //System.out.println("Putting previous data from "+prevIssue);
+                    BasicDBObject initSection = (BasicDBObject) previous.get("init");
+                    if (initSection != null) {
+                        //Set current values to previous values
+                        datos.put("eventDescriptionHTML", initSection.getString("eventDescriptionHTML", ""));
+                        datos.put("areaDescription", initSection.getString("areaDescription", ""));
+                        datos.put("eventRisk", initSection.getString("eventRisk", ""));
+                        datos.put("eventComments", initSection.getString("eventComments", ""));
+                    }
+                }
             }
         }
         
