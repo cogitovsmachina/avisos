@@ -52,6 +52,7 @@ public class Pronostico implements Processor {
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
         HashMap<String, String> datos = new HashMap<>();
+        String prevIssue = null;
         if (null != data) {
             for (String key : data.keySet()) {
                 datos.put(key, data.getString(key));
@@ -67,6 +68,22 @@ public class Pronostico implements Processor {
             if (null != section) {
                 datos.put("nhcForecastLink", section.getString("nhcForecastLink"));
                 datos.put("nhcPublicLink", section.getString("nhcPublicLink"));
+                prevIssue = section.getString("previousIssue");
+            }
+        }
+        
+        //Advice without pronostico saved and for tracking
+        if (advice != null && advice.get("pronostico") == null) {
+            if (prevIssue != null) {
+                BasicDBObject previous = MongoInterface.getInstance().getAdvice(prevIssue);
+                if (previous != null) {
+                    //System.out.println("Putting previous data from "+prevIssue);
+                    BasicDBObject forecastSection = (BasicDBObject) previous.get("pronostico");
+                    if (forecastSection != null) {
+                        //Set current values to previous values
+                        datos.put("issueSateliteLocationImgFooter", forecastSection.getString("issueSateliteLocationImgFooter", ""));
+                    }
+                }
             }
         }
         
