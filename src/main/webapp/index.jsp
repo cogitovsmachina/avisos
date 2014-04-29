@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="fa fa-plus fa-fw"></span>Nuevo
+                            <span class="fa fa-plus fa-fw"></span>Nuevo aviso
                         </button>
                         <ul class="dropdown-menu text-left" role="menu">
                             <li role="presentation" class="dropdown-header">Baja presión</li>
