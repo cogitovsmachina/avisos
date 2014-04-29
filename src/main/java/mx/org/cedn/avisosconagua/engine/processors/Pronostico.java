@@ -55,9 +55,21 @@ public class Pronostico implements Processor {
         if (null != data) {
             for (String key : data.keySet()) {
                 datos.put(key, data.getString(key));
-                System.out.println("colocando: "+key+" : "+datos.get(key));
+                //System.out.println("colocando: "+key+" : "+datos.get(key));
             }
         }
+        
+        //Put nhcLinks in map
+        BasicDBObject advice = MongoInterface.getInstance().getAdvice((String)request.getSession(true).getAttribute("internalId"));
+        if (null != advice) {
+            //Get nhcLinks
+            BasicDBObject section = (BasicDBObject) advice.get("precapture");
+            if (null != section) {
+                datos.put("nhcForecastLink", section.getString("nhcForecastLink"));
+                datos.put("nhcPublicLink", section.getString("nhcPublicLink"));
+            }
+        }
+        
         request.setAttribute("data", datos);
         request.setAttribute("bulletinType", parts[2]);
         String url = "/jsp/forecast.jsp";
@@ -81,7 +93,7 @@ public class Pronostico implements Processor {
                     filename = processUploadedFile(item, currentId);
                     parametros.put(item.getFieldName(), filename);
                 } else {
-                    System.out.println("item:" + item.getFieldName() + "=" + item.getString());
+                    //System.out.println("item:" + item.getFieldName() + "=" + item.getString());
                     parametros.put(item.getFieldName(), new String(item.getString().getBytes("ISO8859-1"), "UTF-8"));
                 }
             }
