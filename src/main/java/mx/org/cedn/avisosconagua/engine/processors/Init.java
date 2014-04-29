@@ -45,6 +45,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @author serch
  */
 public class Init implements Processor {
+    private static final MongoInterface mi = MongoInterface.getInstance();
 
     private static final int MAX_SIZE = 1 * 1024 * 1024;
 
@@ -57,8 +58,8 @@ public class Init implements Processor {
             }
         }
         
-        //Put nhcLinks in map
-        BasicDBObject advice = MongoInterface.getInstance().getAdvice((String)request.getSession(true).getAttribute("internalId"));
+        //Put nhcLinks in map and get advisory for tracking
+        BasicDBObject advice = mi.getAdvice((String)request.getSession(true).getAttribute("internalId"));
         if (null != advice) {
             //Get nhcLinks
             BasicDBObject section = (BasicDBObject) advice.get("precapture");
@@ -118,7 +119,7 @@ public class Init implements Processor {
                 parametros.put(entry.getKey(), request.getParameter(entry.getKey()));
             }
         }
-        BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);
+        BasicDBObject anterior = (BasicDBObject)mi.getAdvice(currentId).get(parts[3]);
         procesaAreas(parametros, anterior);
         procesaImagen(parametros, anterior);
         MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
@@ -126,7 +127,7 @@ public class Init implements Processor {
 
     private String processUploadedFile(FileItem item, String currentId) throws IOException {
         System.out.println("file: size="+item.getSize()+" name:"+item.getName());
-        GridFS gridfs = MongoInterface.getInstance().getImagesFS();
+        GridFS gridfs = mi.getImagesFS();
         String filename = currentId + ":" + item.getFieldName() + "_" + item.getName();
         gridfs.remove(filename);
         GridFSInputFile gfsFile = gridfs.createFile(item.getInputStream());
