@@ -26,7 +26,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSInputFile;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,9 +54,20 @@ public class Init implements Processor {
         if (null != data) {
             for (String key : data.keySet()) {
                 datos.put(key, data.getString(key));
-                System.out.println("colocando: "+key+" : "+datos.get(key));
             }
         }
+        
+        //Put nhcLinks in map
+        BasicDBObject advice = MongoInterface.getInstance().getAdvice((String)request.getSession(true).getAttribute("internalId"));
+        if (null != advice) {
+            //Get nhcLinks
+            BasicDBObject section = (BasicDBObject) advice.get("precapture");
+            if (null != section) {
+                datos.put("nhcForecastLink", section.getString("nhcForecastLink"));
+                datos.put("nhcPublicLink", section.getString("nhcPublicLink"));
+            }
+        }
+        
         request.setAttribute("data", datos);
         request.setAttribute("bulletinType", parts[2]);
         String url = "/jsp/init.jsp";
@@ -82,7 +92,7 @@ public class Init implements Processor {
             for (FileItem item : items) {
                 if (!item.isFormField() && item.getSize()>0) {
                     filename = processUploadedFile(item, currentId);
-                    System.out.println("poniendo: "+ item.getFieldName() + "=" +filename);
+                    //System.out.println("poniendo: "+ item.getFieldName() + "=" +filename);
                     parametros.put(item.getFieldName(), filename);
                 } else {
 //                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
