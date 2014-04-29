@@ -8,15 +8,10 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
 String issueFooter = Utils.getValidFieldFromHash(data, "issueFooter");
 issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HRS TIEMPO DEL CENTRO O ANTES SI OCURREN CAMBIOS SIGNIFICATIVOS":issueFooter;
 String type = (String)request.getAttribute("bulletinType");
-ArrayList<String> advicesList = (ArrayList<String>)request.getAttribute("advicesList");
-
-System.out.print(data.get("eventCategory"));
 
 String category = Utils.getValidFieldFromHash(data, "eventCategory");
 if (category.equals("") || category.length() < 4 ) {
-    System.out.println("xxx");
     String sus = Utils.getValidFieldFromHash(data, "eventWindSpeedSust");
-    System.out.println("sust:"+sus);
     if (!sus.equals("")) {
         try {
             double winds = Double.parseDouble(sus);
@@ -59,7 +54,8 @@ if (category.equals("") || category.length() < 4 ) {
             <h4 class="text-center text-muted hidden-lg hidden-md">Información de emisión</h4>
             <div class="row progress-indicator-container text-center visible-lg visible-md">
                 <ol class="progress-indicator">
-                    <li class="done">Situación actual</li><!--
+                    <li class="done">Inicio</li><!--
+                    --><li class="done">Situación actual</li><!--
                     --><li class="done">Predicción de avance</li><!--
                     --><li class="current">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
@@ -104,33 +100,10 @@ if (category.equals("") || category.length() < 4 ) {
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <%
-                            String selectedValue = Utils.getValidFieldFromHash(data, "previousIssue");
-                            %>
-                            <label class="control-label">En seguimiento a</label>
-                            <div class="input-group">
-                                <select id="previousIssue" name="previousIssue" class="form-control">
-                                    <option value="">Sin seguimiento</option>
-                                    <%
-                                    for(String adv : advicesList) {
-                                        String pairs[] = adv.split("\\|");
-                                        if (pairs.length==2) {
-                                            %>
-                                            <option value="<%=pairs[0]%>" <%=selectedValue.equalsIgnoreCase(pairs[0])?"selected":""%>><%=pairs[1]%></option>
-                                            <%
-                                        }
-                                    }
-                                    %>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Meteorólogo que elabora*</label>
                             <input name="issueMetheorologist" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueMetheorologist")%>" class="form-control" data-required="true" data-description="common"/>
                         </div>
                         <input type="hidden" name="eventCategory" value="<%=category%>"/>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Meteorólogo que revisa*</label>
                             <input name="issueShiftBoss" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueShiftBoss")%>" class="form-control" data-required="true" data-description="common"/>
