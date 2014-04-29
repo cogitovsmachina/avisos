@@ -29,7 +29,6 @@ import com.mongodb.gridfs.GridFSInputFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 

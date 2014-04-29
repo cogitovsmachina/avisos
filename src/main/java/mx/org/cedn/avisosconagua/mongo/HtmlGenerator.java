@@ -84,7 +84,7 @@ public class HtmlGenerator {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + convertFilename(principalFile),
+                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + (publish?convertFilename(principalFile):principalFile),
                             "imagen de sat&eacute;lite del cicl&oacute;n tropical",
                             //init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
@@ -154,7 +154,7 @@ public class HtmlGenerator {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
                     capInfo.getString("issueNumber"), capInfo.getString("issueTime"), getSistemaLegend(init.getString("eventCoastDistance")))
-                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + convertFilename(principalFile),
+                    + getTitulo(escapeHtml4(capInfo.getString("eventHeadline")), imagefolder + (publish?convertFilename(principalFile):principalFile),
                             "imagen de sat&eacute;lite del cicl&oacute;n tropical",
                             //init.getString("issueSateliteImgFooter"),
                             cleanPs(init.getString("eventDescriptionHTML")))
@@ -173,7 +173,7 @@ public class HtmlGenerator {
                     + get1r2c("RECOMENDACIONES", escapeHtml4(init.getString("eventInstructions")))
                     + headerSecB 
                     + seccionB
-                    + getImagenSecB(imagefolder + convertFilename(pronosticoFile), escapeHtml4(pronostico.getString("issueSateliteLocationImgFooter")))
+                    + getImagenSecB(imagefolder + (publish?convertFilename(pronosticoFile):pronosticoFile), escapeHtml4(pronostico.getString("issueSateliteLocationImgFooter")))
                     + tituloSecC
                     + sectionC
                     + getFooter(escapeHtml4(capInfo.getString("issueMetheorologist")), escapeHtml4(capInfo.getString("issueShiftBoss")), escapeHtml4(capInfo.getString("issueFooter")));
