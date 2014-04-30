@@ -24,7 +24,6 @@
 package mx.org.cedn.avisosconagua.util;
 
 import java.util.HashMap;
-import java.util.Locale;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

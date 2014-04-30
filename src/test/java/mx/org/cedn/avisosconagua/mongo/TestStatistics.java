@@ -55,7 +55,7 @@ public class TestStatistics {
 "        \"capInfo\" : {\n" +
 "                \"eventCategory\" : \"TT\",\n" +
 "                \"issueNumber\" : \"5\",\n" +
-"                \"issueDate\" : \"05/16/2014\",\n" +
+"                \"issueDate\" : \"16/05/2014\",\n" +
 "        }\n" +
 "}\n" +
 "");
