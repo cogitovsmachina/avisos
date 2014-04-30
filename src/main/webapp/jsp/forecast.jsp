@@ -10,6 +10,8 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
 String type = (String)request.getAttribute("bulletinType");
 String forecast = Utils.getValidFieldFromHash(data, "forecastData");
 ArrayList<String> rows = Utils.tokenize(forecast, "\\{(.*?)\\}");
+String nhcPublic = Utils.getValidFieldFromHash(data, "nhcPublicLink");
+String nhcForecast = Utils.getValidFieldFromHash(data, "nhcForecastLink");
 
 if (!forecast.equals("")) {
     forecast = "[";
@@ -68,7 +70,8 @@ if (!forecast.equals("")) {
             <h4 class="text-center text-muted hidden-lg hidden-md">Predicción de avance</h4>
             <div class="row progress-indicator-container text-center visible-lg visible-md">
                 <ol class="progress-indicator">
-                    <li class="done">Situación actual</li><!--
+                    <li class="done">Inicio</li><!--
+                    --><li class="done">Situación actual</li><!--
                     --><li class="current">Predicción de avance</li><!--
                     --><li class="pending">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
@@ -79,7 +82,7 @@ if (!forecast.equals("")) {
                 <form role="form" action="" method="post" enctype="multipart/form-data" onsubmit="return saveGridData(this);">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Mapa de localización*</label>
+                            <label class="control-label">Imagen de desplazamiento*</label>
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn btn-primary btn-file">
@@ -96,17 +99,6 @@ if (!forecast.equals("")) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Pie de la imagen*</label>
                             <input type="text" name="issueSateliteLocationImgFooter" class="form-control" data-required="true" data-description="common" value="<%=Utils.getValidFieldFromHash(data, "issueSateliteLocationImgFooter")%>" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Liga al forecast advisory de <a target="_blank" href="http://www.nhc.noaa.gov/">NOAA&nbsp;<span class="fa fa-external-link"></span></a></label>
-                            <div class="input-group">
-                                <input type="text" id="nhcLink" name="nhcLink" value="<%=Utils.getValidFieldFromHash(data, "nhcLink")%>" class="form-control">
-                                <span class="input-group-btn">
-                                    <button id="loadButton" class="btn btn-primary" data-loading-text="Cargando..." type="button">Precargar tabla</button>
-                                </span>
-                            </div>
                         </div>
                     </div>
                     <hr>
@@ -214,8 +206,13 @@ if (!forecast.equals("")) {
                     data: data
                 });
                 <%
+            } else {
+                %>
+                loadDataFromUrl('<%=nhcForecast%>');
+                <%
             }
             %>
+            
             function loadDataFromUrl(url) {
                 if (url && url !== undefined) {
                     var btn = $("#loadButton");
@@ -319,14 +316,6 @@ if (!forecast.equals("")) {
                 });
                 return data;
             }
-            
-            $(document).ready(function() {
-                $("#loadButton").on("click", function(event) {
-                    var url = $("#nhcLink").val();
-                    loadDataFromUrl(url);
-                    event.preventDefault();
-                });
-            });
         </script>
     </body>
 </html>

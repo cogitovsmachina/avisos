@@ -31,15 +31,15 @@
                 <div class="row">
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="fa fa-plus fa-fw"></span>Nuevo
+                            <span class="fa fa-plus fa-fw"></span>Nuevo aviso
                         </button>
                         <ul class="dropdown-menu text-left" role="menu">
                             <li role="presentation" class="dropdown-header">Baja presión</li>
                             <li><a href="/ctrl/pacdp/init/new">Baja presión en el pacífico</a></li>
                             <li><a href="/ctrl/atldp/init/new">Baja presión en el atlántico</a></li>
                             <li role="presentation" class="dropdown-header">Ciclones tropicales</li>
-                            <li><a href="/ctrl/pacht/init/new">Ciclón en el pacífico</a></li>
-                            <li><a href="/ctrl/atlht/init/new">Ciclón en el atlántico</a></li>
+                            <li><a href="/ctrl/pacht/precapture/new">Ciclón en el pacífico</a></li>
+                            <li><a href="/ctrl/atlht/precapture/new">Ciclón en el atlántico</a></li>
                         </ul>
                     </div>
                 </div>

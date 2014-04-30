@@ -14,6 +14,8 @@ String calcMethod = Utils.getValidFieldFromHash(data, "eventCCalc");
 String risk = Utils.getValidFieldFromHash(data, "eventRisk");
 String instructions = Utils.getValidFieldFromHash(data, "eventInstructions");
 String imgFooter = Utils.getValidFieldFromHash(data, "issueSateliteImgFooter");
+String nhcPublic = Utils.getValidFieldFromHash(data, "nhcPublicLink");
+String nhcForecast = Utils.getValidFieldFromHash(data, "nhcForecastLink");
 
 if (imgFooter.equals("")) imgFooter = "Imagen de satélite del ciclón tropical";
 if (instructions.equals("")) instructions = "A LA POBLACIÓN EN GENERAL EN LOS ESTADOS MENCIONADOS Y A LA NAVEGACIÓN MARÍTIMA EN LAS INMEDIACIONES DEL SISTEMA, MANTENER PRECAUCIONES Y ATENDER RECOMENDACIONES EMITIDAS POR LAS AUTORIDADES DEL SISTEMA NACIONAL DE PROTECCIÓN CIVIL";
@@ -57,7 +59,8 @@ while(keys.hasNext()) {
             <h4 class="text-center text-muted hidden-lg hidden-md">Situación actual</h4>
             <div class="row progress-indicator-container text-center visible-lg visible-md">
                 <ol class="progress-indicator">
-                    <li class="current">Situación actual</li><!--
+                    <li class="done">Inicio</li><!--
+                    --><li class="current">Situación actual</li><!--
                     --><li class="pending">Predicción de avance</li><!--
                     --><li class="pending">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
@@ -179,7 +182,7 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Distancia al lugar más cercano*</label>
-                            <input name="eventDistance" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventDistance")%>" class="form-control" data-required="true" data-description="common" data-describedby="_eventDistance"/>
+                            <textarea name="eventDistance" class="form-control" data-required="true" data-description="common"><%=Utils.getValidFieldFromHash(data, "eventDistance")%></textarea>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Desplazamiento actual</label>
@@ -310,8 +313,32 @@ while(keys.hasNext()) {
                     }
                     <%
                 }
-            %>
+                %>
+                loadWheatermanData('<%=nhcForecast%>', fillForm);
             });
+            
+            function loadWheatermanData(url, callback) {
+                    if (url && url !== undefined) {
+                        $.ajax({
+                            url: "http://weatherman.herokuapp.com/forecast",
+                            jsonp: "callback",
+                            dataType: "jsonp",
+                            data: {
+                                format: 'jsonp',
+                                url: url
+                            },
+                            success: function (response) {
+                                if (callback && typeof callback === "function") {
+                                    callback(response);
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                function fillForm(data) {
+                    console.log(data);
+                }
         </script>
     </body>
 </html>
