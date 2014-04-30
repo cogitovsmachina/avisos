@@ -77,10 +77,10 @@ public class Statistics {
                 break;
             }
         }
-        String pattern = "MM/dd/yyyyHH:mm";
+        String pattern = "dd/MM/yyyyHH:mm";
         String hora = builder.toString();
         if (hora.contains("am") || hora.contains("pm")) {
-            pattern = "MM/dd/yyyyhh:mm aa";
+            pattern = "dd/MM/yyyyhh:mm aa";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         String fechaStr = capInfo.getString("issueDate") + hora;
