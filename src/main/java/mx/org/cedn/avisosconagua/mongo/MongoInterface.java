@@ -205,7 +205,7 @@ public class MongoInterface {
             deque.push(searchId);
             BasicDBObject current = (BasicDBObject) col.findOne(new BasicDBObject(INTERNAL_FORM_ID, searchId));
             if (null != current) {
-                current = (BasicDBObject) current.get("capInfo");
+                current = (BasicDBObject) current.get("precapture");
             }
             if (null != current) {
                 searchId = current.getString("previousIssue");
