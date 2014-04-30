@@ -24,7 +24,6 @@
 package mx.org.cedn.avisosconagua.util;
 
 import java.util.HashMap;
-import java.util.Locale;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -44,7 +43,7 @@ public class TestUtils {
     @Test
     public void getDiaText(){
         //dd 'de' MMMMM 'del' yyyy
-        assertEquals("20 de abril del 2014", mx.org.cedn.avisosconagua.util.Utils.getDiaText("04/20/2014"));
+        assertEquals("20 de abril del 2014", mx.org.cedn.avisosconagua.util.Utils.getDiaText("20/04/2014"));
     }
     
     @Test

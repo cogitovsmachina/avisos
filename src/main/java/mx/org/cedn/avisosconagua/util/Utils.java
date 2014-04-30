@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 public class Utils {
 
     public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-    private static final SimpleDateFormat sdfjd = new SimpleDateFormat("MM/dd/yyyy");
+    private static final SimpleDateFormat sdfjd = new SimpleDateFormat("dd/MM/yyyy");
     public static final SimpleDateFormat diaformater = new SimpleDateFormat("dd 'de' MMMMM 'del' yyyy", Locale.forLanguageTag("es-mx"));
     public static final SimpleDateFormat horaformater = new SimpleDateFormat("HH:mm", Locale.forLanguageTag("es-mx"));
     public static final SimpleDateFormat isoformater = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ssXXX"); 
