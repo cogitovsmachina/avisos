@@ -117,8 +117,8 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Ubicación del centro del ciclón tropical</label>
                             <div class="form-inline">
-                                <input name="eventCLat" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLat")%>" placeholder="Latitud norte" class="form-control"/>
-                                <input name="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
+                                <input name="eventCLat" id="eventCLat" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLat")%>" placeholder="Latitud norte" class="form-control"/>
+                                <input name="eventCLon" id="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
                             </div>
                         </div>
                     </div>
@@ -193,13 +193,13 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Vientos máximos &lpar;Km/h&rpar;*</label>
                             <div class="form-inline">
-                                <input name="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
-                                <input name="eventWindSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWindSpeedSust" id="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWindSpeedMax" id="eventWindSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Presión mínima central &lpar;hPa&rpar;</label>
-                            <input name="eventMinCP" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventMinCP")%>" class="form-control"/>
+                            <input name="eventMinCP" id="eventMinCP" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventMinCP")%>" class="form-control"/>
                         </div>
                     </div>
                     <div class="row">
@@ -314,31 +314,44 @@ while(keys.hasNext()) {
                     <%
                 }
                 %>
-                loadWheatermanData('<%=nhcForecast%>', fillForm);
+                loadWheatermanData('<%=nhcPublic%>', fillForm);
             });
             
             function loadWheatermanData(url, callback) {
-                    if (url && url !== undefined) {
-                        $.ajax({
-                            url: "http://weatherman.herokuapp.com/forecast",
-                            jsonp: "callback",
-                            dataType: "jsonp",
-                            data: {
-                                format: 'jsonp',
-                                url: url
-                            },
-                            success: function (response) {
-                                if (callback && typeof callback === "function") {
-                                    callback(response);
-                                }
+                if (url && url !== undefined) {
+                    $.ajax({
+                        url: "http://weatherman.herokuapp.com/advisory",
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        data: {
+                            format: 'jsonp',
+                            url: url
+                        },
+                        success: function (response) {
+                            if (callback && typeof callback === "function") {
+                                callback(response);
                             }
-                        });
-                    }
+                        }
+                    });
+                }
+            }
+                
+            function fillForm(data) {
+                //console.log(data);
+                if (data.location) {
+                    $("#eventCLat").val(data.location.north);
+                    $("#eventCLon").val(data.location.west);
                 }
                 
-                function fillForm(data) {
-                    console.log(data);
+                if (data.maxSustainedWinds) {
+                    var sw = data.maxSustainedWinds+"";
+                    $("#eventWindSpeedSust").val(sw.split("KM/H")[0].replace(/\s/g,''));
                 }
+                
+                if (data.minCentralPressure) {
+                    $("#eventMinCP").val(data.minCentralPressure.replace(/\s/g,'').replace(/MB/g,''));
+                }
+            }
         </script>
     </body>
 </html>
