@@ -14,6 +14,8 @@ String calcMethod = Utils.getValidFieldFromHash(data, "eventCCalc");
 String risk = Utils.getValidFieldFromHash(data, "eventRisk");
 String instructions = Utils.getValidFieldFromHash(data, "eventInstructions");
 String imgFooter = Utils.getValidFieldFromHash(data, "issueSateliteImgFooter");
+String nhcPublic = Utils.getValidFieldFromHash(data, "nhcPublicLink");
+String nhcForecast = Utils.getValidFieldFromHash(data, "nhcForecastLink");
 
 if (imgFooter.equals("")) imgFooter = "Imagen de satélite del ciclón tropical";
 if (instructions.equals("")) instructions = "A LA POBLACIÓN EN GENERAL EN LOS ESTADOS MENCIONADOS Y A LA NAVEGACIÓN MARÍTIMA EN LAS INMEDIACIONES DEL SISTEMA, MANTENER PRECAUCIONES Y ATENDER RECOMENDACIONES EMITIDAS POR LAS AUTORIDADES DEL SISTEMA NACIONAL DE PROTECCIÓN CIVIL";
@@ -57,7 +59,8 @@ while(keys.hasNext()) {
             <h4 class="text-center text-muted hidden-lg hidden-md">Situación actual</h4>
             <div class="row progress-indicator-container text-center visible-lg visible-md">
                 <ol class="progress-indicator">
-                    <li class="current">Situación actual</li><!--
+                    <li class="done">Inicio</li><!--
+                    --><li class="current">Situación actual</li><!--
                     --><li class="pending">Predicción de avance</li><!--
                     --><li class="pending">Información de emisión</li><!--
                     --><li class="pending">Vista previa</li><!--
@@ -114,8 +117,8 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Ubicación del centro del ciclón tropical</label>
                             <div class="form-inline">
-                                <input name="eventCLat" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLat")%>" placeholder="Latitud norte" class="form-control"/>
-                                <input name="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
+                                <input name="eventCLat" id="eventCLat" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLat")%>" placeholder="Latitud norte" class="form-control"/>
+                                <input name="eventCLon" id="eventCLon" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCLon")%>" placeholder="Longitud oeste" class="form-control"/>
                             </div>
                         </div>
                     </div>
@@ -179,7 +182,7 @@ while(keys.hasNext()) {
                     <div class="row">
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Distancia al lugar más cercano*</label>
-                            <input name="eventDistance" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventDistance")%>" class="form-control" data-required="true" data-description="common" data-describedby="_eventDistance"/>
+                            <textarea name="eventDistance" class="form-control" data-required="true" data-description="common"><%=Utils.getValidFieldFromHash(data, "eventDistance")%></textarea>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Desplazamiento actual</label>
@@ -190,13 +193,13 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Vientos máximos &lpar;Km/h&rpar;*</label>
                             <div class="form-inline">
-                                <input name="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
-                                <input name="eventWindSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWindSpeedSust" id="eventWindSpeedSust" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedSust")%>" placeholder="Sostenidos" class="form-control" data-required="true" data-description="common"/>
+                                <input name="eventWindSpeedMax" id="eventWindSpeedMax" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWindSpeedMax")%>" placeholder="Rachas" class="form-control" data-required="true" data-description="common"/>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Presión mínima central &lpar;hPa&rpar;</label>
-                            <input name="eventMinCP" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventMinCP")%>" class="form-control"/>
+                            <input name="eventMinCP" id="eventMinCP" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventMinCP")%>" class="form-control"/>
                         </div>
                     </div>
                     <div class="row">
@@ -310,8 +313,45 @@ while(keys.hasNext()) {
                     }
                     <%
                 }
-            %>
+                %>
+                loadWheatermanData('<%=nhcPublic%>', fillForm);
             });
+            
+            function loadWheatermanData(url, callback) {
+                if (url && url !== undefined) {
+                    $.ajax({
+                        url: "http://weatherman.herokuapp.com/advisory",
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        data: {
+                            format: 'jsonp',
+                            url: url
+                        },
+                        success: function (response) {
+                            if (callback && typeof callback === "function") {
+                                callback(response);
+                            }
+                        }
+                    });
+                }
+            }
+                
+            function fillForm(data) {
+                //console.log(data);
+                if (data.location) {
+                    $("#eventCLat").val(data.location.north);
+                    $("#eventCLon").val(data.location.west);
+                }
+                
+                if (data.maxSustainedWinds) {
+                    var sw = data.maxSustainedWinds+"";
+                    $("#eventWindSpeedSust").val(sw.split("KM/H")[0].replace(/\s/g,''));
+                }
+                
+                if (data.minCentralPressure) {
+                    $("#eventMinCP").val(data.minCentralPressure.replace(/\s/g,'').replace(/MB/g,''));
+                }
+            }
         </script>
     </body>
 </html>

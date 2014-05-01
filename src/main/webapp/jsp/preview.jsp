@@ -33,7 +33,8 @@
             <h3 class="text-center hidden-print"><%=Utils.getTituloBoletin(type)%></h3>
             <div class="row progress-indicator-container text-center hidden-print">
                 <ol class="progress-indicator">
-                    <li class="done">Situación actual</li><!--
+                    <li class="done">Inicio</li><!--
+                    --><li class="done">Situación actual</li><!--
                     <%
                         if (!isdp){ %>--><li class="done">Predicción de avance</li><!--
                     <% }

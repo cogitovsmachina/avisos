@@ -62,7 +62,6 @@ public class CapInfo implements Processor {
         
         request.setAttribute("data", datos);
         request.setAttribute("bulletinType", parts[2]);
-        request.setAttribute("advicesList", MongoInterface.getInstance().getPublisedAdvicesList(parts[2]));
         String url = "/jsp/bulletinInfo.jsp";
         if (parts[2].endsWith("dp")) {
             url = "/jsp/bulletinInfoDp.jsp";

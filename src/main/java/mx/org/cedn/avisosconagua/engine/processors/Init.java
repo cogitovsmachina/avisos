@@ -26,7 +26,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSInputFile;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,18 +45,51 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @author serch
  */
 public class Init implements Processor {
+    private static final MongoInterface mi = MongoInterface.getInstance();
 
     private static final int MAX_SIZE = 1 * 1024 * 1024;
 
     @Override
     public void invokeForm(HttpServletRequest request, HttpServletResponse response, BasicDBObject data, String parts[]) throws ServletException, IOException {
         HashMap<String, String> datos = new HashMap<>();
+        String prevIssue = null;
+        
         if (null != data) {
             for (String key : data.keySet()) {
                 datos.put(key, data.getString(key));
-                System.out.println("colocando: "+key+" : "+datos.get(key));
             }
         }
+        
+        //Put nhcLinks in map and get advisory for tracking
+        BasicDBObject advice = mi.getAdvice((String)request.getSession(true).getAttribute("internalId"));
+        if (null != advice) {
+            //Get nhcLinks
+            BasicDBObject section = (BasicDBObject) advice.get("precapture");
+            if (null != section) {
+                datos.put("nhcForecastLink", section.getString("nhcForecastLink"));
+                datos.put("nhcPublicLink", section.getString("nhcPublicLink"));
+                prevIssue = section.getString("previousIssue");
+            }
+        }
+        
+        //Advice without init saved and for tracking
+        if (advice != null && advice.get("init") == null) {
+            if (prevIssue != null) {
+                BasicDBObject previous = mi.getAdvice(prevIssue);
+                if (previous != null) {
+                    //System.out.println("Putting previous data from "+prevIssue);
+                    BasicDBObject initSection = (BasicDBObject) previous.get("init");
+                    if (initSection != null) {
+                        //Set current values to previous values
+                        datos.put("eventDescriptionHTML", initSection.getString("eventDescriptionHTML", ""));
+                        datos.put("areaDescription", initSection.getString("areaDescription", ""));
+                        datos.put("eventRisk", initSection.getString("eventRisk", ""));
+                        datos.put("eventComments", initSection.getString("eventComments", ""));
+                    }
+                }
+            }
+        }
+        
         request.setAttribute("data", datos);
         request.setAttribute("bulletinType", parts[2]);
         String url = "/jsp/init.jsp";
@@ -82,7 +114,7 @@ public class Init implements Processor {
             for (FileItem item : items) {
                 if (!item.isFormField() && item.getSize()>0) {
                     filename = processUploadedFile(item, currentId);
-                    System.out.println("poniendo: "+ item.getFieldName() + "=" +filename);
+                    //System.out.println("poniendo: "+ item.getFieldName() + "=" +filename);
                     parametros.put(item.getFieldName(), filename);
                 } else {
 //                    System.out.println("item:" + item.getFieldName() + "=" + new String(item.getString().getBytes("ISO8859-1")));
@@ -108,7 +140,7 @@ public class Init implements Processor {
                 parametros.put(entry.getKey(), request.getParameter(entry.getKey()));
             }
         }
-        BasicDBObject anterior = (BasicDBObject)MongoInterface.getInstance().getAdvice(currentId).get(parts[3]);
+        BasicDBObject anterior = (BasicDBObject)mi.getAdvice(currentId).get(parts[3]);
         procesaAreas(parametros, anterior);
         procesaImagen(parametros, anterior);
         MongoInterface.getInstance().savePlainData(currentId, parts[3], parametros);
@@ -116,7 +148,7 @@ public class Init implements Processor {
 
     private String processUploadedFile(FileItem item, String currentId) throws IOException {
         System.out.println("file: size="+item.getSize()+" name:"+item.getName());
-        GridFS gridfs = MongoInterface.getInstance().getImagesFS();
+        GridFS gridfs = mi.getImagesFS();
         String filename = currentId + ":" + item.getFieldName() + "_" + item.getName();
         gridfs.remove(filename);
         GridFSInputFile gfsFile = gridfs.createFile(item.getInputStream());
