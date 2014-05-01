@@ -79,7 +79,7 @@ public class HtmlGenerator {
         interpol = "interpolation".equals(interpol) ? "(Por interpolaci&oacute;n)" : "";
         String titulo = Utils.getTituloBoletinHtml(aviso.getString(MongoInterface.ADVICE_TYPE));
         isDP = aviso.getString(MongoInterface.ADVICE_TYPE).endsWith("dp");
-        title = capInfo.getString("issueNumber") + " " + titulo;
+        title = capInfo.getString("issueDate")+" "+capInfo.getString("issueTime")+ " - " + capInfo.getString("issueNumber")   + " "+titulo;
         if (isDP) {
             return header + getEncabezado(backimg, titulo,
                     Utils.getDiaText(capInfo.getString("issueDate")),
