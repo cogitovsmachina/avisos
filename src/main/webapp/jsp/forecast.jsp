@@ -17,30 +17,37 @@ if (!forecast.equals("")) {
     forecast = "[";
 
     for (int i = 0; i < rows.size(); i++) {
+        int empty = 0;
         String[] values = rows.get(i).split("\\|");
         for (int j = 0; j < values.length; j++) {
             if ("_".equals(values[j])) {
                 values[j] = "";
+                empty++;
             }
         }
 
-        if (values.length == 6) {
+        if (values.length == 6 && empty < 6) {
             forecast += "{";
 
             forecast += "\"id\":\""+values[0]+"\",";
             forecast += "\"north\":\""+values[1]+"\",";
             forecast += "\"west\":\""+values[2]+"\",";
-            forecast += "\"max\":\""+values[3].split("/")[0]+"\",";
-            forecast += "\"gusts\":\""+values[3].split("/")[1]+"\",";
+            if (!values[3].equals("") && values[3].indexOf("/") != -1) {
+                forecast += "\"max\":\""+values[3].split("/")[0]+"\",";
+                forecast += "\"gusts\":\""+values[3].split("/")[1]+"\",";
+            } else {
+                forecast += "\"max\":\"\",";
+                forecast += "\"gusts\":\"\",";
+            }
+            
             forecast += "\"category\":\""+values[4]+"\",";
             forecast += "\"location\":\""+values[5]+"\"";
 
             forecast+= "}";
-            if (i < rows.size() -1) {
-                forecast += ",";
-            }
+            forecast += ",";
         }
     }
+    forecast = forecast.substring(0, forecast.length()-1);
     forecast += "]";
 }
 %>
@@ -102,6 +109,9 @@ if (!forecast.equals("")) {
                         </div>
                     </div>
                     <hr>
+                    <div class="row text-right">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="addRow();"><span class="fa fa-plus fa-fw"></span>Agregar fila</button>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 table-responsive">
                             <table class="table data-table" id="dataTable">
@@ -151,7 +161,7 @@ if (!forecast.equals("")) {
                     val = val.substring(0, val.length-1);
                     val+="}";
                 });
-                
+                //console.log(val);
                 $("#forecastData").val(val);
                 return true;
             }
@@ -168,33 +178,33 @@ if (!forecast.equals("")) {
                         {
                             title:"Pronóstico válido<br>al día/hora local<br>tiempo del centro",
                             field:"id",
-                            formElement:"textBox",
-                            required: "true"
+                            formElement:"textBox"
+                            //required: "true"
                         },
                         {
                             title:"Latitud norte",
                             field:"north",
-                            formElement:"textBox",
-                            required: "true"
+                            formElement:"textBox"
+                            //required: "true"
                         },
                         {
                             title:"Longitud oeste",
                             field:"west",
-                            formElement:"textBox",
-                            required: "true"
+                            formElement:"textBox"
+                            //required: "true"
                         },
                         {
                             title:"Vientos (Km/h)<br>SOST./RACHAS",
                             field:"max|gusts",
                             separator:"/",
-                            formElement:"textBox",
-                            required: "true"
+                            formElement:"textBox"
+                            //required: "true"
                         },
                         {
                             title:"Categoría",
                             field:"category",
-                            formElement:"textBox",
-                            required: "true"
+                            formElement:"textBox"
+                            //required: "true"
                         },
                         {
                             title:"Ubicación (Km)",
@@ -317,6 +327,30 @@ if (!forecast.equals("")) {
                     });
                 }
                 return data.forecasts;
+            }
+            
+            function addRow() {
+                var template = '<tr>\n\
+                                <td class="text-center">\n\
+                                    <input type="text" data-required="true" data-description="common" class="form-control text-center data-table-input">\n\
+                                </td>\n\
+                                <td class="text-center">\n\
+                                    <input type="text" data-required="true" data-description="common" class="form-control text-center data-table-input">\n\
+                                </td>\n\
+                                <td class="text-center">\n\
+                                    <input type="text" data-required="true" data-description="common" class="form-control text-center data-table-input">\n\
+                                </td>\n\
+                                <td class="text-center">\n\
+                                    <input type="text" data-required="true" data-description="common" class="form-control text-center data-table-input">\n\
+                                </td>\n\
+                                <td class="text-center">\n\
+                                    <input type="text" data-required="true" data-description="common" class="form-control text-center data-table-input">\n\
+                                </td>\n\
+                                <td class="text-center">\n\
+                                    <textarea data-required="true" data-description="common" class="form-control text-center data-table-input"></textarea>\n\
+                                </td>\n\
+                            </tr>';
+                $("#dataTable tbody").append($(template));
             }
         </script>
     </body>
