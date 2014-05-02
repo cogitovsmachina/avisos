@@ -160,7 +160,7 @@ public class HtmlGenerator {
                             cleanPs(init.getString("eventDescriptionHTML")))
                     + get1r2c("HORA LOCAL (HORA GMT)", init.getString("issueLocalTime"))
                     + get1r3c("UBICACI&Oacute;N DEL CENTRO DEL CICL&Oacute;N", "LATITUD NORTE: " + init.getString("eventCLat") + "°", "LONGITUD OESTE: " + init.getString("eventCLon") + "°", interpol)
-                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", escapeHtml4(init.getString("eventDistance")))
+                    + get1r2c("DISTANCIA AL LUGAR M&Aacute;S CERCANO", escapeHtml4(addBr(init.getString("eventDistance"))))
                     + getZonaAlerta(escapeHtml4(init.getString("areaDescription")))
                     + get1r2c("DESPLAZAMIENTO ACTUAL:", escapeHtml4(init.getString("eventCurrentPath")))
                     + get1r3c("VIENTOS M&Aacute;XIMOS [Km/h]:", "SOSTENIDOS: " + init.getString("eventWindSpeedSust"), "RACHAS: " + init.getString("eventWindSpeedMax"), "")
@@ -183,6 +183,10 @@ public class HtmlGenerator {
     private static String cleanPs(String stoclean) {
         return stoclean.replaceAll("<p>", "").replaceAll("</p>", "<br>");
 
+    }
+    
+    private static String addBr(String stoadd){
+        return stoadd.replaceAll("\n", "<br>");
     }
     
     public static String convertFilename(String filename){
