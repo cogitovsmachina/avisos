@@ -281,40 +281,42 @@ if (!forecast.equals("")) {
             
             function processData(data) {
                 console.log(data);
-                $.each(data, function(i,d) {
-                    //Get rid of units
-                    d.id = d.id.replace(/Z/g,'');
-                    d.max = d.max.replace(/\s/g,'').replace(/KT/g,'');
-                    d.gusts = d.gusts.replace(/\s/g,'').replace(/KT/g,'');
-                    d.north = d.north.replace(/N/g,'');
-                    d.west = d.west.replace(/W/g,'');
-                    
-                    //KT to Km/h
-                    d.max = (parseFloat(d.max)*1.852).toFixed();
-                    d.gusts = (parseFloat(d.gusts)*1.852).toFixed();
-                    
-                    //UTC to Local time
-                    var nowUTC = moment.utc();
-                    if (d.id.indexOf("/") !== -1) {
-                        var nowUTC = moment.utc(d.id.split("/")[0]+"-"+nowUTC.month()+"-"+nowUTC.year()+d.id.split("/")[1],"DD-MM-YYYY/HH:mm");
-                    }
-                    nowUTC.local();
-                    d.id=nowUTC.format("DD/HH")+"h";
-                    
-                    //Get category
-                    var winds = parseFloat(d.max);
-                    var category = "Desconocida";
-                    if (winds <= 62) category = "Depresión Tropical";
-                    if (winds >= 62.1 && winds <= 118) category = "Tormenta Tropical";
-                    if (winds >= 118.1 && winds <= 154) category = "Huracán categoría I";
-                    if (winds >= 154.1 && winds <= 178) category = "Huracán categoría II";
-                    if (winds >= 178.1 && winds <= 210) category = "Huracán categoría III";
-                    if (winds >= 210.1 && winds <= 250) category = "Huracán categoría IV";
-                    if (winds >= 250.1) category = "Huracán categoría V";
-                    
-                    d.category = category;
-                });
-                return data;
+                if (data.forecasts) {
+                    $.each(data.forecasts, function(i,d) {
+                        //Get rid of units
+                        d.id = d.id.replace(/Z/g,'');
+                        d.max = d.max.replace(/\s/g,'').replace(/KT/g,'');
+                        d.gusts = d.gusts.replace(/\s/g,'').replace(/KT/g,'');
+                        d.north = d.north.replace(/N/g,'');
+                        d.west = d.west.replace(/W/g,'');
+
+                        //KT to Km/h
+                        d.max = (parseFloat(d.max)*1.852).toFixed();
+                        d.gusts = (parseFloat(d.gusts)*1.852).toFixed();
+
+                        //UTC to Local time
+                        var nowUTC = moment.utc();
+                        if (d.id.indexOf("/") !== -1) {
+                            var nowUTC = moment.utc(d.id.split("/")[0]+"-"+nowUTC.month()+"-"+nowUTC.year()+d.id.split("/")[1],"DD-MM-YYYY/HH:mm");
+                        }
+                        nowUTC.local();
+                        d.id=nowUTC.format("DD/HH")+"h";
+
+                        //Get category
+                        var winds = parseFloat(d.max);
+                        var category = "Desconocida";
+                        if (winds <= 62) category = "Depresión Tropical";
+                        if (winds >= 62.1 && winds <= 118) category = "Tormenta Tropical";
+                        if (winds >= 118.1 && winds <= 154) category = "Huracán categoría I";
+                        if (winds >= 154.1 && winds <= 178) category = "Huracán categoría II";
+                        if (winds >= 178.1 && winds <= 210) category = "Huracán categoría III";
+                        if (winds >= 210.1 && winds <= 250) category = "Huracán categoría IV";
+                        if (winds >= 250.1) category = "Huracán categoría V";
+
+                        d.category = category;
+                    });
+                }
+                return data.forecasts;
             }
         </script>
     </body>
