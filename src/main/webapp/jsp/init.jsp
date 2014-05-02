@@ -208,12 +208,12 @@ while(keys.hasNext()) {
                             <input name="eventCDiameter" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCDiameter")%>" class="form-control"/>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Radio de vientos de 63Km/h</label>
+                            <label class="control-label">Radio de vientos de 120Km/h</label>
                             <div class="form-inline">
-                                <input id="eventWind63kmNE" name="eventWind63kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input id="eventWind63kmSE" name="eventWind63kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input id="eventWind63kmSO" name="eventWind63kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input id="eventWind63kmNO" name="eventWind63kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input id="eventWind120kmNE" name="eventWind120kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input id="eventWind120kmSE" name="eventWind120kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input id="eventWind120kmSO" name="eventWind120kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input id="eventWind120kmNO" name="eventWind120kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                     </div>
@@ -228,12 +228,12 @@ while(keys.hasNext()) {
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
-                            <label class="control-label">Radio de vientos de 120Km/h</label>
+                            <label class="control-label">Radio de vientos de 63Km/h</label>
                             <div class="form-inline">
-                                <input id="eventWind120kmNE" name="eventWind120kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input id="eventWind120kmSE" name="eventWind120kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input id="eventWind120kmSO" name="eventWind120kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input id="eventWind120kmNO" name="eventWind120kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input id="eventWind63kmNE" name="eventWind63kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input id="eventWind63kmSE" name="eventWind63kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input id="eventWind63kmSO" name="eventWind63kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input id="eventWind63kmNO" name="eventWind63kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                     </div>
@@ -394,22 +394,22 @@ while(keys.hasNext()) {
                             });
                             $.each(wnds, function(i,d){
                                if(d.id==="34") {
-                                   $("#eventWind63kmNE").val(d.data[0].replace(/\D/g,""));
-                                   $("#eventWind63kmSE").val(d.data[1].replace(/\D/g,""));
-                                   $("#eventWind63kmSO").val(d.data[2].replace(/\D/g,""));
-                                   $("#eventWind63kmNO").val(d.data[3].replace(/\D/g,""));
+                                   $("#eventWind63kmNE").val(knotsToKmH(d.data[0].replace(/\D/g,"")));
+                                   $("#eventWind63kmSE").val(knotsToKmH(d.data[1].replace(/\D/g,"")));
+                                   $("#eventWind63kmSO").val(knotsToKmH(d.data[2].replace(/\D/g,"")));
+                                   $("#eventWind63kmNO").val(knotsToKmH(d.data[3].replace(/\D/g,"")));
                                }
                                if(d.id==="50") {
-                                   $("#eventWind95kmNE").val(d.data[0].replace(/\D/g,""));
-                                   $("#eventWind95kmSE").val(d.data[1].replace(/\D/g,""));
-                                   $("#eventWind95kmSO").val(d.data[2].replace(/\D/g,""));
-                                   $("#eventWind95kmNO").val(d.data[3].replace(/\D/g,""));
+                                   $("#eventWind95kmNE").val(knotsToKmH(d.data[0].replace(/\D/g,"")));
+                                   $("#eventWind95kmSE").val(knotsToKmH(d.data[1].replace(/\D/g,"")));
+                                   $("#eventWind95kmSO").val(knotsToKmH(d.data[2].replace(/\D/g,"")));
+                                   $("#eventWind95kmNO").val(knotsToKmH(d.data[3].replace(/\D/g,"")));
                                }
                                if(d.id==="64") {
-                                   $("#eventWind120kmNE").val(d.data[0].replace(/\D/g,""));
-                                   $("#eventWind120kmSE").val(d.data[1].replace(/\D/g,""));
-                                   $("#eventWind120kmSO").val(d.data[2].replace(/\D/g,""));
-                                   $("#eventWind120kmNO").val(d.data[3].replace(/\D/g,""));
+                                   $("#eventWind120kmNE").val(knotsToKmH(d.data[0].replace(/\D/g,"")));
+                                   $("#eventWind120kmSE").val(knotsToKmH(d.data[1].replace(/\D/g,"")));
+                                   $("#eventWind120kmSO").val(knotsToKmH(d.data[2].replace(/\D/g,"")));
+                                   $("#eventWind120kmNO").val(knotsToKmH(d.data[3].replace(/\D/g,"")));
                                }
                             });
                         }
