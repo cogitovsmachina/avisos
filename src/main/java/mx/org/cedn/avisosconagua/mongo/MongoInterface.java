@@ -205,7 +205,7 @@ public class MongoInterface {
             deque.push(searchId);
             BasicDBObject current = (BasicDBObject) col.findOne(new BasicDBObject(INTERNAL_FORM_ID, searchId));
             if (null != current) {
-                current = (BasicDBObject) current.get("capInfo");
+                current = (BasicDBObject) current.get("precapture");
             }
             if (null != current) {
                 searchId = current.getString("previousIssue");
@@ -236,6 +236,24 @@ public class MongoInterface {
             cursor = col.find().sort(new BasicDBObject("issueDate", -1)).limit(limit);
         } else {
             cursor = col.find().sort(new BasicDBObject("issueDate", -1));
+        }
+        if (null != cursor) {
+            ret = new ArrayList<>();
+            for (DBObject obj : cursor) {
+                ret.add((String) obj.get(INTERNAL_FORM_ID));
+            }
+        }
+        return ret;
+    }
+    
+    public ArrayList<String> listPublishedHurricanes(int limit) {
+        DBCollection col = mongoDB.getCollection(GENERATED_COL);
+        ArrayList<String> ret = null;
+        DBCursor cursor;
+        if (limit > 0) {
+            cursor = col.find().sort(new BasicDBObject("issueDate", -1).append("adviceType", new BasicDBObject("$regex", "ht$"))).limit(limit);
+        } else {
+            cursor = col.find().sort(new BasicDBObject("issueDate", -1).append("adviceType", new BasicDBObject("$regex", "ht$")));
         }
         if (null != cursor) {
             ret = new ArrayList<>();
