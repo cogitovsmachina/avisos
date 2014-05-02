@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="mx.org.cedn.avisosconagua.util.Utils"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
@@ -8,6 +10,16 @@ HashMap<String,String> data = (HashMap<String,String>)request.getAttribute("data
 String issueFooter = Utils.getValidFieldFromHash(data, "issueFooter");
 issueFooter=issueFooter.equals("")?"EL SIGUIENTE AVISO SE EMITIRÁ A LAS 19:00HRS TIEMPO DEL CENTRO O ANTES SI OCURREN CAMBIOS SIGNIFICATIVOS":issueFooter;
 String type = (String)request.getAttribute("bulletinType");
+String issueDate = Utils.getValidFieldFromHash(data, "issueDate");
+String issueTime = Utils.getValidFieldFromHash(data, "issueTime");
+
+if (issueDate.equals("")) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdft = new SimpleDateFormat("HH:mm");
+    
+    issueDate = sdf.format(new Date(System.currentTimeMillis()));
+    issueTime = sdft.format(new Date(System.currentTimeMillis()));
+}
 
 String category = Utils.getValidFieldFromHash(data, "eventCategory");
 if (category.equals("") || category.length() < 4 ) {
@@ -73,10 +85,10 @@ if (category.equals("") || category.length() < 4 ) {
                             <label class="control-label">Fecha y hora de emisión*</label>
                             <div class="form-inline">
                                 <div class="input-group date datePicker" data-date-format="DD/MM/YYYY">
-                                    <input name="issueDate" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueDate")%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-calendar"></span>
+                                    <input name="issueDate" type="text" value="<%=issueDate%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-calendar"></span>
                                 </div>
                                 <div class="input-group date timePicker" data-date-format="HH:mm" data-date-use24hours="true">
-                                    <input name="issueTime" type="text" value="<%=Utils.getValidFieldFromHash(data, "issueTime")%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-clock-o"></span>
+                                    <input name="issueTime" type="text" value="<%=issueTime%>" class="form-control" data-required="true" data-description="common"/><span class="input-group-addon"><span class="fa fa-clock-o"></span>
                                 </div>
                             </div>
                         </div>
