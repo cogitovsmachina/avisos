@@ -186,7 +186,7 @@ while(keys.hasNext()) {
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Desplazamiento actual</label>
-                            <input name="eventCurrentPath" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCurrentPath")%>" class="form-control"/>
+                            <input id="eventCurrentPath" name="eventCurrentPath" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventCurrentPath")%>" class="form-control"/>
                         </div>
                     </div>
                     <div class="row">
@@ -210,10 +210,10 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Radio de vientos de 63Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind63kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind63kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input name="eventWind63kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input name="eventWind63kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input id="eventWind63kmNE" name="eventWind63kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input id="eventWind63kmSE" name="eventWind63kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input id="eventWind63kmSO" name="eventWind63kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input id="eventWind63kmNO" name="eventWind63kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind63kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                     </div>
@@ -221,19 +221,19 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Radio de vientos de 95Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind95kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind95kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input name="eventWind95kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input name="eventWind95kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input id="eventWind95kmNE" name="eventWind95kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input id="eventWind95kmSE" name="eventWind95kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input id="eventWind95kmSO" name="eventWind95kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input id="eventWind95kmNO" name="eventWind95kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind95kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Radio de vientos de 120Km/h</label>
                             <div class="form-inline">
-                                <input name="eventWind120kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNE")%>" placeholder="NE" class="form-control input-sector"/>
-                                <input name="eventWind120kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSE")%>" placeholder="SE" class="form-control input-sector"/>
-                                <input name="eventWind120kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSO")%>" placeholder="SO" class="form-control input-sector"/>
-                                <input name="eventWind120kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNO")%>" placeholder="NO" class="form-control input-sector"/>
+                                <input id="eventWind120kmNE" name="eventWind120kmNE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNE")%>" placeholder="NE" class="form-control input-sector"/>
+                                <input id="eventWind120kmSE" name="eventWind120kmSE" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSE")%>" placeholder="SE" class="form-control input-sector"/>
+                                <input id="eventWind120kmSO" name="eventWind120kmSO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmSO")%>" placeholder="SO" class="form-control input-sector"/>
+                                <input id="eventWind120kmNO" name="eventWind120kmNO" type="text" value="<%=Utils.getValidFieldFromHash(data, "eventWind120kmNO")%>" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                     </div>
@@ -241,10 +241,10 @@ while(keys.hasNext()) {
                         <div class="col-lg-6 col-md-6 form-group">
                             <label class="control-label">Oleaje 4m</label>
                             <div class="form-inline">
-                                <input name="seas4mNE" value="<%=Utils.getValidFieldFromHash(data, "seas4mNE")%>" type="text" placeholder="NE" class="form-control input-sector"/>
-                                <input name="seas4mSE" value="<%=Utils.getValidFieldFromHash(data, "seas4mSE")%>" type="text" placeholder="SE" class="form-control input-sector"/>
-                                <input name="seas4mSO" value="<%=Utils.getValidFieldFromHash(data, "seas4mSO")%>" type="text" placeholder="SO" class="form-control input-sector"/>
-                                <input name="seas4mNO" value="<%=Utils.getValidFieldFromHash(data, "seas4mNO")%>" type="text" placeholder="NO" class="form-control input-sector"/>
+                                <input id="seas4mNE" name="seas4mNE" value="<%=Utils.getValidFieldFromHash(data, "seas4mNE")%>" type="text" placeholder="NE" class="form-control input-sector"/>
+                                <input id="seas4mSE" name="seas4mSE" value="<%=Utils.getValidFieldFromHash(data, "seas4mSE")%>" type="text" placeholder="SE" class="form-control input-sector"/>
+                                <input id="seas4mSO" name="seas4mSO" value="<%=Utils.getValidFieldFromHash(data, "seas4mSO")%>" type="text" placeholder="SO" class="form-control input-sector"/>
+                                <input id="seas4mNO" name="seas4mNO" value="<%=Utils.getValidFieldFromHash(data, "seas4mNO")%>" type="text" placeholder="NO" class="form-control input-sector"/>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 form-group">
@@ -314,13 +314,13 @@ while(keys.hasNext()) {
                     <%
                 }
                 %>
-                loadWheatermanData('<%=nhcPublic%>', fillForm);
+                loadWheatermanData('<%=nhcForecast%>', fillForm);
             });
             
             function loadWheatermanData(url, callback) {
                 if (url && url !== undefined) {
                     $.ajax({
-                        url: "http://weatherman.herokuapp.com/advisory",
+                        url: "http://weatherman.herokuapp.com/forecast",
                         jsonp: "callback",
                         dataType: "jsonp",
                         data: {
@@ -338,19 +338,83 @@ while(keys.hasNext()) {
                 
             function fillForm(data) {
                 //console.log(data);
-                if (data.location) {
-                    $("#eventCLat").val(data.location.north);
-                    $("#eventCLon").val(data.location.west);
-                }
-                
-                if (data.maxSustainedWinds) {
-                    var sw = data.maxSustainedWinds+"";
-                    $("#eventWindSpeedSust").val(sw.split("KM/H")[0].replace(/\s/g,''));
-                }
-                
-                if (data.minCentralPressure) {
-                    $("#eventMinCP").val(data.minCentralPressure.replace(/\s/g,'').replace(/MB/g,''));
-                }
+                if (data && data.current) {
+                    var parts = (data.current.center || "").split(" ");
+                    if (parts.length === 2) {
+                        $("#eventCLat").val(parts[0].replace("N",""));
+                        $("#eventCLon").val(parts[1].replace("W",""));
+                    }
+                    if (data.current.minCentralPressure) {
+                        $("#eventMinCP").val(data.current.minCentralPressure.replace(/\s/g,'').replace(/MB/g,''));
+                    }
+                    if (data.current.movement) {
+                        var movement = "";
+                        var dg = data.current.movement.match(/\d+\sDEGREES/ig);
+                        if (dg && dg[0]) {
+                            movement = "("+dg[0].replace("DEGREES","").replace(/\s/g,"")+"°)";
+                        }
+                        dg = data.current.movement.match(/\d+\sKT/ig);
+                        if (movement !== "" && dg && dg[0]) {
+                            movement += " A " + knotsToKmH(dg[0])+" Km/h";
+                        }
+                        $("#eventCurrentPath").val(movement);
+                    }
+                    
+                    if (data.current.winds) {
+                    
+                        if (data.current.winds.maxSustainedWindsWithGusts) {
+                            var wnds = data.current.winds.maxSustainedWindsWithGusts.match(/\d+\sKT/ig);
+                            if (wnds) {
+                                if (wnds.length===2) {
+                                    $("#eventWindSpeedSust").val(knotsToKmH(wnds[0].replace(/\s/g,"").replace(/KT/g,"")));
+                                    $("#eventWindSpeedMax").val(knotsToKmH(wnds[1].replace(/\s/g,"").replace(/KT/g,"")));
+                                }
+                            }
+                        }
+                        
+                        if (data.current.winds.seas) {
+                            var seas = data.current.winds.seas.replace(/\.+\s*/g,"_");
+                            var parts = seas.split("_")[1].split(" ");
+                            if (parts && parts.length===4) {
+                                $("#seas4mNE").val(parts[0].replace(/\D/g,""));
+                                $("#seas4mSE").val(parts[1].replace(/\D/g,""));
+                                $("#seas4mSO").val(parts[2].replace(/\D/g,""));
+                                $("#seas4mNO").val(parts[3].replace(/\D/g,""));
+                            }
+                        }
+                        
+                        if (data.current.winds.direction) {
+                            var wnds = [];
+                            $.each(data.current.winds.direction, function(i,d) {
+                                var t = d.replace(/\sKT\.+\s*/g,"_");
+                                var entry = {};
+                                entry.id=t.split("_")[0];
+                                entry.data=t.split("_")[1].split(" ");
+                                wnds.push(entry);
+                            });
+                            $.each(wnds, function(i,d){
+                               if(d.id==="34") {
+                                   $("#eventWind63kmNE").val(d.data[0].replace(/\D/g,""));
+                                   $("#eventWind63kmSE").val(d.data[1].replace(/\D/g,""));
+                                   $("#eventWind63kmSO").val(d.data[2].replace(/\D/g,""));
+                                   $("#eventWind63kmNO").val(d.data[3].replace(/\D/g,""));
+                               }
+                               if(d.id==="50") {
+                                   $("#eventWind95kmNE").val(d.data[0].replace(/\D/g,""));
+                                   $("#eventWind95kmSE").val(d.data[1].replace(/\D/g,""));
+                                   $("#eventWind95kmSO").val(d.data[2].replace(/\D/g,""));
+                                   $("#eventWind95kmNO").val(d.data[3].replace(/\D/g,""));
+                               }
+                               if(d.id==="64") {
+                                   $("#eventWind120kmNE").val(d.data[0].replace(/\D/g,""));
+                                   $("#eventWind120kmSE").val(d.data[1].replace(/\D/g,""));
+                                   $("#eventWind120kmSO").val(d.data[2].replace(/\D/g,""));
+                                   $("#eventWind120kmNO").val(d.data[3].replace(/\D/g,""));
+                               }
+                            });
+                        }
+                    }
+                }            
             }
         </script>
     </body>

@@ -88,6 +88,11 @@ function submitURL(url, method, success, fail) {
     }
 }
 
+function knotsToKmH(knots) {
+    var kt = ""+knots;
+    return (parseFloat(kt)*1.852).toFixed();
+}
+
 //Add change event at level document for the file selector
 $(document).on('change', '.btn-file :file', function() {
     var input = $(this),
