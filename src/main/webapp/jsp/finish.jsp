@@ -53,7 +53,7 @@
                     Podrá descargarlos haciendo click en los botones correspondientes
                 </p>
                 <p class="text-center">
-                    <a class="btn btn-lg btn-default" href="<%=capURL%>"><span class="fa fa-code fa-2x"></span><br>Archivo CAP</a>
+                    <% if (!isdp) {%><a class="btn btn-lg btn-default" href="<%=capURL%>"><span class="fa fa-code fa-2x"></span><br>Archivo CAP</a><% } %>
                     <a class="btn btn-lg btn-default" href="<%=htmlUrl%>"><span class="fa fa-file-text fa-2x"></span><br>Archivo HTML</a>
                 </p>
                 <hr>
