@@ -33,7 +33,7 @@ import com.google.publicalerts.cap.Point;
 import com.google.publicalerts.cap.Polygon;
 import com.google.publicalerts.cap.ValuePair;
 import com.mongodb.BasicDBObject;
-import java.text.ParseException;
+import java.util.Date;
 import mx.org.cedn.avisosconagua.util.Utils;
 
 /**
@@ -120,6 +120,8 @@ public class CAPGenerator {
     }
 
     private Info.Builder getValidInfoBuilder(String areaId) {
+        String datea = capInfo.getString("issueDate") + " " + capInfo.getString("issueTime");
+        String dateb = capInfo.getString("issueNextDate") + " " + capInfo.getString("issueNextTime");
         Info.Urgency urg = Info.Urgency.IMMEDIATE;//TODO: definir valueOf(CAPUtils.Urgency.valueOf(event.get("eventUrgency")).ordinal());
         Info.Severity sev = Info.Severity.UNKNOWN_SEVERITY; //TODO: definir el valor de la severidad
         Info.Certainty cer = Info.Certainty.OBSERVED;//TODO: valueOf(CAPUtils.Certainty.valueOf(event.get("eventCertainty")).ordinal());
@@ -130,6 +132,8 @@ public class CAPGenerator {
                 .setUrgency(urg)
                 .setSeverity(sev)
                 .setCertainty(cer)
+                .setEffective(Utils.getISODate(datea))
+                .setExpires(Utils.getISODate(dateb))
                 .addResponseType(Info.ResponseType.EXECUTE)
                 .setSenderName("Comisión Nacional del Agua - Servicio Meteorológico Nacional")
                 .setHeadline(capInfo.getString("eventHeadline"))
